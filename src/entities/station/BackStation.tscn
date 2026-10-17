@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://6h1tgsfrar2a"]
+
+[ext_resource type="Script" uid="uid://ceuw03dukq2ux" path="res://src/entities/station/back_station.gd" id="1_1k28f"]
+[ext_resource type="PackedScene" uid="uid://cprepj6on75a7" path="res://src/entities/item/base_item.tscn" id="2_vgtui"]
+
+[node name="BackStation" type="Node2D" unique_id=1333356077]
+script = ExtResource("1_1k28f")
+
+[node name="BaseItem" parent="." unique_id=1022750040 instance=ExtResource("2_vgtui")]
+position = Vector2(1644, 245)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1137227556]

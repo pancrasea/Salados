@@ -1,9 +1,21 @@
 extends Node
 
-var current_station : Station = null
+var current_level: Level = null
+var current_station: Station = null
 
-func set_current_station(cs: Station) -> void:
-	current_station = cs
+func load_level(level: Level):
+	if not is_instance_valid(level): return
+	current_level = level
+	current_level.show_side(Level.Side.FRONT)
 
-func load_scene(_scene : PackedScene) -> void:
-	pass
+func turn_left() -> void:
+	if is_instance_valid(current_level):
+		current_level.turn_view(Level.Turn.LEFT)
+
+func turn_right() -> void:
+	if is_instance_valid(current_level):
+		current_level.turn_view(Level.Turn.RIGHT)
+
+func turn_back() -> void:
+	if is_instance_valid(current_level):
+		current_level.turn_view(Level.Turn.BACK)

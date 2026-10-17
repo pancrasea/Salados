@@ -32,6 +32,6 @@ offset_top = -49.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[connection signal="mouse_entered" from="left" to="." method="_on_left_mouse_entered"]
-[connection signal="mouse_entered" from="right" to="." method="_on_right_mouse_entered"]
-[connection signal="mouse_entered" from="buttom" to="." method="_on_buttom_mouse_entered"]
+[connection signal="gui_input" from="left" to="." method="_on_left_gui_input"]
+[connection signal="gui_input" from="right" to="." method="_on_right_gui_input"]
+[connection signal="gui_input" from="buttom" to="." method="_on_buttom_gui_input"]
