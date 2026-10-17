@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://brp05csmt5g42"]
+
+[ext_resource type="Script" uid="uid://cq2nammtabqhx" path="res://src/entities/customer/customer.gd" id="1_customer"]
+[ext_resource type="Script" uid="uid://yvcolwcuf4a0" path="res://src/core/resources_scripts/customer_data.gd" id="2_le1bf"]
+[ext_resource type="Texture2D" uid="uid://svxt66mhkaxa" path="res://icon.svg" id="2_rk5ek"]
+
+[sub_resource type="Resource" id="Resource_le1bf"]
+script = ExtResource("2_le1bf")
+display_name = "Pedro"
+metadata/_custom_type_script = "uid://yvcolwcuf4a0"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_selection"]
+radius = 32.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_patience_background"]
+bg_color = Color(0.09, 0.12, 0.13, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.025, 0.035, 0.035, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_patience_fill"]
+bg_color = Color(0.34, 0.71, 0.44, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_order_frame"]
+bg_color = Color(0.09, 0.12, 0.13, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.89, 0.78, 0.53, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="Customer" type="Node2D" unique_id=926383298]
+script = ExtResource("1_customer")
+customer_data = SubResource("Resource_le1bf")
+
+[node name="Visual" type="Sprite2D" parent="." unique_id=626254291]
+texture = ExtResource("2_rk5ek")
+
+[node name="PatienceBar" type="ProgressBar" parent="."]
+offset_left = -42.0
+offset_top = -78.0
+offset_right = 42.0
+offset_bottom = -66.0
+mouse_filter = 2
+show_percentage = false
+theme_override_styles/background = SubResource("StyleBoxFlat_patience_background")
+theme_override_styles/fill = SubResource("StyleBoxFlat_patience_fill")
+
+[node name="OrderIconFrame" type="Panel" parent="."]
+offset_left = -23.0
+offset_top = -128.0
+offset_right = 23.0
+offset_bottom = -82.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_order_frame")
+
+[node name="OrderIcon" type="TextureRect" parent="OrderIconFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="OrderPlaceholder" type="Label" parent="OrderIconFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.89, 0.78, 0.53, 1)
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectionArea" type="Area2D" parent="." unique_id=346770324]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectionArea" unique_id=924015791]
+shape = SubResource("CircleShape2D_selection")

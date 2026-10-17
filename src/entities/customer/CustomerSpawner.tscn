@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cf84hgeql0ots"]
+
+[ext_resource type="Script" uid="uid://bujltrnt3mwxx" path="res://src/entities/customer/customer_spawner.gd" id="1_pyb3i"]
+[ext_resource type="PackedScene" uid="uid://brp05csmt5g42" path="res://src/entities/customer/customer.tscn" id="2_08j2u"]
+
+[node name="CustomerSpawner" type="Node2D" unique_id=1128089222]
+script = ExtResource("1_pyb3i")
+customer_scene = ExtResource("2_08j2u")
