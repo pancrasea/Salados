@@ -8,7 +8,6 @@ class_name Station
 func _on_buttom_area_entered(_area: Area2D) -> void:
 	GameManager.load_scene(dowm_station)
 
-
 func _on_right_area_entered(_area: Area2D) -> void:
 	GameManager.load_scene(right_station)
 
