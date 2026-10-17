@@ -9,10 +9,10 @@ signal selected_changed(customer: CustomerBase, selected: bool)
 signal patience_changed(customer: CustomerBase, remaining: float)
 ## Emitted once when patience reaches zero.
 signal patience_expired(customer: CustomerBase)
-## Emitted when the selected customer receives an item other than the requested resource.
-signal item_rejected(customer: CustomerBase, item: Resource)
-## Emitted after the requested item is accepted.
-signal item_received(customer: CustomerBase, item: Resource)
+## Emitted when the selected customer receives an item other than the requested definition.
+signal item_rejected(customer: CustomerBase, item: ItemData)
+## Emitted after the requested item definition is accepted.
+signal item_received(customer: CustomerBase, item: ItemData)
 ## Emitted when the customer is served successfully.
 signal served(customer: CustomerBase)
 ## Emitted when the customer leaves or is served and can be removed from the scene.
@@ -82,7 +82,7 @@ func _update_order_display() -> void:
 		return
 
 	var has_request := customer_data.requested_item != null
-	order_icon.texture = customer_data.requested_item_icon if has_request else null
+	order_icon.texture = customer_data.requested_item.icon if has_request else null
 	order_icon.visible = order_icon.texture != null
 	order_placeholder.visible = order_icon.texture == null
 
@@ -108,9 +108,9 @@ func set_selected(selected: bool) -> void:
 	selected_changed.emit(self, is_selected)
 
 
-## Accepts only the exact requested resource while this customer is selected.
+## Accepts only the exact requested item definition while this customer is selected.
 ## Returns true when the customer is served, otherwise false.
-func receive_item(item: Resource) -> bool:
+func receive_item(item: ItemData) -> bool:
 	if state != State.WAITING or not is_selected or customer_data == null:
 		return false
 	if customer_data.requested_item == null:

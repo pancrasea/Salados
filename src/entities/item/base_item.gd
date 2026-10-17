@@ -56,6 +56,13 @@ func _verify_target_and_drop():
 			successful_drop = true
 			
 			break
+
+		# Deliver the item's definition, not its scene node, to a customer.
+		if target is CustomerBase and data != null:
+			if target.receive_item(data):
+				successful_drop = true
+				queue_free()
+				break
 		
 		#TODO: Caso de las estaciones de trabajo
 		
