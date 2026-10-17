@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://cbandeja1tem"]
+
+[ext_resource type="Texture2D" uid="uid://svxt66mhkaxa" path="res://icon.svg" id="1_tex"]
+[ext_resource type="Script" uid="uid://cmm0fyrae3rlv" path="res://src/entities/item/base_item.gd" id="2_script"]
+[ext_resource type="Resource" path="res://resources/items/bandeja.tres" id="3_data"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tray"]
+size = Vector2(128, 128)
+
+[node name="Bandeja" type="Node2D"]
+script = ExtResource("2_script")
+data = ExtResource("3_data")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_tex")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_tray")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

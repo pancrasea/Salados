@@ -2,7 +2,21 @@
 
 [ext_resource type="Script" uid="uid://bujltrnt3mwxx" path="res://src/entities/customer/customer_spawner.gd" id="1_pyb3i"]
 [ext_resource type="PackedScene" uid="uid://brp05csmt5g42" path="res://src/entities/customer/customer.tscn" id="2_08j2u"]
+[ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="3_item"]
+[ext_resource type="Script" uid="uid://cybabk3bsujf" path="res://src/entities/order/order_generator.gd" id="4_gen"]
+[ext_resource type="Resource" path="res://resources/items/encebollado.tres" id="5_base"]
+[ext_resource type="Resource" path="res://resources/items/pan.tres" id="6_pan"]
+[ext_resource type="Resource" path="res://resources/items/chifle.tres" id="7_chifle"]
+[ext_resource type="Resource" path="res://resources/items/limon.tres" id="8_limon"]
+[ext_resource type="Resource" path="res://resources/items/canguil.tres" id="9_canguil"]
+[ext_resource type="Resource" path="res://resources/items/maiz_tostado.tres" id="10_maiz"]
 
-[node name="CustomerSpawner" type="Node2D" unique_id=1128089222]
+[node name="CustomerSpawner" type="Node2D" unique_id=1128089222 node_paths=PackedStringArray("order_generator")]
 script = ExtResource("1_pyb3i")
 customer_scene = ExtResource("2_08j2u")
+order_generator = NodePath("OrderGenerator")
+
+[node name="OrderGenerator" type="Node" parent="." unique_id=687798845]
+script = ExtResource("4_gen")
+base_item = ExtResource("5_base")
+extras_pool = Array[ExtResource("3_item")]([ExtResource("6_pan"), ExtResource("7_chifle"), ExtResource("8_limon"), ExtResource("9_canguil"), ExtResource("10_maiz")])
