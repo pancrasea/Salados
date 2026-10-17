@@ -7,6 +7,9 @@ signal customer_spawned(customer: CustomerBase)
 
 ## Scene to instantiate; its root must inherit from CustomerBase.
 @export var customer_scene: PackedScene
+## Optional generator; when assigned, each spawned customer receives a
+## random OrderData before entering the tree (so its HUD shows the order).
+@export var order_generator: OrderGenerator
 ## Maximum number of active customers; the hard limit is three.
 @export_range(1, 3, 1) var max_customers: int = 3
 ## Time between automatic spawn attempts, in seconds.
@@ -50,6 +53,9 @@ func spawn_customer() -> CustomerBase:
 		return null
 
 	customer.position = Vector2(active_customers.size() * maxf(customer_spacing, 0.0), 0.0)
+	if order_generator != null:
+		# Asignado antes de add_child para que _ready pinte el pedido.
+		customer.order = order_generator.generate()
 	add_child(customer)
 	active_customers.append(customer)
 	customer.finished.connect(_on_customer_finished)

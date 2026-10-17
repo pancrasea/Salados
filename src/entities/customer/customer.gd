@@ -9,7 +9,7 @@ signal selected_changed(customer: CustomerBase, selected: bool)
 signal patience_changed(customer: CustomerBase, remaining: float)
 ## Emitted once when patience reaches zero.
 signal patience_expired(customer: CustomerBase)
-## Emitted when the selected customer receives an item other than the requested definition.
+## Emitted when a waiting customer receives an item other than the requested definition.
 signal item_rejected(customer: CustomerBase, item: ItemData)
 ## Emitted after the requested item definition is accepted.
 signal item_received(customer: CustomerBase, item: ItemData)
@@ -24,6 +24,11 @@ enum State { WAITING, SERVED, LEFT }
 ## Configuration resource containing this customer's order and patience settings.
 @export var customer_data: CustomerData
 
+## Pedido estructurado (plato base + agregados). Tiene prioridad sobre
+## CustomerData.requested_item; si es null se usa el modo clásico por ítem.
+## Lo asigna CustomerSpawner con un OrderGenerator antes de add_child.
+@export var order: OrderData
+
 ## Current lifecycle state; only WAITING customers accept interaction.
 var state: State = State.WAITING
 ## Remaining patience in seconds.
@@ -36,6 +41,10 @@ var is_selected: bool = false
 @onready var order_icon_frame: Panel = $OrderIconFrame
 @onready var order_icon: TextureRect = $OrderIconFrame/OrderIcon
 @onready var order_placeholder: Label = $OrderIconFrame/OrderPlaceholder
+
+## Fila de badges con los agregados del pedido (opción "icono base + badges");
+## se crea en runtime porque la escena no la define.
+@onready var order_extras_row: HBoxContainer = _create_order_extras_row()
 
 var patience_fill_style: StyleBoxFlat
 
@@ -75,16 +84,57 @@ func _process(delta: float) -> void:
 		finished.emit(self)
 
 
-## Shows the request texture, or a question-mark placeholder until a request is configured.
+## Shows the request texture plus the extras badges, or a question-mark
+## placeholder until a request is configured.
 func _update_order_display() -> void:
-	order_icon_frame.visible = customer_data != null
-	if customer_data == null:
+	var has_order := order != null
+	var has_request := customer_data != null and customer_data.requested_item != null
+	order_icon_frame.visible = has_order or has_request
+	if not order_icon_frame.visible:
+		_rebuild_extras_row([])
 		return
 
-	var has_request := customer_data.requested_item != null
-	order_icon.texture = customer_data.requested_item.icon if has_request else null
+	var base: ItemData = order.base if has_order else customer_data.requested_item
+	order_icon.texture = base.icon if base != null else null
 	order_icon.visible = order_icon.texture != null
 	order_placeholder.visible = order_icon.texture == null
+	_rebuild_extras_row(order.extras if has_order else [])
+
+
+## Creates the horizontal container that holds the extras badges, placed
+## right above the order frame.
+func _create_order_extras_row() -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.name = "OrderExtrasRow"
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(row)
+	row.position = Vector2(-40.0, -146.0)
+	return row
+
+
+## Rebuilds the extras badges row. Each extra shows its icon, or its first
+## letter as fallback when no texture is assigned (useful during prototyping).
+## Se acepta Array sin parametrizar para poder pasar el literal [] vacío.
+func _rebuild_extras_row(extras: Array) -> void:
+	for child in order_extras_row.get_children():
+		child.queue_free()
+	for extra: ItemData in extras:
+		if extra == null:
+			continue
+		if extra.icon != null:
+			var rect := TextureRect.new()
+			rect.texture = extra.icon
+			rect.custom_minimum_size = Vector2(14.0, 14.0)
+			rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			order_extras_row.add_child(rect)
+		else:
+			var label := Label.new()
+			var fallback := extra.name if extra.name != "" else extra.item_id
+			label.text = fallback.substr(0, 1).to_upper() if fallback != "" else "?"
+			label.add_theme_font_size_override("font_size", 12)
+			order_extras_row.add_child(label)
 
 
 ## Keeps the patience bar value and warning color synchronized with remaining time.
@@ -108,16 +158,25 @@ func set_selected(selected: bool) -> void:
 	selected_changed.emit(self, is_selected)
 
 
-## Accepts only the exact requested item definition while this customer is selected.
+## Accepts an item while this customer is still waiting; selection is NOT
+## required, any customer in the row can receive its order. With a
+## structured order it compares canonical keys (ItemData.recipe_key vs
+## OrderData.key); otherwise it falls back to the legacy exact-reference
+## check against CustomerData.requested_item.
 ## Returns true when the customer is served, otherwise false.
 func receive_item(item: ItemData) -> bool:
-	if state != State.WAITING or not is_selected or customer_data == null:
+	if state != State.WAITING or customer_data == null:
 		return false
-	if customer_data.requested_item == null:
-		return false
-	if item != customer_data.requested_item:
-		item_rejected.emit(self, item)
-		return false
+	if order != null:
+		if not order.matches(item):
+			item_rejected.emit(self, item)
+			return false
+	else:
+		if customer_data.requested_item == null:
+			return false
+		if item != customer_data.requested_item:
+			item_rejected.emit(self, item)
+			return false
 
 	state = State.SERVED
 	set_selected(false)
