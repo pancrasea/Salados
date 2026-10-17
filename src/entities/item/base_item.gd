@@ -91,6 +91,8 @@ func _verify_target_and_drop():
 		
 	if not successful_drop:
 		global_position = initial_position
+	
+	
 
 ## Añade un ingrediente a la bandeja, recalcula su clave canónica y refresca
 ## los badges visuales. La clave se deduplica: agregar pan dos veces no
