@@ -2,6 +2,7 @@ class_name ItemData extends Resource
 
 @export var name: String
 @export var icon: Texture2D
+@export var max_quantity: int = 10
 
 # indica el siguiente elemento en el que se tranforma el item
 # ej. Cebolla -> Cebolla cortada

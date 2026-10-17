@@ -68,6 +68,8 @@ func _verify_target_and_drop():
 		
 	if not successful_drop:
 		global_position = initial_position
+	
+	
 
 func collect_ingredients(new_ingredient: ItemData):
 	if data and data.is_container and not data.is_final_product:

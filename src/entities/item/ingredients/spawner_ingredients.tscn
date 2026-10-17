@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bh067rwvbxrpr"]
+
+[ext_resource type="Script" uid="uid://car0yoqtu4qwn" path="res://src/entities/item/ingredients/spawner_ingredients.gd" id="1_8g00h"]
+[ext_resource type="Texture2D" uid="uid://svxt66mhkaxa" path="res://icon.svg" id="2_yb1yy"]
+[ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="3_ulw03"]
+[ext_resource type="PackedScene" uid="uid://cprepj6on75a7" path="res://src/entities/item/base_item.tscn" id="4_6jqkf"]
+
+[sub_resource type="Resource" id="Resource_njov2"]
+script = ExtResource("3_ulw03")
+name = "zanahoria"
+icon = ExtResource("2_yb1yy")
+metadata/_custom_type_script = "uid://3lbagxejrkv8"
+
+[node name="SpawnerIngredients" type="Node2D" unique_id=173325988]
+script = ExtResource("1_8g00h")
+item_data = SubResource("Resource_njov2")
+item_scene = ExtResource("4_6jqkf")
+
+[node name="container" type="Sprite2D" parent="." unique_id=1464136784]
+texture = ExtResource("2_yb1yy")
+flip_v = true
