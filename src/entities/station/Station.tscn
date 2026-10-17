@@ -2,5 +2,27 @@
 
 [ext_resource type="Script" uid="uid://bexpx1tiqvgk3" path="res://src/entities/station/station.gd" id="1_a3ebl"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
+resource_local_to_scene = true
+size = Vector2(51, 874)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yf5fn"]
+size = Vector2(50, 958)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_57qmd"]
+size = Vector2(1743, 98.5)
+
 [node name="Node2D" type="Node2D" unique_id=1797221054]
 script = ExtResource("1_a3ebl")
+
+[node name="ColliderLeft" type="CollisionShape2D" parent="." unique_id=1525950849]
+position = Vector2(15.5, 535)
+shape = SubResource("RectangleShape2D_g4v7s")
+
+[node name="CollisionRight" type="CollisionShape2D" parent="." unique_id=723583972]
+position = Vector2(1899, 534)
+shape = SubResource("RectangleShape2D_yf5fn")
+
+[node name="CollisionButtom" type="CollisionShape2D" parent="." unique_id=2035301919]
+position = Vector2(986.5, 1036.25)
+shape = SubResource("RectangleShape2D_57qmd")
