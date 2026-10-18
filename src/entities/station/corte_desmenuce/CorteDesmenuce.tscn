@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://c3of4ejo5xpoa"]
 
 [ext_resource type="Script" uid="uid://brnct65djgr6r" path="res://src/entities/station/corte_desmenuce/corte_desmenuce.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dcbc07l6dir7v" path="res://assets/backgrounds/fondo_izq.jpg" id="2_ya1tv"]
 [ext_resource type="PackedScene" path="res://src/entities/station/corte_desmenuce/components/zona_procesamiento.tscn" id="2_zona"]
-[ext_resource type="Theme" path="res://src/ui/themes/corte_theme.tres" id="3_theme"]
+[ext_resource type="Theme" uid="uid://b3asdm38a2piv" path="res://src/ui/themes/corte_theme.tres" id="3_theme"]
 [ext_resource type="Script" uid="uid://d32mm0dvlxby5" path="res://src/entities/item/food_spawner.gd" id="4_spawner"]
 [ext_resource type="PackedScene" uid="uid://cprepj6on75a7" path="res://src/entities/item/base_item.tscn" id="5_base"]
 [ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="6_item"]
@@ -15,6 +16,20 @@ size = Vector2(900, 420)
 
 [node name="CorteDesmenuce" type="Node2D" unique_id=673223503]
 script = ExtResource("1_script")
+
+[node name="Fondo" type="TextureRect" parent="." unique_id=1595232862]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -2.0
+offset_right = 1987.0
+offset_bottom = 1078.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ya1tv")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="ZonaMateriaPrima" type="ColorRect" parent="." unique_id=256214451]
 offset_left = 60.0

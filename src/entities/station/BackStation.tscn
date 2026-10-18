@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ceuw03dukq2ux" path="res://src/entities/station/back_station.gd" id="1_1k28f"]
 [ext_resource type="PackedScene" uid="uid://bh067rwvbxrpr" path="res://src/entities/item/ingredients/spawner_ingredients.tscn" id="2_4cm5f"]
+[ext_resource type="Texture2D" uid="uid://dhkwnxxqekyqg" path="res://assets/backgrounds/fondo_atras.jpg" id="2_xk64i"]
 [ext_resource type="Resource" uid="uid://dcpdqjergkvg6" path="res://resources/items/naranja.tres" id="3_xm5kj"]
 [ext_resource type="PackedScene" uid="uid://damlcd1kxwvv4" path="res://src/entities/item/ingredients/naranja_ingredient.tscn" id="4_4cm5f"]
 [ext_resource type="PackedScene" uid="uid://c4g7s4uyhxp1s" path="res://src/entities/item/exprimidor_item.tscn" id="4_xm5kj"]
@@ -14,6 +15,20 @@ size = Vector2(502, 486)
 
 [node name="BackStation" type="Node2D" unique_id=1333356077]
 script = ExtResource("1_1k28f")
+
+[node name="Fondo" type="TextureRect" parent="." unique_id=1862913986]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -2.0
+offset_right = 1987.0
+offset_bottom = 1078.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_xk64i")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="SpawnerIngredients" parent="." unique_id=173325988 instance=ExtResource("2_4cm5f")]
 position = Vector2(1757, 147)
