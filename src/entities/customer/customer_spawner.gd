@@ -18,7 +18,7 @@ signal customer_spawned(customer: CustomerBase)
 ## Time between automatic spawn attempts, in seconds.
 @export_range(0.1, 60.0, 0.1) var spawn_interval: float = 5.0
 ## Horizontal distance between customer origins, in this node's local coordinates.
-@export_range(0.0, 1024.0, 1.0) var customer_spacing: float = 144.0
+@export_range(0.0, 1024.0, 1.0) var customer_spacing: float = 250.0
 ## If enabled, starts spawning as soon as this node enters the scene tree.
 @export var spawn_on_ready: bool = true
 

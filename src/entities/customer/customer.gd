@@ -71,6 +71,9 @@ func _ready() -> void:
 			var visual := get_node_or_null("Visual") as Sprite2D
 			if visual != null:
 				visual.texture = customer_data.texture
+				if customer_data.scale != null:
+					visual.scale = customer_data.scale
+			
 	else:
 		patience_bar.hide()
 
@@ -194,6 +197,10 @@ func _update_patience_display() -> void:
 	elif patience_ratio > 0.3:
 		patience_fill_style.bg_color = Color("#e5ae4b")
 	else:
+		if customer_data.texture_alt != null:
+			var visual := get_node_or_null("Visual") as Sprite2D
+			if visual != null:
+				visual.texture = customer_data.texture_alt
 		patience_fill_style.bg_color = Color("#df5b52")
 
 

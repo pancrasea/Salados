@@ -1,11 +1,14 @@
 [gd_resource type="Resource" script_class="CustomerData" format=3 uid="uid://6rbxjldn5s3m"]
 
 [ext_resource type="Script" uid="uid://yvcolwcuf4a0" path="res://src/core/resources_scripts/customer_data.gd" id="1_njkmp"]
-[ext_resource type="Texture2D" uid="uid://borjhg6perjfn" path="res://assets/sprites/items/chifle.svg" id="2_5s5ga"]
+[ext_resource type="Texture2D" uid="uid://d4my6mjp7kew" path="res://assets/sprites/customers/chancleada/Chancleada 1.png" id="2_4u6a8"]
+[ext_resource type="Texture2D" uid="uid://83iyrxseghej" path="res://assets/sprites/customers/chancleada/Chancleada 2.png" id="3_qyv5b"]
 
 [resource]
 script = ExtResource("1_njkmp")
 display_name = "Chancleada"
-texture = ExtResource("2_5s5ga")
-reward = 20
+texture = ExtResource("2_4u6a8")
+texture_alt = ExtResource("3_qyv5b")
+scale = Vector2(0.4, 0.4)
+reward = 15
 metadata/_custom_type_script = "uid://yvcolwcuf4a0"

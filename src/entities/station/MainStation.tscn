@@ -7,20 +7,21 @@
 [ext_resource type="Script" uid="uid://yvcolwcuf4a0" path="res://src/core/resources_scripts/customer_data.gd" id="4_rgdf7"]
 [ext_resource type="Resource" uid="uid://h0p1oe53ub4q" path="res://resources/customers/customer1/omelec_v1.tres" id="5_ocrjh"]
 [ext_resource type="Resource" uid="uid://6rbxjldn5s3m" path="res://resources/customers/customer2/chancleada_v1.tres" id="6_w7hfa"]
-[ext_resource type="Script" path="res://src/entities/item/food_spawner.gd" id="7_spawner"]
-[ext_resource type="Script" path="res://src/entities/item/item_data.gd" id="8_item"]
-[ext_resource type="PackedScene" path="res://src/entities/item/base_item.tscn" id="9_base"]
+[ext_resource type="Script" uid="uid://d32mm0dvlxby5" path="res://src/entities/item/food_spawner.gd" id="7_spawner"]
+[ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="8_item"]
+[ext_resource type="PackedScene" uid="uid://cprepj6on75a7" path="res://src/entities/item/base_item.tscn" id="9_base"]
 [ext_resource type="Resource" path="res://resources/items/pan.tres" id="10_pan"]
 [ext_resource type="Resource" path="res://resources/items/chifle.tres" id="11_chifle"]
 [ext_resource type="Resource" path="res://resources/items/limon.tres" id="12_limon"]
 [ext_resource type="Resource" path="res://resources/items/canguil.tres" id="13_canguil"]
 [ext_resource type="Resource" path="res://resources/items/maiz_tostado.tres" id="14_maiz"]
+[ext_resource type="Resource" uid="uid://nl3jb2lsawa2" path="res://resources/customers/customer3/toti_v1.tres" id="15_5gle3"]
 
 [node name="MainStation" type="Node2D" unique_id=1321946310]
 script = ExtResource("1_cx8jq")
 metadata/_custom_type_script = "uid://bexpx1tiqvgk3"
 
-[node name="ZonaAgregados" type="ColorRect" parent="."]
+[node name="ZonaAgregados" type="ColorRect" parent="." unique_id=618801456]
 offset_left = 60.0
 offset_top = 300.0
 offset_right = 380.0
@@ -28,27 +29,27 @@ offset_bottom = 820.0
 mouse_filter = 2
 color = Color(0.16, 0.13, 0.1, 0.35)
 
-[node name="Titulo" type="Label" parent="ZonaAgregados"]
+[node name="Titulo" type="Label" parent="ZonaAgregados" unique_id=1209194633]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 312.0
 offset_bottom = 40.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.85, 0.82, 0.7, 1)
 theme_override_font_sizes/font_size = 20
 text = "Agregados"
 
-[node name="Ayuda" type="Label" parent="ZonaAgregados"]
+[node name="Ayuda" type="Label" parent="ZonaAgregados" unique_id=1376144981]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 42.0
 offset_right = 312.0
 offset_bottom = 72.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.55, 0.52, 0.45, 1)
 theme_override_font_sizes/font_size = 14
 text = "Arrástralos a la bandeja."
 
-[node name="Agregados" type="Node2D" parent="."]
+[node name="Agregados" type="Node2D" parent="." unique_id=2007401166]
 position = Vector2(220, 400)
 script = ExtResource("7_spawner")
 foods = Array[ExtResource("8_item")]([ExtResource("10_pan"), ExtResource("11_chifle"), ExtResource("12_limon"), ExtResource("13_canguil"), ExtResource("14_maiz")])
@@ -63,7 +64,7 @@ position = Vector2(204, 945)
 
 [node name="CustomerSpawner" parent="." unique_id=1128089222 instance=ExtResource("3_nupy7")]
 position = Vector2(556, 461)
-customer_data_pool = Array[ExtResource("4_rgdf7")]([ExtResource("5_ocrjh"), ExtResource("6_w7hfa")])
+customer_data_pool = Array[ExtResource("4_rgdf7")]([ExtResource("5_ocrjh"), ExtResource("6_w7hfa"), ExtResource("15_5gle3")])
 
 [node name="Bandeja" parent="." unique_id=1324478999 instance=ExtResource("4_5v824")]
 position = Vector2(953, 927)
