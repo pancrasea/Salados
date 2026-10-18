@@ -35,6 +35,9 @@ var state: State = State.WAITING
 var patience_remaining: float = 0.0
 ## Whether the player currently has this customer selected.
 var is_selected: bool = false
+## Ratio de paciencia (0.0–1.0) en el momento en que fue atendido.
+## Solo válido después de que served se emita; usado para calcular el pago.
+var patience_ratio_at_serve: float = 1.0
 
 @onready var selection_area: Area2D = $SelectionArea
 @onready var patience_bar: ProgressBar = $PatienceBar
@@ -58,6 +61,11 @@ func _ready() -> void:
 	if customer_data != null:
 		patience_remaining = maxf(customer_data.patience_seconds, 0.0)
 		patience_bar.max_value = maxf(customer_data.patience_seconds, 0.1)
+		# Aplicar textura del arquetipo si está definida en el CustomerData.
+		if customer_data.texture != null:
+			var visual := get_node_or_null("Visual") as Sprite2D
+			if visual != null:
+				visual.texture = customer_data.texture
 	else:
 		patience_bar.hide()
 
@@ -180,6 +188,8 @@ func receive_item(item: ItemData) -> bool:
 
 	state = State.SERVED
 	set_selected(false)
+	# Guardar el ratio de paciencia para el cálculo del pago escalonado.
+	patience_ratio_at_serve = patience_remaining / maxf(patience_bar.max_value, 0.1)
 	item_received.emit(self, item)
 	served.emit(self)
 	finished.emit(self)

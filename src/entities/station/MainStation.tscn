@@ -4,6 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://ctrashbin01" path="res://src/entities/station/trash_bin.tscn" id="2_jmkyi"]
 [ext_resource type="PackedScene" uid="uid://cf84hgeql0ots" path="res://src/entities/customer/CustomerSpawner.tscn" id="3_nupy7"]
 [ext_resource type="PackedScene" uid="uid://cbandeja1tem" path="res://src/entities/item/bandeja_item.tscn" id="4_5v824"]
+[ext_resource type="Script" uid="uid://yvcolwcuf4a0" path="res://src/core/resources_scripts/customer_data.gd" id="4_rgdf7"]
+[ext_resource type="Resource" uid="uid://h0p1oe53ub4q" path="res://resources/customers/customer1/omelec_v1.tres" id="5_ocrjh"]
+[ext_resource type="Resource" uid="uid://6rbxjldn5s3m" path="res://resources/customers/customer2/chancleada_v1.tres" id="6_w7hfa"]
 
 [node name="MainStation" type="Node2D" unique_id=1321946310]
 script = ExtResource("1_cx8jq")
@@ -14,6 +17,7 @@ position = Vector2(204, 945)
 
 [node name="CustomerSpawner" parent="." unique_id=1128089222 instance=ExtResource("3_nupy7")]
 position = Vector2(556, 461)
+customer_data_pool = Array[ExtResource("4_rgdf7")]([ExtResource("5_ocrjh"), ExtResource("6_w7hfa")])
 
 [node name="Bandeja" parent="." unique_id=1324478999 instance=ExtResource("4_5v824")]
 position = Vector2(953, 927)

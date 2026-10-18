@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CustomerData" format=3 uid="uid://6rbxjldn5s3m"]
+
+[ext_resource type="Script" uid="uid://yvcolwcuf4a0" path="res://src/core/resources_scripts/customer_data.gd" id="1_njkmp"]
+[ext_resource type="Texture2D" uid="uid://borjhg6perjfn" path="res://assets/sprites/items/chifle.svg" id="2_5s5ga"]
+
+[resource]
+script = ExtResource("1_njkmp")
+display_name = "Chancleada"
+texture = ExtResource("2_5s5ga")
+reward = 20
+metadata/_custom_type_script = "uid://yvcolwcuf4a0"
