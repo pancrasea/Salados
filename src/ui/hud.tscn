@@ -23,6 +23,22 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_banner"]
+content_margin_left = 28.0
+content_margin_top = 22.0
+content_margin_right = 28.0
+content_margin_bottom = 22.0
+bg_color = Color(0.06, 0.09, 0.1, 0.94)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.89, 0.78, 0.53, 0.9)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
 [node name="HUD" type="CanvasLayer" unique_id=1811155935]
 layer = 10
 script = ExtResource("1_hudsc")
@@ -70,4 +86,71 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_info")
 layout_mode = 2
 mouse_filter = 2
 
+[node name="HintLabel" type="Label" parent="." unique_id=1902771101]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -560.0
+offset_top = -96.0
+offset_right = 560.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.95, 0.93, 0.86, 1)
+theme_override_colors/font_outline_color = Color(0.06, 0.09, 0.1, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ObjectiveBanner" type="PanelContainer" parent="." unique_id=1902771102]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -470.0
+offset_top = -160.0
+offset_right = 470.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_banner")
+
+[node name="VBox" type="VBoxContainer" parent="ObjectiveBanner" unique_id=1902771103]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ObjectiveTitle" type="Label" parent="ObjectiveBanner/VBox" unique_id=1902771104]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.89, 0.78, 0.53, 1)
+theme_override_font_sizes/font_size = 40
+text = "¡A COCINAR!"
+horizontal_alignment = 1
+
+[node name="ObjectiveBody" type="Label" parent="ObjectiveBanner/VBox" unique_id=1902771105]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.92, 0.94, 0.9, 1)
+theme_override_font_sizes/font_size = 22
+text = "Objetivo: prepara y sirve encebollados antes de que se acabe el tiempo.
+
+Receta: un plato + líquido de sopa + cebolla, albacora y yuca. Los tres ingredientes se preparan con 3 clics en la sección de corte.
+
+Gira la vista con las flechas de los bordes y arrastra los ingredientes con el mouse."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ObjectiveHint" type="Label" parent="ObjectiveBanner/VBox" unique_id=1902771106]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.72, 0.68, 1)
+theme_override_font_sizes/font_size = 16
+text = "Haz clic para continuar"
+horizontal_alignment = 1
+
 [connection signal="pressed" from="HBoxContainer/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="gui_input" from="ObjectiveBanner" to="." method="_on_objective_banner_gui_input"]
