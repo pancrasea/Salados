@@ -60,6 +60,7 @@ func spawn_customer() -> CustomerBase:
 	active_customers.append(customer)
 	customer.finished.connect(_on_customer_finished)
 	customer.tree_exited.connect(_on_customer_tree_exited.bind(customer))
+	customer.served.connect(_on_customer_served)
 	customer_spawned.emit(customer)
 	return customer
 
@@ -69,6 +70,16 @@ func _on_customer_finished(customer: CustomerBase) -> void:
 	active_customers.erase(customer)
 	_arrange_customers()
 	customer.queue_free()
+
+
+## Paga al jugador cuando un cliente queda satisfecho.
+## Usa CustomerData.reward como base y aplica tip_percent si aplica.
+func _on_customer_served(customer: CustomerBase) -> void:
+	if customer.customer_data == null:
+		return
+	var base: int = customer.customer_data.reward
+	var tip: int = int(base * customer.customer_data.tip_percent / 100.0)
+	GameManager.add_money(base + tip)
 
 
 ## Keeps the active list and row positions correct if a customer is freed externally.
