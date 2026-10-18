@@ -18,7 +18,7 @@ signal customer_spawned(customer: CustomerBase)
 ## Time between automatic spawn attempts, in seconds.
 @export_range(0.1, 60.0, 0.1) var spawn_interval: float = 5.0
 ## Horizontal distance between customer origins, in this node's local coordinates.
-@export_range(0.0, 1024.0, 1.0) var customer_spacing: float = 144.0
+@export_range(0.0, 1024.0, 1.0) var customer_spacing: float = 250.0
 ## If enabled, starts spawning as soon as this node enters the scene tree.
 @export var spawn_on_ready: bool = true
 
@@ -89,8 +89,15 @@ func spawn_customer() -> CustomerBase:
 	customer.finished.connect(_on_customer_finished)
 	customer.tree_exited.connect(_on_customer_tree_exited.bind(customer))
 	customer.served.connect(_on_customer_served)
+	customer.patience_expired.connect(_on_customer_patience_expired)
 	customer_spawned.emit(customer)
 	return customer
+
+
+## Aviso flotante cuando un cliente se queda sin paciencia y se marcha.
+func _on_customer_patience_expired(customer: CustomerBase) -> void:
+	FloatingText.spawn(self, customer.position + Vector2(0.0, -150.0) \
+		, "¡Se fue!", Color(0.96, 0.45, 0.4), 20)
 
 
 ## Removes a served or expired customer and closes the gap in the row.
@@ -127,7 +134,11 @@ func _on_customer_served(customer: CustomerBase) -> void:
 
 	var gm := _game_manager()
 	if gm != null:
-		gm.call("add_money", int(total * multiplier))
+		var pago: int = int(total * multiplier)
+		gm.call("add_money", pago)
+		# Feedback flotante del pago sobre el cliente atendido.
+		FloatingText.spawn(self, customer.position + Vector2(0.0, -150.0) \
+			, "+$%d" % pago, Color(0.6, 0.95, 0.65), 22)
 
 
 ## Keeps the active list and row positions correct if a customer is freed externally.

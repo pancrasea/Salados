@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dl02jj5ury3y8"]
 
 [ext_resource type="Script" uid="uid://c0u3w5hlgdo2s" path="res://src/ui/mouse_interaction.gd" id="1_kubse"]
+[ext_resource type="Script" uid="uid://cy6eqa8v1yt2v" path="res://src/ui/nav_arrow.gd" id="2_navarr"]
 
 [node name="MouseInteraction" type="CanvasLayer" unique_id=1888662768]
 script = ExtResource("1_kubse")
@@ -11,6 +12,17 @@ anchor_bottom = 1.0
 offset_right = 50.0
 grow_vertical = 2
 
+[node name="Flecha" type="Control" parent="left"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_navarr")
+direccion = 0
+
 [node name="right" type="TextureButton" parent="." unique_id=238538194]
 anchors_preset = 11
 anchor_left = 1.0
@@ -20,6 +32,17 @@ offset_left = -49.0
 grow_horizontal = 0
 grow_vertical = 2
 
+[node name="Flecha" type="Control" parent="right"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_navarr")
+direccion = 1
+
 [node name="buttom" type="TextureButton" parent="." unique_id=1160394354]
 anchors_preset = 12
 anchor_top = 1.0
@@ -28,6 +51,35 @@ anchor_bottom = 1.0
 offset_top = -49.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="Flecha" type="Control" parent="buttom"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_navarr")
+direccion = 2
+
+[node name="SeccionActual" type="Label" parent="." unique_id=1904182210]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -180.0
+offset_top = 16.0
+offset_right = 180.0
+offset_bottom = 56.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.96, 0.9, 0.72, 1)
+theme_override_colors/font_outline_color = Color(0.06, 0.09, 0.1, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 24
+text = "SECCIÓN: PRINCIPAL"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="gui_input" from="left" to="." method="_on_left_gui_input"]
 [connection signal="gui_input" from="right" to="." method="_on_right_gui_input"]

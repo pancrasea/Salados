@@ -1,7 +1,8 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://bs6x8roxg4tob"]
 
 [ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="1_item"]
-[ext_resource type="Resource" path="res://resources/items/pescado_desmenuzado.tres" id="3_next"]
+[ext_resource type="Texture2D" uid="uid://cbvio35ghrond" path="res://assets/sprites/items/pescado_desmenuzado.svg" id="2_sprite"]
+[ext_resource type="Resource" uid="uid://d1wpe56ey86qb" path="res://resources/items/pescado_desmenuzado.tres" id="3_next"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nd4j8"]
 load_path = "res://.godot/imported/pescado_desmenuzado.svg-ad91ebb7761f127ae3c57503e2249a47.ctex"

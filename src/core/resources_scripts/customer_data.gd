@@ -9,6 +9,8 @@ class_name CustomerData
 ## Sprite que se muestra en el Visual del cliente. Si es null se conserva
 ## la textura que tenga la escena como fallback.
 @export var texture: Texture2D
+@export var texture_alt: Texture2D
+@export var scale: Vector2 = Vector2.ZERO
 ## Paciencia en segundos. 0 = usar `RunBalance.default_patience` (valor central
 ## de la partida); el arquetipo solo la define cuando necesita diferenciarse.
 @export_range(0.0, 300.0, 1.0) var patience_seconds: float = 0.0

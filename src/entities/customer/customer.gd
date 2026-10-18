@@ -71,6 +71,9 @@ func _ready() -> void:
 			var visual := get_node_or_null("Visual") as Sprite2D
 			if visual != null:
 				visual.texture = customer_data.texture
+				if customer_data.scale != null:
+					visual.scale = customer_data.scale
+			
 	else:
 		patience_bar.hide()
 
@@ -194,6 +197,10 @@ func _update_patience_display() -> void:
 	elif patience_ratio > 0.3:
 		patience_fill_style.bg_color = Color("#e5ae4b")
 	else:
+		if customer_data.texture_alt != null:
+			var visual := get_node_or_null("Visual") as Sprite2D
+			if visual != null:
+				visual.texture = customer_data.texture_alt
 		patience_fill_style.bg_color = Color("#df5b52")
 
 
@@ -204,6 +211,18 @@ func set_selected(selected: bool) -> void:
 		return
 	is_selected = next_selected
 	selected_changed.emit(self, is_selected)
+
+
+## Chequeo no mutante: ¿aceptaría este ítem? Usa el mismo criterio que
+## `receive_item` (pedido estructurado por clave canónica; modo clásico por
+## igualdad de referencia con CustomerData.requested_item). Lo usa el resaltado
+## de destinos al arrastrar (ver BaseItem).
+func can_receive(item: ItemData) -> bool:
+	if state != State.WAITING or customer_data == null:
+		return false
+	if order != null:
+		return order.matches(item)
+	return customer_data.requested_item != null and item == customer_data.requested_item
 
 
 ## Accepts an item while this customer is still waiting; selection is NOT

@@ -18,6 +18,12 @@ const SIDE_RIGHT: int = 2
 @onready var timer_label: Label = %TimerLabel
 @onready var info_panel: PanelContainer = $InfoPanel
 @onready var info_list: VBoxContainer = $InfoPanel/InfoList
+@onready var hint_label: Label = $HintLabel
+@onready var objective_banner: PanelContainer = $ObjectiveBanner
+
+## Timer del auto-cierre del banner de objetivo; se reintenta si se vuelve a
+## mostrar antes de que expire.
+var _banner_timer: SceneTreeTimer = null
 
 ## Autoload GameManager. Se resuelve por ruta en vez del identificador global
 ## para poder cargar el HUD en arranques headless con `--script`.
@@ -37,6 +43,7 @@ func _ready() -> void:
 	_on_money_changed(int(_game_manager.get("money")))
 	_connect_inventarios()
 	_refresh_info()
+	_update_hint(int(_game_manager.call("current_side")))
 
 
 ## Conecta los inventarios globales para refrescar el stock cuando cambia.
@@ -55,14 +62,70 @@ func _on_day_tick(seconds_remaining: float) -> void:
 	var mins: int = int(seconds_remaining) / 60
 	var secs: int = int(seconds_remaining) % 60
 	timer_label.text = "%d:%02d" % [mins, secs]
+	# Aviso de presión de tiempo: ámbar cerca del final y rojo (parpadeante) en
+	# los últimos 10 s, para que el jugador sienta la urgencia.
+	if seconds_remaining <= 10.0:
+		timer_label.add_theme_color_override("font_color", Color(0.96, 0.35, 0.3))
+		timer_label.modulate.a = 0.45 + 0.55 * absf(sin(Time.get_ticks_msec() / 180.0))
+	elif seconds_remaining <= 30.0:
+		timer_label.add_theme_color_override("font_color", Color(0.96, 0.76, 0.36))
+		timer_label.modulate.a = 1.0
+	else:
+		timer_label.remove_theme_color_override("font_color")
+		timer_label.modulate.a = 1.0
 
 
 func _on_inventory_changed(_item: ItemData, _cantidad: int) -> void:
 	_refresh_info()
 
 
-func _on_station_changed(_side: int) -> void:
+func _on_station_changed(side: int) -> void:
 	_refresh_info()
+	_update_hint(side)
+
+
+## Instrucción breve y contextual según la sección visible. Da al jugador de
+## jam una pista de qué hacer sin explicación externa.
+func _update_hint(side: int) -> void:
+	if hint_label == null:
+		return
+	match side:
+		SIDE_FRONT:
+			hint_label.text = "Arrastra los ingredientes a la bandeja y entrégala al cliente que la pida."
+		SIDE_LEFT:
+			hint_label.text = "Arrastra materia prima a la zona y haz 3 clics para prepararla."
+		SIDE_RIGHT:
+			hint_label.text = "Arma el plato (líquido + ingredientes) y despáchalo a la estación principal."
+		_:
+			hint_label.text = ""
+	hint_label.visible = hint_label.text != ""
+
+
+## Muestra el banner de objetivo al empezar la partida y lo cierra solo.
+func show_objective_banner() -> void:
+	if objective_banner == null:
+		return
+	objective_banner.modulate = Color(1.0, 1.0, 1.0, 0.0)
+	objective_banner.show()
+	var tween := create_tween()
+	tween.tween_property(objective_banner, "modulate:a", 1.0, 0.35)
+	if _banner_timer != null:
+		_banner_timer.timeout.disconnect(_hide_objective_banner)
+	_banner_timer = get_tree().create_timer(8.0)
+	_banner_timer.timeout.connect(_hide_objective_banner)
+
+
+func _hide_objective_banner() -> void:
+	if objective_banner == null or not objective_banner.visible:
+		return
+	var tween := create_tween()
+	tween.tween_property(objective_banner, "modulate:a", 0.0, 0.3)
+	tween.tween_callback(objective_banner.hide)
+
+
+func _on_objective_banner_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		_hide_objective_banner()
 
 
 ## Reconstruye el panel con la información de la sección visible. Se llama al

@@ -2,9 +2,6 @@
 
 [ext_resource type="Script" uid="uid://cq2nammtabqhx" path="res://src/entities/customer/customer.gd" id="1_customer"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_selection"]
-radius = 32.0
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_patience_background"]
 bg_color = Color(0.09, 0.12, 0.13, 0.94)
 border_width_left = 1
@@ -36,30 +33,34 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4rn03"]
+size = Vector2(170, 266)
+
 [node name="Customer" type="Node2D" unique_id=926383298]
 script = ExtResource("1_customer")
 
 [node name="Visual" type="Sprite2D" parent="." unique_id=626254291]
+scale = Vector2(0.4, 0.4)
 
-[node name="PatienceBar" type="ProgressBar" parent="."]
-offset_left = -42.0
-offset_top = -78.0
-offset_right = 42.0
-offset_bottom = -66.0
+[node name="PatienceBar" type="ProgressBar" parent="." unique_id=768868202]
+offset_left = -44.0
+offset_top = -152.0
+offset_right = 40.0
+offset_bottom = -140.0
 mouse_filter = 2
-show_percentage = false
 theme_override_styles/background = SubResource("StyleBoxFlat_patience_background")
 theme_override_styles/fill = SubResource("StyleBoxFlat_patience_fill")
+show_percentage = false
 
-[node name="OrderIconFrame" type="Panel" parent="."]
-offset_left = -23.0
-offset_top = -128.0
-offset_right = 23.0
-offset_bottom = -82.0
+[node name="OrderIconFrame" type="Panel" parent="." unique_id=628871127]
+offset_left = -25.0
+offset_top = -202.0
+offset_right = 21.0
+offset_bottom = -156.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_order_frame")
 
-[node name="OrderIcon" type="TextureRect" parent="OrderIconFrame"]
+[node name="OrderIcon" type="TextureRect" parent="OrderIconFrame" unique_id=1349739906]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -74,14 +75,13 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="OrderPlaceholder" type="Label" parent="OrderIconFrame"]
+[node name="OrderPlaceholder" type="Label" parent="OrderIconFrame" unique_id=808192923]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.89, 0.78, 0.53, 1)
 theme_override_font_sizes/font_size = 24
 text = "?"
@@ -91,4 +91,5 @@ vertical_alignment = 1
 [node name="SelectionArea" type="Area2D" parent="." unique_id=346770324]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SelectionArea" unique_id=924015791]
-shape = SubResource("CircleShape2D_selection")
+position = Vector2(-8, -17)
+shape = SubResource("RectangleShape2D_4rn03")

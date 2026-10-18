@@ -1,10 +1,13 @@
 [gd_resource type="Resource" script_class="CustomerData" format=3 uid="uid://h0p1oe53ub4q"]
 
 [ext_resource type="Script" uid="uid://yvcolwcuf4a0" path="res://src/core/resources_scripts/customer_data.gd" id="1_7ois0"]
-[ext_resource type="Texture2D" uid="uid://svxt66mhkaxa" path="res://icon.svg" id="2_kdrpk"]
+[ext_resource type="Texture2D" uid="uid://cx73i2ju453ci" path="res://assets/sprites/customers/omelec/0melec 1.png" id="2_kdrpk"]
+[ext_resource type="Texture2D" uid="uid://covexaa67pay3" path="res://assets/sprites/customers/omelec/0melec 2.png" id="3_330y3"]
 
 [resource]
 script = ExtResource("1_7ois0")
 display_name = "Omelec"
-texture = ExtResource("2_kdrpk")
+texture = ExtResource("3_330y3")
+texture_alt = ExtResource("2_kdrpk")
+scale = Vector2(0.3, 0.3)
 metadata/_custom_type_script = "uid://yvcolwcuf4a0"
