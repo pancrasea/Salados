@@ -1,12 +1,12 @@
-[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://d0k2wagtesou5"]
 
-[ext_resource type="Script" path="res://src/entities/item/item_data.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/items/limon.svg" id="2"]
+[ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://b0upw2ceki5co" path="res://assets/sprites/items/limon.svg" id="2"]
 
 [resource]
 script = ExtResource("1")
 name = "Limón"
-item_id = "limon"
 icon = ExtResource("2")
-is_final_product = true
 price = 1
+item_id = "limon"
+is_final_product = true

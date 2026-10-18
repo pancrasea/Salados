@@ -1,13 +1,12 @@
-[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://b3uogef8kxvhy"]
 
-[ext_resource type="Script" path="res://src/entities/item/item_data.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/items/encebollado.svg" id="2"]
+[ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://bd3vivbndd1k2" path="res://assets/sprites/items/encebollado.svg" id="2"]
 
 [resource]
 script = ExtResource("1")
 name = "Encebollado"
-item_id = "encebollado"
 icon = ExtResource("2")
-is_container = false
-is_final_product = true
 price = 12
+item_id = "encebollado"
+is_final_product = true

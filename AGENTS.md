@@ -42,7 +42,7 @@
 - `resources/config/balance_default.tres`: valores de equilibrio cargados por `GameManager`.
 - `src/ui/end_of_day.gd` y `src/ui/EndOfDay.tscn`: panel de fin de día (ganado/renta/saldo o deuda) con botón que vuelve al menú.
 - `src/core/main/main.gd` y `main.tscn`: main scene; menú + capa de escenas + navegación entre estaciones.
-- `src/ui/mouse_interaction.gd` y `mouse_interaction.tscn`: controles de borde para girar estación.
+- `src/ui/mouse_interaction.gd` y `mouse_interaction.tscn`: controles de borde para girar estación. Los tres botones (zonas izquierda/derecha/abajo) muestran flechas visibles dibujadas por `nav_arrow.gd` (`Polygon2D`-style vía `_draw`, sin fuentes ni texturas) y una etiqueta central `SeccionActual` indica la sección visible; se actualiza con la señal `station_changed` de `GameManager`.
 - `src/ui/hud.gd` y `hud.tscn`: HUD permanente (dinero, tiempo y panel de información con stock y precios).
 - `src/entities/item/ingredients/spawner_ingredients.gd` y `.tscn`: `SpawnerIngredients` (WIP de otra célula; repone un ítem por `max_quantity`).
 - `src/entities/order/order_data.gd` y `order_generator.gd`: pedido `OrderData` y generador `OrderGenerator`.
