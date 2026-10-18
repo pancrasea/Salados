@@ -8,8 +8,8 @@ class_name Inventario
 ## Usos actuales:
 ## - `GameManager.materia_prima`: materia prima de la Sección 2, con cupo diario
 ##   (configurado desde `RunBalance.stock_limits`).
-## - `AlmacenPreparados`: ingredientes preparados de la Sección 3, sin cupo
-##   (solo acumula lo que produce el corte/desmenuce).
+## - `AlmacenPreparados`: ingredientes preparados de la Sección 3, con cupo
+##   `max_por_item` para no acumular más de lo que la fuente puede mostrar.
 ##
 ## La señal `inventario_actualizado` avisa a las fuentes (`FoodSpawner`) para
 ## que muestren u oculten un ingrediente según haya stock.
@@ -21,6 +21,9 @@ var _limites: Dictionary = {}
 var _items: Dictionary = {}
 ## clave -> int (unidades disponibles ahora).
 var _cantidades: Dictionary = {}
+## Cupo máximo por ítem (0 = sin límite). `agregar` recorta a este valor y no
+## supera el cupo; lo usa `AlmacenPreparados` para acotar los preparados.
+var max_por_item: int = 0
 
 
 ## Define el cupo diario de un ítem. `limite <= 0` quita el límite.
@@ -35,17 +38,32 @@ func configurar_limite(item: ItemData, limite: int) -> void:
 		_limites.erase(clave)
 
 
-## Registra unidades disponibles. Devuelve la cantidad resultante.
+## Registra unidades disponibles. Devuelve la cantidad resultante. Si
+## `max_por_item` está definido, no supera ese cupo (y no emite aviso si ya
+## estaba lleno).
 func agregar(item: ItemData, cantidad: int = 1) -> int:
 	var clave := _clave_de(item)
 	if clave == "" or cantidad <= 0:
 		push_warning("Inventario: ItemData sin item_id ni resource_path, o cantidad no positiva.")
 		return 0
 	_items[clave] = item
-	var total: int = int(_cantidades.get(clave, 0)) + cantidad
+	var actual: int = int(_cantidades.get(clave, 0))
+	var total: int = actual + cantidad
+	if max_por_item > 0:
+		total = mini(total, max_por_item)
+	if total == actual:
+		return actual
 	_cantidades[clave] = total
 	inventario_actualizado.emit(item, total)
 	return total
+
+
+## True si se pueden añadir `cantidad` unidades del ítem sin superar el cupo
+## máximo por ítem (si `max_por_item` es 0, siempre hay espacio).
+func hay_espacio(item: ItemData, cantidad: int = 1) -> bool:
+	if max_por_item <= 0:
+		return true
+	return cantidad_de(item) + cantidad <= max_por_item
 
 
 ## Consume `cantidad` unidades. Devuelve true solo si había stock suficiente

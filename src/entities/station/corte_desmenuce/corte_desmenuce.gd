@@ -39,6 +39,12 @@ func recibir_item(item: ItemData) -> bool:
 	if dato == null or not dato.se_puede_preparar():
 		return false
 
+	# Sin espacio en la sección de preparación no se acepta otro crudo: evita
+	# acumular preparados que no cabrían en la fuente `Ingredientes`.
+	if not _hay_espacio(item):
+		mensaje.text = "Sin espacio en preparación: consume los ingredientes preparados."
+		return false
+
 	# No duplicar la preparación mientras ya hay un ingrediente en curso.
 	if ingrediente_activo != &"":
 		return false
@@ -70,6 +76,21 @@ func _buscar_por_item(item: ItemData) -> EncebolladoIngrediente:
 		if dato != null and dato.item_entrada == item:
 			return dato
 	return null
+
+## True si el almacén de la Sección 3 admite otra unidad del preparado de
+## `item_entrada`. Resuelve `GameManager` por ruta para funcionar también en
+## arranques headless con `--script`. Sin GameManager se permite (pruebas).
+func _hay_espacio(item_entrada: ItemData) -> bool:
+	var salida: ItemData = item_entrada.next_data_state
+	if salida == null:
+		return true
+	var game_manager := get_node_or_null("/root/GameManager")
+	if game_manager == null:
+		return true
+	var almacen := game_manager.get("warehouse") as Inventario
+	if almacen == null:
+		return true
+	return almacen.hay_espacio(salida)
 
 func _cuando_termina_ingrediente(id: StringName) -> void:
 	if entrada_activa == null or ingrediente_activo != id:

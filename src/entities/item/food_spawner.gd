@@ -1,9 +1,13 @@
 class_name FoodSpawner extends Node2D
 
-## Repone alimentos arrastrables en una columna fija (zona izquierda).
-## Cada slot corresponde a un ItemData de `foods`. Cuando el alimento es
-## consumido (queue_free al soltarlo en la bandeja), el slot se rellena
-## de nuevo tras `respawn_delay` segundos.
+## Repone alimentos arrastrables en una zona fija.
+## Cada ItemData de `foods` ocupa `slots_per_item` slots. Con `slots_per_item`
+## en 1 y `horizontal_groups` desactivado se comporta como una columna clásica
+## (un slot por alimento). Con `horizontal_groups` activo, los slots de un
+## mismo alimento se alinean en horizontal (una fila por alimento) y los
+## alimentos se apilan hacia abajo usando `row_spacing`.
+## Cuando el alimento es consumido (queue_free al soltarlo), su slot se
+## rellena de nuevo tras `respawn_delay` segundos.
 ##
 ## Usa un Timer hijo por slot: si el spawner se libera, sus timers también,
 ## y así no quedan señales pendientes sobre instancias liberadas.
@@ -11,13 +15,14 @@ class_name FoodSpawner extends Node2D
 ## Emitida cada vez que un alimento aparece en su slot.
 signal food_spawned(food: ItemData, item: BaseItem)
 
-## Alimentos ofrecidos, uno por slot (de arriba a abajo).
+## Alimentos ofrecidos; cada uno ocupa `slots_per_item` slots.
 @export var foods: Array[ItemData] = []
 ## Escena instanciada por cada alimento; su raíz debe heredar de BaseItem.
 @export var item_scene: PackedScene
 ## Segundos de espera antes de reponer un alimento consumido.
 @export_range(0.0, 60.0, 0.1) var respawn_delay: float = 0.5
-## Separación vertical entre slots, en píxeles.
+## Separación entre slots: vertical en la columna clásica u horizontal entre
+## los slots de un mismo alimento cuando `horizontal_groups` está activo.
 @export_range(0.0, 512.0, 1.0) var slot_spacing: float = 150.0
 ## Desplazamiento del primer slot respecto al origen del spawner.
 @export var first_slot_offset: Vector2 = Vector2(0.0, 100.0)
@@ -29,11 +34,20 @@ signal food_spawned(food: ItemData, item: BaseItem)
 ## (p. ej. los agregados de la estación principal) muestre ítems pequeños sin
 ## encoger la escena base ni su colisión.
 @export var item_scale: Vector2 = Vector2.ONE
+## Slots (unidades visibles) por cada ItemData de `foods`. Acota cuántas
+## unidades del mismo ingrediente se muestran a la vez.
+@export_range(1, 6, 1) var slots_per_item: int = 1
+## Si está activo, los slots de cada alimento se alinean en horizontal (una
+## fila por alimento) y los alimentos se apilan en `row_spacing`. Si no, se usa
+## la columna vertical clásica.
+@export var horizontal_groups: bool = false
+## Separación vertical entre filas de alimentos (solo con `horizontal_groups`).
+@export_range(0.0, 512.0, 1.0) var row_spacing: float = 120.0
 ## Origen del stock de la fuente:
 ## - INFINITE: repone sin límite (materia prima de prueba, platos).
-## - PREPARADOS: se abastece de `GameManager.warehouse`; solo muestra un
-##   ingrediente mientras la Sección 2 lo haya preparado, y descuenta una
-##   unidad al consumirse (Sección 3).
+## - PREPARADOS: se abastece de `GameManager.warehouse`; muestra hasta
+##   `slots_per_item` unidades por ingrediente mientras la Sección 2 lo haya
+##   preparado, y descuenta una unidad al consumirse (Sección 3).
 ## - MATERIA_PRIMA: se abastece de `GameManager.materia_prima`; respeta el
 ##   cupo diario de crudos (Sección 2) y descuenta una unidad al consumirse.
 enum StockSource { INFINITE, PREPARADOS, MATERIA_PRIMA }
@@ -43,10 +57,14 @@ enum StockSource { INFINITE, PREPARADOS, MATERIA_PRIMA }
 var _slot_timers: Array[Timer] = []
 var _slot_instances: Array[BaseItem] = []
 var _inventory: Inventario = null
+## Evita que el refill inmediato dispare al consumir un ítem: al descontar el
+## inventario se emite `inventario_actualizado`, pero el hueco debe reponerse
+## tras `respawn_delay`, no al instante.
+var _consuming: bool = false
 
 
 func _ready() -> void:
-	_slot_instances.resize(foods.size())
+	_slot_instances.resize(_slot_count())
 	_create_slot_timers()
 	if stock_source != StockSource.INFINITE:
 		_inventory = _resolve_inventory()
@@ -75,44 +93,86 @@ func _resolve_inventory() -> Inventario:
 
 ## Rellena todos los slots vacíos de inmediato (sin esperar el timer).
 func refill() -> void:
-	for index in foods.size():
-		if not _is_slot_filled(index):
-			_spawn(foods[index], index)
+	for flat_index in _slot_instances.size():
+		if _is_slot_filled(flat_index):
+			continue
+		var item_index := _item_index(flat_index)
+		if item_index < foods.size():
+			_spawn(foods[item_index], flat_index)
+
+
+## Número total de slots (alimentos × slots por alimento).
+func _slot_count() -> int:
+	return foods.size() * _per_item()
+
+
+## Slots por alimento (mínimo 1).
+func _per_item() -> int:
+	return maxi(slots_per_item, 1)
+
+
+## Índice del ItemData (en `foods`) al que pertenece un slot.
+func _item_index(flat_index: int) -> int:
+	return int(flat_index / float(_per_item()))
+
+
+## Posición local del slot según el layout configurado.
+func _slot_position(flat_index: int) -> Vector2:
+	if horizontal_groups:
+		var slot_j := flat_index % _per_item()
+		return first_slot_offset + Vector2(slot_j * slot_spacing, _item_index(flat_index) * row_spacing)
+	return first_slot_offset + Vector2(0.0, flat_index * slot_spacing)
+
+
+## Cuántos slots ocupados tiene un alimento actualmente.
+func _filled_for_item(item_index: int) -> int:
+	var total := 0
+	var base := item_index * _per_item()
+	for offset in _per_item():
+		if _is_slot_filled(base + offset):
+			total += 1
+	return total
 
 
 func _create_slot_timers() -> void:
-	for index in foods.size():
+	for flat_index in _slot_count():
 		var timer := Timer.new()
 		timer.one_shot = true
 		timer.wait_time = maxf(respawn_delay, 0.05)
-		# bind captura el valor de index en este instante: seguro en bucles.
-		timer.timeout.connect(_on_slot_timeout.bind(index))
+		# bind captura el valor de flat_index en este instante: seguro en bucles.
+		timer.timeout.connect(_on_slot_timeout.bind(flat_index))
 		add_child(timer)
 		_slot_timers.append(timer)
 
 
-func _is_slot_filled(index: int) -> bool:
-	return index < _slot_instances.size() and is_instance_valid(_slot_instances[index])
+func _is_slot_filled(flat_index: int) -> bool:
+	return flat_index >= 0 and flat_index < _slot_instances.size() \
+		and is_instance_valid(_slot_instances[flat_index])
 
 
-func _spawn(food: ItemData, index: int) -> void:
+func _spawn(food: ItemData, flat_index: int) -> void:
 	if item_scene == null or food == null:
 		push_warning("FoodSpawner necesita item_scene y foods sin nulos.")
 		return
-	if stock_source != StockSource.INFINITE and (_inventory == null or not _inventory.tiene_stock(food)):
-		return
+	if stock_source != StockSource.INFINITE:
+		if _inventory == null:
+			return
+		# Se muestran hasta `slots_per_item` unidades, acotadas por el stock.
+		var capacidad := mini(_inventory.cantidad_de(food), _per_item())
+		if _filled_for_item(_item_index(flat_index)) >= capacidad:
+			return
 	var item := item_scene.instantiate() as BaseItem
 	if item == null:
 		push_error("FoodSpawner.item_scene debe heredar de BaseItem.")
 		return
 	item.data = food
 	item.scale = item_scale
-	item.position = first_slot_offset + Vector2(0.0, index * slot_spacing)
+	item.position = _slot_position(flat_index)
 	add_child(item)
 	if show_name_labels:
 		_add_name_label(item, food)
-	item.tree_exited.connect(_on_food_exited.bind(index))
-	_slot_instances[index] = item
+	item.tree_exited.connect(_on_food_exited.bind(flat_index))
+	_slot_instances[flat_index] = item
 	food_spawned.emit(food, item)
 
 
@@ -129,21 +189,29 @@ func _add_name_label(item: BaseItem, food: ItemData) -> void:
 	item.add_child(label)
 
 
-## Un alimento salió del árbol (consumido). Programa la reposición del slot.
-func _on_food_exited(index: int) -> void:
-	if not is_inside_tree() or index < 0 or index >= _slot_timers.size():
+## Un alimento salió del árbol (consumido). Descuenta el stock y programa la
+## reposición del slot.
+func _on_food_exited(flat_index: int) -> void:
+	if not is_inside_tree() or flat_index < 0 or flat_index >= _slot_timers.size():
 		return
-	_slot_instances[index] = null
-	if stock_source != StockSource.INFINITE and _inventory != null and index < foods.size():
-		_inventory.consumir(foods[index])
-	_slot_timers[index].start()
+	_slot_instances[flat_index] = null
+	var item_index := _item_index(flat_index)
+	if stock_source != StockSource.INFINITE and _inventory != null and item_index < foods.size():
+		_consuming = true
+		_inventory.consumir(foods[item_index])
+		_consuming = false
+	_slot_timers[flat_index].start()
 
 
-## El inventario cambió (algo se preparó o se consumió): rellena los huecos.
+## El inventario cambió (algo se preparó, o se consumió desde otra fuente):
+## rellena los huecos, salvo cuando el cambio viene de consumir en esta fuente
+## (entonces la reposición la controla el timer del slot).
 func _on_stock_changed(_item: ItemData, _cantidad: int) -> void:
+	if _consuming:
+		return
 	refill()
 
 
-func _on_slot_timeout(index: int) -> void:
-	if is_inside_tree() and not _is_slot_filled(index):
+func _on_slot_timeout(flat_index: int) -> void:
+	if is_inside_tree() and not _is_slot_filled(flat_index):
 		refill()

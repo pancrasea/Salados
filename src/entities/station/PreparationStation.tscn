@@ -110,8 +110,13 @@ script = ExtResource("5_spawner")
 foods = Array[ExtResource("6_item")]([ExtResource("10_cebolla"), ExtResource("11_pescado"), ExtResource("12_yuca")])
 item_scene = ExtResource("7_base")
 respawn_delay = 0.6
-slot_spacing = 150.0
-first_slot_offset = Vector2(0, 0)
+slot_spacing = 80.0
+first_slot_offset = Vector2(-80, 0)
+show_name_labels = false
+item_scale = Vector2(0.55, 0.55)
+slots_per_item = 3
+horizontal_groups = true
+row_spacing = 120.0
 stock_source = 1
 
 [node name="ZonaBasura" type="ColorRect" parent="."]
