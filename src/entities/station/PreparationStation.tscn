@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cprepstation1"]
 
 [ext_resource type="Script" uid="uid://cpdr06go35ch6" path="res://src/entities/station/preparation_station.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cuhgr0bfovcib" path="res://assets/backgrounds/fondo_dere.jpg" id="2_peek1"]
 [ext_resource type="PackedScene" uid="uid://csouppot001" path="res://src/entities/station/soup_pot.tscn" id="2_pot"]
 [ext_resource type="PackedScene" uid="uid://cdispatch001" path="res://src/entities/station/dispatch_zone.tscn" id="3_dispatch"]
 [ext_resource type="PackedScene" uid="uid://ctrashbin01" path="res://src/entities/station/trash_bin.tscn" id="4_trash"]
@@ -10,12 +11,26 @@
 [ext_resource type="PackedScene" uid="uid://cplatoitem01" path="res://src/entities/item/plato_item.tscn" id="8_plato"]
 [ext_resource type="Resource" path="res://resources/items/plato.tres" id="9_plato_data"]
 [ext_resource type="Resource" path="res://resources/items/cebolla_cortada.tres" id="10_cebolla"]
-[ext_resource type="Resource" path="res://resources/items/pescado_desmenuzado.tres" id="11_pescado"]
+[ext_resource type="Resource" uid="uid://d1wpe56ey86qb" path="res://resources/items/pescado_desmenuzado.tres" id="11_pescado"]
 [ext_resource type="Resource" path="res://resources/items/yuca_desmenuzada.tres" id="12_yuca"]
 [ext_resource type="PackedScene" uid="uid://cworksurface1" path="res://src/entities/station/work_surface.tscn" id="13_mesa"]
 
 [node name="PreparationStation" type="Node2D" unique_id=1358951242]
 script = ExtResource("1_script")
+
+[node name="Fondo" type="TextureRect" parent="." unique_id=528490333]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -2.0
+offset_right = 1987.0
+offset_bottom = 1078.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_peek1")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="ZonaPreparacion" type="ColorRect" parent="." unique_id=1317591954]
 offset_left = 660.0
