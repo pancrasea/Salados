@@ -1,0 +1,113 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/levels/pruebas/seccion3_preparacion.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://src/levels/pruebas/PilaIngrediente.tscn" id="2_pila"]
+[ext_resource type="Resource" path="res://resources/items/item_cebolla_colorada_preparado.tres" id="3_cebolla"]
+[ext_resource type="Resource" path="res://resources/items/item_cilantro_preparado.tres" id="4_cilantro"]
+[ext_resource type="Resource" path="res://resources/items/item_yuca_preparado.tres" id="5_yuca"]
+[ext_resource type="Resource" path="res://resources/items/item_albacora_preparado.tres" id="6_albacora"]
+[ext_resource type="Theme" path="res://src/ui/themes/corte_theme.tres" id="7_theme"]
+
+[node name="Seccion3Preparacion" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_script")
+theme = ExtResource("7_theme")
+
+[node name="Fondo" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.976, 0.972, 0.946, 1)
+mouse_filter = 2
+
+[node name="Titulo" type="Label" parent="."]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 18.0
+offset_right = 1245.0
+offset_bottom = 60.0
+theme_override_font_sizes/font_size = 29
+theme_override_colors/font_color = Color(0.10, 0.18, 0.20, 1)
+text = "Preparación del encebollado · Sección 3"
+horizontal_alignment = 1
+mouse_filter = 2
+
+[node name="Ayuda" type="Label" parent="."]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 70.0
+offset_right = 1245.0
+offset_bottom = 106.0
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.24, 0.32, 0.35, 1)
+text = "Ingredientes preparados recibidos de la sección 2 · Tres pilas por ingrediente, sin límite de unidades"
+horizontal_alignment = 1
+mouse_filter = 2
+
+[node name="Pilas" type="GridContainer" parent="."]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 123.0
+offset_right = 1230.0
+offset_bottom = 577.0
+columns = 2
+theme_override_constants/h_separation = 22
+theme_override_constants/v_separation = 18
+
+[node name="PilaCebolla" parent="Pilas" instance=ExtResource("2_pila")]
+layout_mode = 2
+item_preparado = ExtResource("3_cebolla")
+
+[node name="PilaCilantro" parent="Pilas" instance=ExtResource("2_pila")]
+layout_mode = 2
+item_preparado = ExtResource("4_cilantro")
+
+[node name="PilaYuca" parent="Pilas" instance=ExtResource("2_pila")]
+layout_mode = 2
+item_preparado = ExtResource("5_yuca")
+
+[node name="PilaAlbacora" parent="Pilas" instance=ExtResource("2_pila")]
+layout_mode = 2
+item_preparado = ExtResource("6_albacora")
+
+[node name="TotalGeneral" type="Label" parent="."]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 587.0
+offset_right = 1020.0
+offset_bottom = 622.0
+theme_override_font_sizes/font_size = 21
+theme_override_colors/font_color = Color(0.16, 0.36, 0.26, 1)
+text = "Total de ingredientes preparados: 0"
+horizontal_alignment = 1
+mouse_filter = 2
+
+[node name="BotonVolver" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 467.0
+offset_top = 643.0
+offset_right = 814.0
+offset_bottom = 694.0
+text = "← Regresar a corte y desmenuce"
+
+[node name="AyudaCambio" type="Label" parent="."]
+layout_mode = 0
+offset_left = 318.0
+offset_top = 648.0
+offset_right = 962.0
+offset_bottom = 686.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.17, 0.36, 0.31, 1)
+text = "❮ Haz clic en el borde izquierdo para volver a cortar"
+horizontal_alignment = 1

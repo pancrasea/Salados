@@ -1,0 +1,173 @@
+[gd_scene format=3 uid="uid://mpjnbyb8da4g"]
+
+[ext_resource type="Script" uid="uid://2c38hg6vsot" path="res://src/levels/pruebas/prueba_integracion_itemdata.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://src/entities/station/corte_desmenuce/CorteDesmenuce.tscn" id="2_station"]
+[ext_resource type="Script" uid="uid://db38pxbe62ur6" path="res://src/levels/pruebas/almacen_preparados.gd" id="3_almacen"]
+[ext_resource type="PackedScene" path="res://src/levels/pruebas/Seccion3Preparacion.tscn" id="4_preparacion"]
+
+[sub_resource type="StyleBoxFlat" id="Style_Nav_Normal"]
+bg_color = Color(0.19, 0.36, 0.32, 0.93)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="Style_Nav_Hover"]
+bg_color = Color(0.11, 0.29, 0.26, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="PruebaIntegracionItemData" type="Node2D" unique_id=1556813020]
+script = ExtResource("1_script")
+
+[node name="AlmacenPreparados" type="Node" parent="." unique_id=1801767031]
+script = ExtResource("3_almacen")
+
+[node name="Seccion2" type="Node2D" parent="." unique_id=526190924]
+
+[node name="Fondo" type="Polygon2D" parent="Seccion2" unique_id=1607074112]
+color = Color(0.976, 0.972, 0.946, 1)
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 720, 0, 720)
+
+[node name="Bandeja" type="Polygon2D" parent="Seccion2" unique_id=1864889927]
+color = Color(0.943, 0.918, 0.861, 1)
+polygon = PackedVector2Array(20, 110, 398, 110, 398, 680, 20, 680)
+
+[node name="Separador" type="Line2D" parent="Seccion2" unique_id=2085897394]
+points = PackedVector2Array(408, 115, 408, 668)
+width = 2.0
+default_color = Color(0.72, 0.68, 0.6, 1)
+
+[node name="CorteDesmenuce" parent="Seccion2" unique_id=1738913070 instance=ExtResource("2_station")]
+
+[node name="Rotulos" type="Control" parent="Seccion2" unique_id=2071416475]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="NombreCebolla" type="Label" parent="Seccion2/Rotulos" unique_id=1096278775]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 279.0
+offset_right = 199.0
+offset_bottom = 305.0
+theme_override_colors/font_color = Color(0.15, 0.26, 0.29, 1)
+text = "Cebolla colorada"
+horizontal_alignment = 1
+
+[node name="NombreCilantro" type="Label" parent="Seccion2/Rotulos" unique_id=759584922]
+layout_mode = 0
+offset_left = 211.0
+offset_top = 279.0
+offset_right = 383.0
+offset_bottom = 305.0
+theme_override_colors/font_color = Color(0.15, 0.26, 0.29, 1)
+text = "Cilantro"
+horizontal_alignment = 1
+
+[node name="NombreYuca" type="Label" parent="Seccion2/Rotulos" unique_id=794521745]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 451.0
+offset_right = 199.0
+offset_bottom = 481.0
+theme_override_colors/font_color = Color(0.15, 0.26, 0.29, 1)
+text = "Yuca cocida"
+horizontal_alignment = 1
+
+[node name="NombreAlbacora" type="Label" parent="Seccion2/Rotulos" unique_id=480763628]
+layout_mode = 0
+offset_left = 211.0
+offset_top = 451.0
+offset_right = 383.0
+offset_bottom = 481.0
+theme_override_colors/font_color = Color(0.15, 0.26, 0.29, 1)
+text = "Albacora cocida"
+horizontal_alignment = 1
+
+[node name="AyudaResultado" type="Label" parent="Seccion2/Rotulos" unique_id=1152856976]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 555.0
+offset_right = 380.0
+offset_bottom = 608.0
+theme_override_colors/font_color = Color(0.2, 0.37, 0.29, 1)
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ResumenPreparados" type="Label" parent="Seccion2/Rotulos" unique_id=356618607]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 480.0
+offset_right = 397.0
+offset_bottom = 547.0
+theme_override_colors/font_color = Color(0.16, 0.36, 0.26, 1)
+theme_override_font_sizes/font_size = 16
+text = "Listos: Cebolla 0 · Cilantro 0
+Yuca 0 · Albacora 0"
+horizontal_alignment = 1
+
+[node name="BotonIrSeccion3" type="Button" parent="Seccion2/Rotulos" unique_id=888698388]
+visible = false
+layout_mode = 0
+offset_left = 52.0
+offset_top = 619.0
+offset_right = 362.0
+offset_bottom = 669.0
+text = "Ver sección 3: ingredientes preparados →"
+
+[node name="AyudaCambio" type="Label" parent="Seccion2/Rotulos" unique_id=219420754]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 624.0
+offset_right = 360.0
+offset_bottom = 677.0
+theme_override_colors/font_color = Color(0.17, 0.36, 0.31, 1)
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+
+[node name="Seccion3" parent="." unique_id=1797785529 instance=ExtResource("4_preparacion")]
+visible = false
+
+[node name="NavegacionBordes" type="CanvasLayer" parent="." unique_id=725735031]
+layer = 3
+
+[node name="BordeDerecho" type="Button" parent="NavegacionBordes" unique_id=1053988282]
+offset_left = 1226.0
+offset_top = 279.0
+offset_right = 1278.0
+offset_bottom = 441.0
+tooltip_text = "Ir a sección 3: preparación de ingredientes"
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 39
+theme_override_styles/normal = SubResource("Style_Nav_Normal")
+theme_override_styles/pressed = SubResource("Style_Nav_Hover")
+theme_override_styles/hover = SubResource("Style_Nav_Hover")
+text = "❯"
+
+[node name="BordeIzquierdo" type="Button" parent="NavegacionBordes" unique_id=740636277]
+visible = false
+offset_left = 2.0
+offset_top = 279.0
+offset_right = 54.0
+offset_bottom = 441.0
+tooltip_text = "Volver a sección 2: corte y desmenuce"
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 39
+theme_override_styles/normal = SubResource("Style_Nav_Normal")
+theme_override_styles/pressed = SubResource("Style_Nav_Hover")
+theme_override_styles/hover = SubResource("Style_Nav_Hover")
+text = "❮"
