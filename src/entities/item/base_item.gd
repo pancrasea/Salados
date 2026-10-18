@@ -29,6 +29,8 @@ func _ready() -> void:
 		data.recipe_key = OrderData.key_of_contents(collected_ingredients)
 	if data:
 		_update_visual()
+	$Area2D.mouse_entered.connect(_on_area_mouse_entered)
+	$Area2D.mouse_exited.connect(_on_area_mouse_exited)
 
 func _update_visual():
 	if sprite_2d:
@@ -41,6 +43,62 @@ func _update_visual():
 func _process(delta: float) -> void:
 	if is_dragging:
 		global_position = get_global_mouse_position()
+		_update_drop_highlights()
+
+## Áreas válidas bajo el ítem mientras se arrastra; se resaltan en `_draw`.
+var _valid_areas: Array[Area2D] = []
+
+## Recalcula los destinos válidos bajo el ítem y pide repintar el resaltado.
+func _update_drop_highlights() -> void:
+	_valid_areas.clear()
+	for area in $Area2D.get_overlapping_areas():
+		if _is_valid_drop_target(area.get_parent()):
+			_valid_areas.append(area)
+	queue_redraw()
+
+## ¿El nodo es un destino válido para este ítem? Replica las reglas de
+## `_verify_target_and_drop` sin mutar estado, para anticipar al jugador.
+func _is_valid_drop_target(target: Node) -> bool:
+	if target == null or target == self:
+		return false
+	if target is WorkSurface:
+		return true
+	if target is BaseItem:
+		var contenedor := target as BaseItem
+		return contenedor.data != null and contenedor.data.is_container \
+			and contenedor.data.item_id != "exprimidor"
+	if target is TrashBin:
+		return true
+	if target is CustomerBase:
+		return data != null and (target as CustomerBase).can_receive(data)
+	if target is DispatchZone:
+		return data != null and data.is_final_product
+	if target is CorteDesmenuce:
+		return data != null and data.next_data_state != null
+	return false
+
+## Dibuja un aro sobre cada destino válido bajo el ítem arrastrado.
+func _draw() -> void:
+	if not is_dragging:
+		return
+	var color := Color(0.55, 0.92, 0.62, 0.9)
+	for area in _valid_areas:
+		if not is_instance_valid(area):
+			continue
+		var centro: Vector2 = area.global_position - global_position
+		draw_arc(centro, 46.0, 0.0, TAU, 40, color, 5.0, true)
+
+func _on_area_mouse_entered() -> void:
+	if BaseItem.current_item_dragging == null:
+		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
+
+func _on_area_mouse_exited() -> void:
+	if BaseItem.current_item_dragging == null:
+		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
+func _exit_tree() -> void:
+	if BaseItem.current_item_dragging == null:
+		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -50,16 +108,22 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 				is_dragging = true
 				initial_position = global_position
 				z_index = 100
+				Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
 		else:
 			if is_dragging:
 				is_dragging = false
 				BaseItem.current_item_dragging = null
 				z_index = 0
+				_valid_areas.clear()
+				queue_redraw()
+				Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 				_verify_target_and_drop()
 
 func _verify_target_and_drop():
 	var overlapping_areas = $Area2D.get_overlapping_areas()
 	var successful_drop = false
+	# Evita repetir el aviso si varios clientes rechazan el mismo ítem.
+	var rejected_feedback := false
 	# La mesa (WorkSurface) es un destino de reserva: sólo mantiene el ítem
 	# si ningún otro destino lo atendió, para no competir con ellos.
 	var on_work_surface := false
@@ -101,6 +165,10 @@ func _verify_target_and_drop():
 				else:
 					queue_free()
 				break
+			elif not rejected_feedback:
+				# El cliente no aceptó: avisar para que no parezca un fallo mudo.
+				FloatingText.spawn(target, Vector2(0.0, -150.0), "¡No es lo que pidió!", Color(0.96, 0.5, 0.45))
+				rejected_feedback = true
 
 		# Zona de despacho de preparación: envía el plato listo a la
 		# estación principal (bandeja) para agregarle los extras.

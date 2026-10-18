@@ -1,12 +1,12 @@
-[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://cg450gsrfd3lq"]
 
-[ext_resource type="Script" path="res://src/entities/item/item_data.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/items/canguil.svg" id="2"]
+[ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://ctrwutiihl1rh" path="res://assets/sprites/items/canguil.svg" id="2"]
 
 [resource]
 script = ExtResource("1")
 name = "Canguil"
-item_id = "canguil"
 icon = ExtResource("2")
-is_final_product = true
 price = 2
+item_id = "canguil"
+is_final_product = true
