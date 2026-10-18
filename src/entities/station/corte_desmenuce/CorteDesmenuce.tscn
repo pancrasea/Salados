@@ -1,0 +1,133 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/entities/station/corte_desmenuce/corte_desmenuce.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://src/entities/station/corte_desmenuce/components/zona_procesamiento.tscn" id="2_zona"]
+[ext_resource type="Theme" path="res://src/ui/themes/corte_theme.tres" id="3_theme"]
+
+[sub_resource type="RectangleShape2D" id="Shape_Entrada"]
+size = Vector2(820, 380)
+
+[node name="CorteDesmenuce" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="DropArea" type="Area2D" parent="."]
+position = Vector2(831, 349)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DropArea"]
+shape = SubResource("Shape_Entrada")
+
+[node name="UILayer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Pantalla" type="Control" parent="UILayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("3_theme")
+
+[node name="Titulo" type="Label" parent="UILayer/Pantalla"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 16.0
+offset_right = 1220.0
+offset_bottom = 59.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 29
+theme_override_colors/font_color = Color(0.10, 0.18, 0.20, 1)
+text = "Preparación de ingredientes"
+horizontal_alignment = 1
+
+[node name="Subtitulo" type="Label" parent="UILayer/Pantalla"]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 68.0
+offset_right = 1247.0
+offset_bottom = 98.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.24, 0.32, 0.35, 1)
+text = "Arrastra el ingrediente hacia la estación y haz 5 clics para prepararlo."
+horizontal_alignment = 1
+
+[node name="EtiquetaStock" type="Label" parent="UILayer/Pantalla"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 126.0
+offset_right = 389.0
+offset_bottom = 162.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 21
+theme_override_colors/font_color = Color(0.15, 0.26, 0.29, 1)
+text = "Ingrediente seleccionado"
+horizontal_alignment = 1
+
+[node name="AyudaStock" type="Label" parent="UILayer/Pantalla"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 170.0
+offset_right = 385.0
+offset_bottom = 201.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.33, 0.40, 0.40, 1)
+text = "Arrastra uno a la zona de la derecha."
+horizontal_alignment = 1
+
+[node name="ZonaCorte" parent="UILayer/Pantalla" instance=ExtResource("2_zona")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 423.0
+offset_top = 156.0
+offset_right = 815.0
+offset_bottom = 511.0
+tipo_aceptado = 0
+titulo_visible = "ZONA DE CORTE"
+ayuda_visible = "Corta la cebolla, el cilantro y la yuca"
+
+[node name="ZonaDesmenuce" parent="UILayer/Pantalla" instance=ExtResource("2_zona")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 836.0
+offset_top = 156.0
+offset_right = 1238.0
+offset_bottom = 511.0
+tipo_aceptado = 1
+titulo_visible = "ZONA DE DESMENUCE"
+ayuda_visible = "Desmenuza la albacora cocida"
+
+[node name="Mensaje" type="Label" parent="UILayer/Pantalla"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 423.0
+offset_top = 538.0
+offset_right = 1220.0
+offset_bottom = 595.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.24, 0.32, 0.34, 1)
+text = "Arrastra un ingrediente a la zona de preparación para comenzar."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ProgresoTotal" type="Label" parent="UILayer/Pantalla"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 550.0
+offset_top = 614.0
+offset_right = 1150.0
+offset_bottom = 651.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.16, 0.36, 0.26, 1)
+text = "Ingredientes preparados: 0 / 4"
+horizontal_alignment = 1

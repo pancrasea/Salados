@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EncebolladoIngrediente" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/core/resources_scripts/encebollado_ingrediente.gd" id="1_dato"]
+[ext_resource type="Resource" path="res://resources/items/item_albacora.tres" id="2_item"]
+
+[resource]
+script = ExtResource("1_dato")
+id = &"albacora"
+nombre_visible = "Albacora cocida"
+preparacion = 1
+clics_necesarios = 5
+resultado_visible = "Albacora desmenuzada"
+item_entrada = ExtResource("2_item")
