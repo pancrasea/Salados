@@ -25,16 +25,37 @@ signal food_spawned(food: ItemData, item: BaseItem)
 @export var spawn_on_ready: bool = true
 ## Si está activo, añade una etiqueta con el nombre bajo cada alimento.
 @export var show_name_labels: bool = true
+## Si está activo, la fuente se abastece del `AlmacenPreparados`: sólo mantiene
+## un alimento mientras haya unidades disponibles y descuenta una al consumirse.
+## Se usa en la sección de preparación para los ingredientes que procesa la
+## Sección 2 (corte/desmenuce).
+@export var stock_mode: bool = false
 
 var _slot_timers: Array[Timer] = []
 var _slot_instances: Array[BaseItem] = []
+var _warehouse: AlmacenPreparados = null
 
 
 func _ready() -> void:
 	_slot_instances.resize(foods.size())
 	_create_slot_timers()
+	if stock_mode:
+		_warehouse = _resolve_warehouse()
+		if _warehouse != null:
+			_warehouse.inventario_actualizado.connect(_on_stock_changed)
 	if spawn_on_ready:
 		refill()
+
+
+## Resuelve el almacén desde el autoload GameManager. Se resuelve por ruta en
+## vez del identificador global para que el script también compile en arranques
+## headless con `--script`, donde los autoloads no se registran como globales.
+func _resolve_warehouse() -> AlmacenPreparados:
+	var game_manager := get_node_or_null("/root/GameManager")
+	if game_manager == null:
+		push_warning("FoodSpawner en modo stock sin GameManager; la fuente quedará vacía.")
+		return null
+	return game_manager.get("warehouse") as AlmacenPreparados
 
 
 ## Rellena todos los slots vacíos de inmediato (sin esperar el timer).
@@ -62,6 +83,8 @@ func _is_slot_filled(index: int) -> bool:
 func _spawn(food: ItemData, index: int) -> void:
 	if item_scene == null or food == null:
 		push_warning("FoodSpawner necesita item_scene y foods sin nulos.")
+		return
+	if stock_mode and (_warehouse == null or _warehouse.cantidad_de(food) <= 0):
 		return
 	var item := item_scene.instantiate() as BaseItem
 	if item == null:
@@ -95,7 +118,14 @@ func _on_food_exited(index: int) -> void:
 	if not is_inside_tree() or index < 0 or index >= _slot_timers.size():
 		return
 	_slot_instances[index] = null
+	if stock_mode and _warehouse != null and index < foods.size():
+		_warehouse.consumir(foods[index])
 	_slot_timers[index].start()
+
+
+## El inventario cambió (algo se preparó o se consumió): rellena los huecos.
+func _on_stock_changed(_item: ItemData, _cantidad: int) -> void:
+	refill()
 
 
 func _on_slot_timeout(index: int) -> void:

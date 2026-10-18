@@ -102,9 +102,9 @@ offset_bottom = 40.0
 mouse_filter = 2
 theme_override_colors/font_color = Color(0.85, 0.82, 0.7, 1)
 theme_override_font_sizes/font_size = 20
-text = "Ingredientes (temp)"
+text = "Ingredientes preparados"
 
-[node name="IngredientesTemp" type="Node2D" parent="."]
+[node name="Ingredientes" type="Node2D" parent="."]
 position = Vector2(220, 380)
 script = ExtResource("5_spawner")
 foods = Array[ExtResource("6_item")]([ExtResource("10_cebolla"), ExtResource("11_pescado"), ExtResource("12_yuca")])
@@ -112,6 +112,7 @@ item_scene = ExtResource("7_base")
 respawn_delay = 0.6
 slot_spacing = 150.0
 first_slot_offset = Vector2(0, 0)
+stock_mode = true
 
 [node name="ZonaBasura" type="ColorRect" parent="."]
 offset_left = 90.0

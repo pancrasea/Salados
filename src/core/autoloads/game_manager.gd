@@ -6,6 +6,15 @@ var current_station: Station = null
 ## Referencia al nodo Main (asignada por main.gd en _ready).
 var main: Control = null
 
+## Almacén persistente de ingredientes preparados (Sección 2 -> Sección 3).
+var warehouse: AlmacenPreparados = null
+
+
+func _ready() -> void:
+	warehouse = AlmacenPreparados.new()
+	warehouse.name = "AlmacenPreparados"
+	add_child(warehouse)
+
 
 # =========================================================
 # DINERO
@@ -60,6 +69,8 @@ var day_running: bool = false
 ## Arranca el temporizador del día.
 func start_day() -> void:
 	reset_money()
+	if warehouse != null:
+		warehouse.reset()
 	_day_elapsed = 0.0
 	day_running = true
 

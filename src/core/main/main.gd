@@ -9,7 +9,7 @@ const MAIN_MENU_SCENE = preload("res://src/ui/MainMenu.tscn")
 
 # Escenas de las 4 estaciones
 const MAIN_STATION_SCENE  = preload("res://src/entities/station/MainStation.tscn")
-const LEFT_STATION_SCENE  = preload("res://src/entities/station/BackStation.tscn")
+const LEFT_STATION_SCENE  = preload("res://src/entities/station/corte_desmenuce/CorteDesmenuce.tscn")
 const RIGHT_STATION_SCENE = preload("res://src/entities/station/PreparationStation.tscn")
 const BACK_STATION_SCENE  = preload("res://src/entities/station/BackStation.tscn")
 
@@ -51,6 +51,11 @@ func start_game() -> void:
 		stations[side] = node
 
 	GameManager.setup_stations(stations)
+	# La Sección 2 (corte/desmenuce) alimenta el almacén que consume la
+	# Sección 3 (preparación).
+	var corte := stations.get(GameManager.Side.LEFT) as CorteDesmenuce
+	if corte != null and GameManager.warehouse != null:
+		corte.item_preparado.connect(GameManager.warehouse.agregar)
 	GameManager.start_day()
 	GameManager.day_ended.connect(_on_day_ended, CONNECT_ONE_SHOT)
 	mouse_interaction.show()
