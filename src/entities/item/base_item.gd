@@ -76,6 +76,8 @@ func _verify_target_and_drop():
 		
 		# Caso contenedor (plato o vaso): el ingrediente se consume.
 		if target is BaseItem and target.data and target.data.is_container:
+			if target.data.item_id == "exprimidor":
+				break
 			target.collect_ingredients(self.data)
 			successful_drop = true
 			queue_free()

@@ -13,8 +13,5 @@ func _verify_fruits() -> void:
 
 		if target == self: continue
 		if target is BaseItem and target.data and target.data.item_id == "exprimidor":
-			print("EXPRIMIR")
-			#successful_drop = true
-			#queue_free()
-			#break
-
+			GameEvents.exprimiendo_jugo.emit(self)
+			return

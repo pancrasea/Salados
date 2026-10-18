@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://ddhjmj1sdmjxl"]
 
-[ext_resource type="Script" path="res://src/entities/item/item_data.gd" id="1_item"]
-[ext_resource type="Texture2D" path="res://assets/sprites/items/yuca_desmenuzada.svg" id="2_sprite"]
+[ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="1_item"]
+[ext_resource type="Texture2D" uid="uid://cftkyeypwi7a4" path="res://assets/sprites/items/yuca_desmenuzada.svg" id="2_sprite"]
 [ext_resource type="Resource" path="res://resources/items/yuca_desmenuzada.tres" id="3_next"]
 
 [resource]

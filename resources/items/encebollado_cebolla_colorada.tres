@@ -1,13 +1,11 @@
-[gd_resource type="Resource" script_class="EncebolladoIngrediente" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="EncebolladoIngrediente" format=3 uid="uid://b3bksp1g14pg"]
 
-[ext_resource type="Script" path="res://src/core/resources_scripts/encebollado_ingrediente.gd" id="1_dato"]
-[ext_resource type="Resource" path="res://resources/items/item_cebolla_colorada.tres" id="2_item"]
+[ext_resource type="Script" uid="uid://clw8bfrrcqs7b" path="res://src/core/resources_scripts/encebollado_ingrediente.gd" id="1_dato"]
+[ext_resource type="Resource" uid="uid://dp16ststomd85" path="res://resources/items/item_cebolla_colorada.tres" id="2_item"]
 
 [resource]
 script = ExtResource("1_dato")
 id = &"cebolla_colorada"
 nombre_visible = "Cebolla colorada"
-preparacion = 0
-clics_necesarios = 3
 resultado_visible = "Cebolla cortada"
 item_entrada = ExtResource("2_item")

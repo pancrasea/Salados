@@ -1,13 +1,11 @@
-[gd_resource type="Resource" script_class="EncebolladoIngrediente" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="EncebolladoIngrediente" format=3 uid="uid://1usejqhhdwou"]
 
-[ext_resource type="Script" path="res://src/core/resources_scripts/encebollado_ingrediente.gd" id="1_dato"]
-[ext_resource type="Resource" path="res://resources/items/item_yuca.tres" id="2_item"]
+[ext_resource type="Script" uid="uid://clw8bfrrcqs7b" path="res://src/core/resources_scripts/encebollado_ingrediente.gd" id="1_dato"]
+[ext_resource type="Resource" uid="uid://ddhjmj1sdmjxl" path="res://resources/items/item_yuca.tres" id="2_item"]
 
 [resource]
 script = ExtResource("1_dato")
 id = &"yuca"
 nombre_visible = "Yuca cocida"
-preparacion = 0
-clics_necesarios = 3
 resultado_visible = "Yuca desmenuzada"
 item_entrada = ExtResource("2_item")
