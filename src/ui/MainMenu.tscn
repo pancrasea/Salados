@@ -1,31 +1,38 @@
 [gd_scene format=3 uid="uid://bjm1nid030ca0"]
 
 [ext_resource type="Script" uid="uid://d3r4uquulj0u4" path="res://src/ui/main_menu.gd" id="1_0ogta"]
-[ext_resource type="Texture2D" uid="uid://cytql4154ax01" path="res://assets/sprites/ui/buttons/botones-21.png" id="2_0ogta"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_icyp6"]
-atlas = ExtResource("2_0ogta")
-region = Rect2(20.671005, 25.891293, 248.845, 65.612)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_287bw"]
-atlas = ExtResource("2_0ogta")
-region = Rect2(275.7832, 27.6848, 248.845, 65.612)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0ogta"]
-atlas = ExtResource("2_0ogta")
-region = Rect2(20.671005, 101.492096, 248.845, 65.612)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_l8p87"]
-atlas = ExtResource("2_0ogta")
-region = Rect2(274.71838, 101.156006, 248.845, 65.612)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ihbld"]
-atlas = ExtResource("2_0ogta")
-region = Rect2(21.735825, 253.75851, 248.845, 65.612)
+[ext_resource type="PackedScene" uid="uid://d275fvo82a3ek" path="res://src/ui/widgets/ButtonWidget.tscn" id="2_l8p87"]
+[ext_resource type="Texture2D" uid="uid://tahwsojnv71l" path="res://assets/sprites/ui/buttons/botones_hd.png" id="3_ihbld"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u6542"]
-atlas = ExtResource("2_0ogta")
-region = Rect2(273.65356, 254.4872, 248.845, 65.612)
+atlas = ExtResource("3_ihbld")
+region = Rect2(1058, 644, 1058, 322)
+margin = Rect2(-28, -46, -56, -92)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dbyr8"]
+atlas = ExtResource("3_ihbld")
+region = Rect2(0, 644, 1058, 322)
+margin = Rect2(-28, -46, -56, -92)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4h2rs"]
+atlas = ExtResource("3_ihbld")
+region = Rect2(1058, 322, 1058, 322)
+margin = Rect2(-28, -46, -56, -92)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fqh1q"]
+atlas = ExtResource("3_ihbld")
+region = Rect2(1058, 322, 1058, 322)
+margin = Rect2(-28, -46, -56, -92)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wewln"]
+atlas = ExtResource("3_ihbld")
+region = Rect2(1058, 964, 1058, 322)
+margin = Rect2(-28, -46, -56, -92)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_86t74"]
+atlas = ExtResource("3_ihbld")
+region = Rect2(0, 964, 1058, 322)
+margin = Rect2(-28, -46, -56, -92)
 
 [node name="MainMenu" type="Control" unique_id=531797691]
 layout_mode = 3
@@ -57,29 +64,32 @@ offset_left = 228.0
 offset_top = 379.0
 offset_right = 589.0
 offset_bottom = 739.0
-theme_override_constants/separation = 20
+theme_override_constants/separation = 112
 
-[node name="PlayButton" type="TextureButton" parent="VBoxContainer" unique_id=641976566]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
+[node name="ButtonWidget" parent="VBoxContainer" unique_id=2133867460 instance=ExtResource("2_l8p87")]
 layout_mode = 2
-texture_normal = SubResource("AtlasTexture_icyp6")
-texture_hover = SubResource("AtlasTexture_287bw")
 
-[node name="GalleryButton" type="TextureButton" parent="VBoxContainer" unique_id=1797065882]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
+[node name="ButtonWidget2" parent="VBoxContainer" unique_id=1865407001 instance=ExtResource("2_l8p87")]
 layout_mode = 2
-texture_normal = SubResource("AtlasTexture_0ogta")
-texture_hover = SubResource("AtlasTexture_l8p87")
 
-[node name="ExitButton" type="TextureButton" parent="VBoxContainer" unique_id=694201143]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
+[node name="TextureButton" parent="VBoxContainer/ButtonWidget2/HBoxContainer" parent_id_path=PackedInt32Array(1865407001, 93110592) index="1" unique_id=1244352979]
+texture_normal = SubResource("AtlasTexture_u6542")
+texture_hover = SubResource("AtlasTexture_dbyr8")
+
+[node name="ButtonWidget3" parent="VBoxContainer" unique_id=1421022757 instance=ExtResource("2_l8p87")]
 layout_mode = 2
-texture_normal = SubResource("AtlasTexture_ihbld")
-texture_hover = SubResource("AtlasTexture_u6542")
 
-[connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/GalleryButton" to="." method="_on_gallery_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
+[node name="TextureButton" parent="VBoxContainer/ButtonWidget3/HBoxContainer" parent_id_path=PackedInt32Array(1421022757, 93110592) index="1" unique_id=1244352979]
+texture_normal = SubResource("AtlasTexture_4h2rs")
+texture_hover = SubResource("AtlasTexture_fqh1q")
+
+[node name="ButtonWidget4" parent="VBoxContainer" unique_id=1709211841 instance=ExtResource("2_l8p87")]
+layout_mode = 2
+
+[node name="TextureButton" parent="VBoxContainer/ButtonWidget4/HBoxContainer" parent_id_path=PackedInt32Array(1709211841, 93110592) index="1" unique_id=1244352979]
+texture_normal = SubResource("AtlasTexture_wewln")
+texture_hover = SubResource("AtlasTexture_86t74")
+
+[editable path="VBoxContainer/ButtonWidget2"]
+[editable path="VBoxContainer/ButtonWidget3"]
+[editable path="VBoxContainer/ButtonWidget4"]
