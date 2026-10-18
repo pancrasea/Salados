@@ -1,6 +1,12 @@
 [gd_scene format=3 uid="uid://wsl0dfp2e6yc"]
 
 [ext_resource type="Script" uid="uid://bexpx1tiqvgk3" path="res://src/entities/station/station.gd" id="1_a3ebl"]
+[ext_resource type="PackedScene" uid="uid://b6drxt34olix6" path="res://src/ui/MenuPause.tscn" id="2_weurc"]
 
 [node name="Node2D" type="Node2D" unique_id=1797221054]
 script = ExtResource("1_a3ebl")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=740484504]
+follow_viewport_enabled = true
+
+[node name="MenuPause" parent="CanvasLayer" unique_id=279778921 instance=ExtResource("2_weurc")]
