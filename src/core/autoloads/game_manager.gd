@@ -201,6 +201,9 @@ const SideOrder: Array = [Side.FRONT, Side.LEFT, Side.BACK, Side.RIGHT]
 var _stations: Dictionary = {}   # Side → Station
 var _current_side: int = Side.FRONT
 
+@export var slide_duration: float = 0.35
+var _is_animating: bool = false
+
 func setup_stations(stations: Dictionary) -> void:
 	_stations = stations
 	show_side(Side.FRONT)
@@ -218,11 +221,13 @@ func show_side(side: int) -> void:
 	for s in _stations.values():
 		if is_instance_valid(s):
 			s.hide()
+			s.position = Vector2.ZERO
 			_set_interaction_enabled(s, false)
 
 	var target: Station = _stations.get(side, null)
 	if is_instance_valid(target):
 		target.show()
+		target.position = Vector2.ZERO
 		_set_interaction_enabled(target, true)
 
 	_current_side = side
@@ -250,11 +255,59 @@ func turn_back() -> void:
 	_turn(Turn.BACK)
 
 func _turn(direction: int) -> void:
+	if _is_animating:
+		return
+
 	var index: int = SideOrder.find(_current_side)
 	if index == -1:
 		return
+
+	var next_index: int = index
 	match direction:
-		Turn.LEFT:  index = (index + 1) % SideOrder.size()
-		Turn.RIGHT: index = (index - 1 + SideOrder.size()) % SideOrder.size()
-		Turn.BACK:  index = (index + 2) % SideOrder.size()
-	show_side(SideOrder[index])
+		Turn.LEFT:  next_index = (index + 1) % SideOrder.size()
+		Turn.RIGHT: next_index = (index - 1 + SideOrder.size()) % SideOrder.size()
+		Turn.BACK:  next_index = (index + 2) % SideOrder.size()
+
+	var next_side: int = SideOrder[next_index]
+	var current_st: Station = _stations.get(_current_side, null)
+	var next_st: Station = _stations.get(next_side, null)
+
+	if not is_instance_valid(next_st) or current_st == next_st:
+		return
+
+	_is_animating = true
+
+	if is_instance_valid(current_st):
+		_set_interaction_enabled(current_st, false)
+	_set_interaction_enabled(next_st, false)
+
+	var viewport_width: float = get_viewport().get_visible_rect().size.x
+	var dir_multiplier: float = -1.0 if direction == Turn.LEFT else 1.0
+	if direction == Turn.BACK:
+		dir_multiplier = -1.0
+
+	var start_pos_next := Vector2(viewport_width * -dir_multiplier, 0.0)
+	var end_pos_current := Vector2(viewport_width * dir_multiplier, 0.0)
+
+	next_st.position = start_pos_next
+	next_st.show()
+
+	var tween := create_tween().set_parallel(true)
+	tween.set_trans(Tween.TRANS_CUBIC)
+	tween.set_ease(Tween.EASE_OUT)
+
+	if is_instance_valid(current_st):
+		tween.tween_property(current_st, "position", end_pos_current, slide_duration)
+	tween.tween_property(next_st, "position", Vector2.ZERO, slide_duration)
+
+	await tween.finished
+
+	if is_instance_valid(current_st):
+		current_st.hide()
+		current_st.position = Vector2.ZERO
+
+	_set_interaction_enabled(next_st, true)
+	_current_side = next_side
+	current_station = next_st
+	station_changed.emit(next_side)
+	_is_animating = false
