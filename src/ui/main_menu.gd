@@ -13,6 +13,7 @@ func _ready() -> void:
 
 func _play() -> void:
 	GameManager.go_to_game()
+	AudioManager.play_sound(AudioManager.SFX.UI_CONFIRM)
 
 func _open_settings() -> void:
 	pass

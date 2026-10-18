@@ -11,3 +11,4 @@ func _on_button_mouse_exited() -> void:
 
 func _on_button_mouse_entered() -> void:
 	icono.modulate.a = 1.0
+	AudioManager.play_sound(AudioManager.SFX.UI_HOVER)

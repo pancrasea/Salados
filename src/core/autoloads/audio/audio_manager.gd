@@ -9,7 +9,9 @@ var sfx_players: Array[AudioStreamPlayer] = []
 
 #TODO: AQUI SE AGREGAN LAS REFERENCIAS A LOS AUDIOS (KEYNAME)
 enum SFX {
-	UI_BUTTON_PRESSED
+	UI_HOVER,
+	UI_CONFIRM,
+	UI_BACK
 }
 
 enum MUSIC {
