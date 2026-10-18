@@ -282,9 +282,10 @@ func _turn(direction: int) -> void:
 	_set_interaction_enabled(next_st, false)
 
 	var viewport_width: float = get_viewport().get_visible_rect().size.x
-	var dir_multiplier: float = -1.0 if direction == Turn.LEFT else 1.0
+
+	var dir_multiplier: float = 1.0 if direction == Turn.LEFT else -1.0
 	if direction == Turn.BACK:
-		dir_multiplier = -1.0
+		dir_multiplier = 1.0
 
 	var start_pos_next := Vector2(viewport_width * -dir_multiplier, 0.0)
 	var end_pos_current := Vector2(viewport_width * dir_multiplier, 0.0)
