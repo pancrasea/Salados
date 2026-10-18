@@ -1,6 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://hud_salados01"]
+[gd_scene format=3 uid="uid://c0mp4r181u03p"]
 
-[ext_resource type="Script" path="res://src/ui/hud.gd" id="1_hudsc"]
+[ext_resource type="Script" uid="uid://c78edq54i6fpt" path="res://src/ui/hud.gd" id="1_hudsc"]
+[ext_resource type="Texture2D" uid="uid://cytql4154ax01" path="res://assets/sprites/ui/buttons/botones-21.png" id="2_4rn03"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_snmo6"]
+atlas = ExtResource("2_4rn03")
+region = Rect2(261.9448, 438.445, 115.09195, 107.51459)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_info"]
 content_margin_left = 14.0
@@ -18,29 +23,39 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="HUD" type="CanvasLayer"]
+[node name="HUD" type="CanvasLayer" unique_id=1811155935]
 layer = 10
 script = ExtResource("1_hudsc")
 
-[node name="MoneyLabel" type="Label" parent="."]
-layout_mode = 0
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1741624317]
 offset_left = 20.0
 offset_top = 20.0
-offset_right = 200.0
-offset_bottom = 60.0
+offset_right = 291.0
+offset_bottom = 127.0
+theme_override_constants/separation = 100
+
+[node name="PauseButton" type="TextureButton" parent="HBoxContainer" unique_id=503724239]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_snmo6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1195222075]
+layout_mode = 2
+
+[node name="MoneyLabel" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1541481918]
+unique_name_in_owner = true
+layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "$20"
 
-[node name="TimerLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 62.0
-offset_right = 200.0
-offset_bottom = 102.0
+[node name="TimerLabel" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1929435829]
+unique_name_in_owner = true
+layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "5:00"
 
-[node name="InfoPanel" type="PanelContainer" parent="."]
+[node name="InfoPanel" type="PanelContainer" parent="." unique_id=551896509]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -51,6 +66,8 @@ grow_horizontal = 0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_info")
 
-[node name="InfoList" type="VBoxContainer" parent="InfoPanel"]
+[node name="InfoList" type="VBoxContainer" parent="InfoPanel" unique_id=658785309]
 layout_mode = 2
 mouse_filter = 2
+
+[connection signal="pressed" from="HBoxContainer/PauseButton" to="." method="_on_pause_button_pressed"]

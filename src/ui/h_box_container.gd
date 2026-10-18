@@ -13,11 +13,3 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
-
-
-
-func _on_button_mouse_exited() -> void:
-	icono.visible = false
-
-func _on_button_mouse_entered() -> void:
-	icono.visible = true

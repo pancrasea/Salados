@@ -1,6 +1,19 @@
 [gd_scene format=3 uid="uid://b6drxt34olix6"]
 
 [ext_resource type="Script" uid="uid://c5lh8o4mqxrr7" path="res://src/ui/menu_pause.gd" id="1_2pfpd"]
+[ext_resource type="Texture2D" uid="uid://cytql4154ax01" path="res://assets/sprites/ui/buttons/botones-21.png" id="2_c6hgk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_titd2"]
+atlas = ExtResource("2_c6hgk")
+region = Rect2(141.6718, 327.603, 115.091934, 104.408295)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lkmqc"]
+atlas = ExtResource("2_c6hgk")
+region = Rect2(382.2379, 436.9498, 115.09192, 111.12198)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ogta"]
+atlas = ExtResource("2_c6hgk")
+region = Rect2(22.796106, 432.88992, 116.10734, 116.10733)
 
 [node name="MenuPause" type="Control" unique_id=279778921]
 layout_mode = 3
@@ -33,22 +46,29 @@ layout_mode = 2
 text = "Pause"
 horizontal_alignment = 1
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Panel" unique_id=1219252793]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel" unique_id=769109208]
 layout_mode = 2
 size_flags_vertical = 4
+theme_override_constants/separation = 20
 
-[node name="Button" type="Button" parent="Panel/VBoxContainer2" unique_id=285269400]
+[node name="HomeButton" type="TextureButton" parent="Panel/HBoxContainer" unique_id=193818853]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-text = "Continuar"
+texture_normal = SubResource("AtlasTexture_titd2")
 
-[node name="Button2" type="Button" parent="Panel/VBoxContainer2" unique_id=578249816]
+[node name="ContinueButton" type="TextureButton" parent="Panel/HBoxContainer" unique_id=2055650839]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-text = "Opciones"
+texture_normal = SubResource("AtlasTexture_lkmqc")
 
-[node name="Button3" type="Button" parent="Panel/VBoxContainer2" unique_id=707873257]
+[node name="OptionButton" type="TextureButton" parent="Panel/HBoxContainer" unique_id=1262627398]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-text = "Salir"
+texture_normal = SubResource("AtlasTexture_0ogta")
 
-[connection signal="pressed" from="Panel/VBoxContainer2/Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer2/Button2" to="." method="_on_button_2_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer2/Button3" to="." method="_on_button_3_pressed"]
+[connection signal="pressed" from="Panel/HBoxContainer/HomeButton" to="." method="_on_home_button_pressed"]
+[connection signal="pressed" from="Panel/HBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="Panel/HBoxContainer/OptionButton" to="." method="_on_option_button_pressed"]

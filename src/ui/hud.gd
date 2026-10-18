@@ -14,8 +14,8 @@ const SIDE_FRONT: int = 0
 const SIDE_LEFT: int = 1
 const SIDE_RIGHT: int = 2
 
-@onready var money_label: Label = $MoneyLabel
-@onready var timer_label: Label = $TimerLabel
+@onready var money_label: Label = %MoneyLabel
+@onready var timer_label: Label = %TimerLabel
 @onready var info_panel: PanelContainer = $InfoPanel
 @onready var info_list: VBoxContainer = $InfoPanel/InfoList
 
@@ -142,3 +142,12 @@ func _add_row(text: String) -> void:
 ## Nombre visible del ítem (cae al item_id si no tiene nombre).
 func _nombre(item: ItemData) -> String:
 	return item.name if item.name != "" else item.item_id
+
+
+func _on_pause_button_pressed() -> void:
+	## Delega la pausa al MenuPause que vive en main.tscn bajo PauseLayer.
+	## Se resuelve por ruta para no depender del identificador global GameManager
+	## ni de una referencia directa entre nodos de distintas escenas.
+	var menu_pause := get_node_or_null("/root/Main/PauseLayer/MenuPause")
+	if menu_pause != null:
+		menu_pause.call("_pause_game")

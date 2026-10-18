@@ -26,8 +26,7 @@ func _pause_game() -> void:
 	# Detener el contador del día mientras está pausado.
 	if is_instance_valid(GameManager.main):
 		GameManager.main.on_game_paused()
-	$Panel/VBoxContainer2/Button.grab_focus()
-
+	%ContinueButton.grab_focus()
 
 func _resume_game() -> void:
 	get_tree().paused = false
@@ -37,19 +36,15 @@ func _resume_game() -> void:
 		GameManager.main.on_game_resumed()
 
 
-## Botón "Continuar"
-func _on_button_pressed() -> void:
+func _on_continue_button_pressed() -> void:
 	_resume_game()
 
-
-## Botón "Opciones" (pendiente)
-func _on_button_2_pressed() -> void:
-	$Panel/VBoxContainer2/Button2.disabled = true
-	$Panel/VBoxContainer/Label.text = "Opciones no disponibles"
-
-
-## Botón "Salir" — vuelve al menú principal a través del ciclo normal.
-func _on_button_3_pressed() -> void:
+func _on_home_button_pressed() -> void:
 	get_tree().paused = false
 	hide()
 	GameManager.go_to_menu()
+	
+
+func _on_option_button_pressed() -> void:
+	%OptionButton.disabled = true
+	$Panel/VBoxContainer/Label.text = "Opciones no disponibles"

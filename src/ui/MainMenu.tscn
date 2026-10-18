@@ -1,7 +1,34 @@
 [gd_scene format=3 uid="uid://bjm1nid030ca0"]
 
 [ext_resource type="Script" uid="uid://d3r4uquulj0u4" path="res://src/ui/main_menu.gd" id="1_0ogta"]
-[ext_resource type="PackedScene" uid="uid://d275fvo82a3ek" path="res://src/ui/Buttons.tscn" id="1_adkca"]
+[ext_resource type="Texture2D" uid="uid://cytql4154ax01" path="res://assets/sprites/ui/buttons/botones-21.png" id="2_0ogta"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dbyr8"]
+resource_local_to_scene = true
+atlas = ExtResource("2_0ogta")
+region = Rect2(20.73155, 25.39798, 248.84547, 65.61249)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ogta"]
+atlas = ExtResource("2_0ogta")
+region = Rect2(273.81384, 23.820007, 248.845, 65.612)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4h2rs"]
+resource_local_to_scene = true
+atlas = ExtResource("2_0ogta")
+region = Rect2(20.73155, 102.12579, 248.84547, 65.61249)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ihbld"]
+atlas = ExtResource("2_0ogta")
+region = Rect2(275.3833, 101.38229, 248.845, 65.612)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l8p87"]
+resource_local_to_scene = true
+atlas = ExtResource("2_0ogta")
+region = Rect2(20.73155, 255.43192, 248.84547, 65.61249)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u6542"]
+atlas = ExtResource("2_0ogta")
+region = Rect2(274.93073, 257.02435, 248.845, 65.612)
 
 [node name="MainMenu" type="Control" unique_id=531797691]
 layout_mode = 3
@@ -33,13 +60,29 @@ offset_left = 301.0
 offset_top = 516.0
 offset_right = 662.0
 offset_bottom = 876.0
-theme_override_constants/separation = 119
+theme_override_constants/separation = 50
 
-[node name="Buttons" parent="VBoxContainer" unique_id=1557204776 instance=ExtResource("1_adkca")]
+[node name="PlayButton" type="TextureButton" parent="VBoxContainer" unique_id=1025027081]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+texture_normal = SubResource("AtlasTexture_dbyr8")
+texture_hover = SubResource("AtlasTexture_0ogta")
+stretch_mode = 6
 
-[node name="Buttons2" parent="VBoxContainer" unique_id=725408493 instance=ExtResource("1_adkca")]
+[node name="GalleryButton" type="TextureButton" parent="VBoxContainer" unique_id=1217020204]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+texture_normal = SubResource("AtlasTexture_4h2rs")
+texture_hover = SubResource("AtlasTexture_ihbld")
+stretch_mode = 6
 
-[node name="Buttons3" parent="VBoxContainer" unique_id=2133867460 instance=ExtResource("1_adkca")]
+[node name="ExitButton" type="TextureButton" parent="VBoxContainer" unique_id=1718190103]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+texture_normal = SubResource("AtlasTexture_l8p87")
+texture_hover = SubResource("AtlasTexture_u6542")
+stretch_mode = 6
+
+[connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/GalleryButton" to="." method="_on_gallery_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
