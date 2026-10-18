@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="RecipeData" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/entities/recipe/recipe_data.gd" id="1"]
+[ext_resource type="Script" path="res://src/entities/item/item_data.gd" id="2_item"]
+[ext_resource type="Resource" path="res://resources/items/cebolla_cortada.tres" id="3_cebolla"]
+[ext_resource type="Resource" path="res://resources/items/pescado_desmenuzado.tres" id="4_pescado"]
+[ext_resource type="Resource" path="res://resources/items/yuca_desmenuzada.tres" id="5_yuca"]
+[ext_resource type="Resource" path="res://resources/items/liquido_sopa.tres" id="6_liquido"]
+[ext_resource type="Resource" path="res://resources/items/encebollado.tres" id="7_final"]
+
+[resource]
+script = ExtResource("1")
+name = "Encebollado"
+require_ingredients = Array[ExtResource("2_item")]([ExtResource("3_cebolla"), ExtResource("4_pescado"), ExtResource("5_yuca"), ExtResource("6_liquido")])
+final_product = ExtResource("7_final")

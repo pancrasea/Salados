@@ -9,7 +9,7 @@ const MAIN_MENU_SCENE = preload("res://src/ui/MainMenu.tscn")
 # Escenas de las 4 estaciones
 const MAIN_STATION_SCENE  = preload("res://src/entities/station/MainStation.tscn")
 const LEFT_STATION_SCENE  = preload("res://src/entities/station/BackStation.tscn")
-const RIGHT_STATION_SCENE = preload("res://src/entities/station/BackStation.tscn")
+const RIGHT_STATION_SCENE = preload("res://src/entities/station/PreparationStation.tscn")
 const BACK_STATION_SCENE  = preload("res://src/entities/station/BackStation.tscn")
 
 func _ready() -> void:

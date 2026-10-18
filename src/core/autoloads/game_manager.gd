@@ -32,17 +32,35 @@ func setup_stations(stations: Dictionary) -> void:
 	_stations = stations
 	show_side(Side.FRONT)
 
+## Devuelve la estación registrada para un `Side` (o null si no existe).
+## Usado por nodos que operan entre secciones, p. ej. DispatchZone.
+func get_station(side: int) -> Station:
+	return _stations.get(side, null)
+
 func show_side(side: int) -> void:
 	for s in _stations.values():
 		if is_instance_valid(s):
 			s.hide()
+			_set_interaction_enabled(s, false)
 
 	var target: Station = _stations.get(side, null)
 	if is_instance_valid(target):
 		target.show()
+		_set_interaction_enabled(target, true)
 
 	_current_side = side
 	current_station = target
+
+## Habilita o deshabilita la detección física de las áreas de una estación.
+## `hide()` sólo oculta el dibujo: sin esto, los Area2D de las estaciones
+## ocultas seguirían detectando drops del jugador en las mismas coordenadas
+## (todas las estaciones comparten el espacio de la escena).
+func _set_interaction_enabled(node: Node, enabled: bool) -> void:
+	if node is Area2D:
+		node.set_deferred("monitoring", enabled)
+		node.set_deferred("monitorable", enabled)
+	for child in node.get_children():
+		_set_interaction_enabled(child, enabled)
 
 func turn_left() -> void:
 	_turn(Turn.LEFT)

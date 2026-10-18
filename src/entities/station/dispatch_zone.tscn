@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cdispatch001"]
+
+[ext_resource type="Script" path="res://src/entities/station/dispatch_zone.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dispatch"]
+size = Vector2(300, 170)
+
+[node name="DispatchZone" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_dispatch")

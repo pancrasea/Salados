@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://csouppot001"]
+
+[ext_resource type="Script" path="res://src/entities/station/soup_pot.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/olla.svg" id="2_tex"]
+[ext_resource type="Resource" path="res://resources/items/liquido_sopa.tres" id="3_liquid"]
+[ext_resource type="PackedScene" path="res://src/entities/item/base_item.tscn" id="4_item"]
+
+[node name="SoupPot" type="Node2D"]
+script = ExtResource("1_script")
+liquid_data = ExtResource("3_liquid")
+item_scene = ExtResource("4_item")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_tex")
