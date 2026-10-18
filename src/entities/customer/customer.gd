@@ -213,6 +213,18 @@ func set_selected(selected: bool) -> void:
 	selected_changed.emit(self, is_selected)
 
 
+## Chequeo no mutante: ¿aceptaría este ítem? Usa el mismo criterio que
+## `receive_item` (pedido estructurado por clave canónica; modo clásico por
+## igualdad de referencia con CustomerData.requested_item). Lo usa el resaltado
+## de destinos al arrastrar (ver BaseItem).
+func can_receive(item: ItemData) -> bool:
+	if state != State.WAITING or customer_data == null:
+		return false
+	if order != null:
+		return order.matches(item)
+	return customer_data.requested_item != null and item == customer_data.requested_item
+
+
 ## Accepts an item while this customer is still waiting; selection is NOT
 ## required, any customer in the row can receive its order. With a
 ## structured order it compares canonical keys (ItemData.recipe_key vs

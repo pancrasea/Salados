@@ -64,6 +64,9 @@ func start_game() -> void:
 	get_tree().paused = false
 	mouse_interaction.show()
 	hud.show()
+	# Banner de objetivo al arrancar la partida: onboarding mínimo para el
+	# jugador (reglas, receta y controles) sin pantallas extra.
+	hud.call("show_objective_banner")
 
 
 # Llamado al volver al menú (oculta la UI de navegación)
