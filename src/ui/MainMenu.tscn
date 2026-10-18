@@ -1,34 +1,38 @@
 [gd_scene format=3 uid="uid://bjm1nid030ca0"]
 
 [ext_resource type="Script" uid="uid://d3r4uquulj0u4" path="res://src/ui/main_menu.gd" id="1_0ogta"]
-[ext_resource type="Texture2D" uid="uid://cytql4154ax01" path="res://assets/sprites/ui/buttons/botones-21.png" id="2_0ogta"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dbyr8"]
-resource_local_to_scene = true
-atlas = ExtResource("2_0ogta")
-region = Rect2(20.73155, 25.39798, 248.84547, 65.61249)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0ogta"]
-atlas = ExtResource("2_0ogta")
-region = Rect2(273.81384, 23.820007, 248.845, 65.612)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4h2rs"]
-resource_local_to_scene = true
-atlas = ExtResource("2_0ogta")
-region = Rect2(20.73155, 102.12579, 248.84547, 65.61249)
+[ext_resource type="PackedScene" uid="uid://d275fvo82a3ek" path="res://src/ui/widgets/ButtonWidget.tscn" id="1_adkca"]
+[ext_resource type="Texture2D" uid="uid://tahwsojnv71l" path="res://assets/sprites/ui/buttons/botones_hd.png" id="3_l8p87"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ihbld"]
-atlas = ExtResource("2_0ogta")
-region = Rect2(275.3833, 101.38229, 248.845, 65.612)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_l8p87"]
-resource_local_to_scene = true
-atlas = ExtResource("2_0ogta")
-region = Rect2(20.73155, 255.43192, 248.84547, 65.61249)
+atlas = ExtResource("3_l8p87")
+region = Rect2(1058, 642, 1058, 322)
+margin = Rect2(-28, -46, -56, -92)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u6542"]
-atlas = ExtResource("2_0ogta")
-region = Rect2(274.93073, 257.02435, 248.845, 65.612)
+atlas = ExtResource("3_l8p87")
+region = Rect2(0, 642, 1058, 322)
+margin = Rect2(-28, -46, -56, -92)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l8p87"]
+atlas = ExtResource("3_l8p87")
+region = Rect2(1058, 322, 1058, 322)
+margin = Rect2(-28, -46, -56, -92)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dbyr8"]
+atlas = ExtResource("3_l8p87")
+region = Rect2(0, 322, 1058, 322)
+margin = Rect2(-28, -46, -56, -92)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4h2rs"]
+atlas = ExtResource("3_l8p87")
+region = Rect2(1058, 962, 1058, 322)
+margin = Rect2(-28, -46, -56, -92)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fqh1q"]
+atlas = ExtResource("3_l8p87")
+region = Rect2(0, 962, 1058, 322)
+margin = Rect2(-28, -46, -56, -92)
 
 [node name="MainMenu" type="Control" unique_id=531797691]
 layout_mode = 3
@@ -47,42 +51,45 @@ offset_bottom = 1080.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=943117608]
 layout_mode = 1
-offset_left = 303.0
-offset_top = 343.0
-offset_right = 747.0
-offset_bottom = 485.0
+offset_left = 230.0
+offset_top = 206.0
+offset_right = 674.0
+offset_bottom = 348.0
 theme_override_font_sizes/normal_font_size = 93
 text = "Salados"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=832175949]
 layout_mode = 1
-offset_left = 301.0
-offset_top = 516.0
-offset_right = 662.0
-offset_bottom = 876.0
-theme_override_constants/separation = 50
+offset_left = 228.0
+offset_top = 379.0
+offset_right = 589.0
+offset_bottom = 739.0
+theme_override_constants/separation = 118
 
-[node name="PlayButton" type="TextureButton" parent="VBoxContainer" unique_id=1025027081]
-custom_minimum_size = Vector2(200, 0)
+[node name="ButtonWidget" parent="VBoxContainer" unique_id=2133867460 instance=ExtResource("1_adkca")]
 layout_mode = 2
-texture_normal = SubResource("AtlasTexture_dbyr8")
-texture_hover = SubResource("AtlasTexture_0ogta")
-stretch_mode = 6
 
-[node name="GalleryButton" type="TextureButton" parent="VBoxContainer" unique_id=1217020204]
-custom_minimum_size = Vector2(200, 0)
+[node name="ButtonWidget2" parent="VBoxContainer" unique_id=1179837522 instance=ExtResource("1_adkca")]
 layout_mode = 2
-texture_normal = SubResource("AtlasTexture_4h2rs")
-texture_hover = SubResource("AtlasTexture_ihbld")
-stretch_mode = 6
 
-[node name="ExitButton" type="TextureButton" parent="VBoxContainer" unique_id=1718190103]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-texture_normal = SubResource("AtlasTexture_l8p87")
+[node name="TextureButton" parent="VBoxContainer/ButtonWidget2/HBoxContainer" parent_id_path=PackedInt32Array(1179837522, 93110592) index="1" unique_id=1244352979]
+texture_normal = SubResource("AtlasTexture_ihbld")
 texture_hover = SubResource("AtlasTexture_u6542")
-stretch_mode = 6
 
-[connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/GalleryButton" to="." method="_on_gallery_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
+[node name="ButtonWidget3" parent="VBoxContainer" unique_id=1677281728 instance=ExtResource("1_adkca")]
+layout_mode = 2
+
+[node name="TextureButton" parent="VBoxContainer/ButtonWidget3/HBoxContainer" parent_id_path=PackedInt32Array(1677281728, 93110592) index="1" unique_id=1244352979]
+texture_normal = SubResource("AtlasTexture_l8p87")
+texture_hover = SubResource("AtlasTexture_dbyr8")
+
+[node name="ButtonWidget4" parent="VBoxContainer" unique_id=78352706 instance=ExtResource("1_adkca")]
+layout_mode = 2
+
+[node name="TextureButton" parent="VBoxContainer/ButtonWidget4/HBoxContainer" parent_id_path=PackedInt32Array(78352706, 93110592) index="1" unique_id=1244352979]
+texture_normal = SubResource("AtlasTexture_4h2rs")
+texture_hover = SubResource("AtlasTexture_fqh1q")
+
+[editable path="VBoxContainer/ButtonWidget2"]
+[editable path="VBoxContainer/ButtonWidget3"]
+[editable path="VBoxContainer/ButtonWidget4"]

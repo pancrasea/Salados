@@ -7,6 +7,7 @@
 [sub_resource type="Resource" id="Resource_4cm5f"]
 script = ExtResource("2_urwan")
 name = "Exprimidor"
+icon = ExtResource("2_weguy")
 item_id = "exprimidor"
 is_container = true
 metadata/_custom_type_script = "uid://3lbagxejrkv8"

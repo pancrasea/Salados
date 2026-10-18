@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://d275fvo82a3ek"]
+
+[ext_resource type="Script" uid="uid://bwikomfhkjg7w" path="res://src/ui/widgets/button_widget.gd" id="1_20m1f"]
+[ext_resource type="Texture2D" uid="uid://svxt66mhkaxa" path="res://icon.svg" id="2_fue8p"]
+[ext_resource type="Texture2D" uid="uid://tahwsojnv71l" path="res://assets/sprites/ui/buttons/botones_hd.png" id="3_i67b1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yf5fn"]
+atlas = ExtResource("3_i67b1")
+region = Rect2(0, 0, 1058, 322)
+margin = Rect2(-28, -46, -56, -92)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wrvsh"]
+atlas = ExtResource("3_i67b1")
+region = Rect2(1058, 0, 1058, 322)
+margin = Rect2(-28, -46, -56, -92)
+
+[node name="ButtonWidget" type="Control" unique_id=2133867460]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_20m1f")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=93110592]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_right = 522.0
+offset_bottom = 106.0
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer" unique_id=784012863]
+custom_minimum_size = Vector2(70, 0)
+custom_maximum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_fue8p")
+stretch_mode = 5
+
+[node name="TextureButton" type="TextureButton" parent="HBoxContainer" unique_id=1244352979]
+custom_maximum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = SubResource("AtlasTexture_yf5fn")
+texture_hover = SubResource("AtlasTexture_wrvsh")
+stretch_mode = 5
+
+[connection signal="mouse_entered" from="HBoxContainer/TextureButton" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/TextureButton" to="." method="_on_button_mouse_exited"]
