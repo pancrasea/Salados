@@ -5,10 +5,10 @@ enum Side { FRONT, LEFT, RIGHT, BACK }
 enum Turn { LEFT, RIGHT, BACK }
 
 const SideOrder = [
-    Side.FRONT,
-    Side.LEFT,
-    Side.BACK,
-    Side.RIGHT
+	Side.FRONT,
+	Side.LEFT,
+	Side.BACK,
+	Side.RIGHT
 ]
 
 

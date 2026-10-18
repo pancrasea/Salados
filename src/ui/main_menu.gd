@@ -1,31 +1,23 @@
 extends Control
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	#Boton de jugar
+	# Botón de jugar
 	$VBoxContainer/Buttons/HBoxContainer/Button.text = "Jugar"
 	$VBoxContainer/Buttons/HBoxContainer/Button.pressed.connect(_on_button_pressed.bind("Jugar"))
-	#Boton de Opciones 
+	# Botón de Opciones
 	$VBoxContainer/Buttons2/HBoxContainer/Button.text = "Opciones"
 	$VBoxContainer/Buttons2/HBoxContainer/Button.pressed.connect(_on_button_pressed.bind("Opciones"))
-	#Boton de Salir
+	# Botón de Salir
 	$VBoxContainer/Buttons3/HBoxContainer/Button.text = "Salir"
 	$VBoxContainer/Buttons3/HBoxContainer/Button.pressed.connect(_on_button_pressed.bind("Salir"))
 
-#Acciones de cada boton
-func _on_button_pressed(accion):
+
+func _on_button_pressed(accion: String) -> void:
 	match accion:
 		"Jugar":
-			get_tree().change_scene_to_file("res://src/entities/station/Station.tscn") #lleva ala main scena
+			GameManager.go_to_game()
 		"Opciones":
-			get_tree().change_scene_to_file("res://src/entities/station/Station.tscn") #lleva la menu de opciones
+			pass # TODO: cargar pantalla de opciones
 		"Salir":
-			get_tree().quit() # cierra el juego
-	
-
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+			get_tree().quit()
