@@ -1,11 +1,12 @@
 extends Station
 
 ## Sección de preparación (estación derecha). Mesa central para armar el
-## encebollado en orden libre (plato -> líquido de la olla -> cebolla
-## cortada, pescado desmenuzado y yuca desmenuzada) y zona de despacho que
-## envía el plato terminado a la bandeja de la estación principal.
+## encebollado en orden libre (plato -> líquido de la olla -> cebolla cortada,
+## albacora desmenuzada y yuca desmenuzada) y zona de despacho que envía el
+## plato terminado a la bandeja de la estación principal.
 ##
 ## La lógica vive en los nodos hijos (SoupPot, FoodSpawner, DispatchZone y
-## TrashBin); esta clase sólo marca la estación para GameManager. Las fuentes
-## de platos e ingredientes son temporales mientras la sección previa no
-## entrega los ingredientes reales.
+## TrashBin); esta clase sólo marca la estación para GameManager. La fuente
+## `Ingredientes` (FoodSpawner en `stock_mode`) se abastece del
+## AlmacenPreparados que llena la Sección 2 (corte/desmenuce): sólo muestra un
+## ingrediente mientras haya unidades y descuenta una al usarlo.

@@ -107,6 +107,15 @@ func _verify_target_and_drop():
 				successful_drop = true
 				break
 
+		# Zona de corte/desmenuce (Sección 2): el ingrediente crudo entra a la
+		# estación que lo procesa. El nodo se consume; el ItemData queda en la
+		# estación hasta completar los clics.
+		if target is CorteDesmenuce:
+			if target.recibir_item(data):
+				successful_drop = true
+				queue_free()
+				break
+
 	# Sobre una mesa de trabajo el ítem se queda donde el jugador lo dejó.
 	if not successful_drop and on_work_surface:
 		successful_drop = true

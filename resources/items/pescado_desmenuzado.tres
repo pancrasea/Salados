@@ -5,8 +5,8 @@
 
 [resource]
 script = ExtResource("1")
-name = "Pescado desmenuzado"
-item_id = "pescado_desmenuzado"
+name = "Albacora desmenuzada"
+item_id = "albacora_desmenuzada"
 icon = ExtResource("2")
 is_container = false
 is_final_product = false

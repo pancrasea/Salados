@@ -31,11 +31,15 @@
 - `src/entities/station/dispatch_zone.gd` y `dispatch_zone.tscn`: zona `DispatchZone` que envía el plato listo a otra estación.
 - `src/entities/station/work_surface.gd` y `work_surface.tscn`: mesa `WorkSurface`; al soltar un ítem encima se queda donde el jugador lo dejó (destino de reserva del drop).
 - `src/entities/station/preparation_station.gd` y `PreparationStation.tscn`: sección 3 (estación derecha).
+- `src/entities/station/corte_desmenuce/corte_desmenuce.gd` y `CorteDesmenuce.tscn`: sección 2 (estación izquierda) de corte/desmenuce; DropArea + dos `ZonaProcesamiento` + fuente de materia prima.
+- `src/entities/station/corte_desmenuce/components/zona_procesamiento.gd` y `.tscn`: `ZonaProcesamiento`; cuenta los clics de un ingrediente y emite `ingrediente_terminado`.
+- `src/core/resources_scripts/encebollado_ingrediente.gd`: recurso `EncebolladoIngrediente` con las reglas de corte/desmenuce (item de entrada, `preparacion`, `clics_necesarios`).
+- `src/core/warehouse/almacen_preparados.gd`: `AlmacenPreparados`, almacén persistente (creado por `GameManager.warehouse`) que conecta la Sección 2 con la Sección 3.
 - `src/core/main/main.gd` y `main.tscn`: main scene; menú + capa de escenas + navegación entre estaciones.
 - `src/ui/mouse_interaction.gd` y `mouse_interaction.tscn`: controles de borde para girar estación.
 - `src/entities/item/ingredients/spawner_ingredients.gd` y `.tscn`: `SpawnerIngredients` (WIP de otra célula; repone un ítem por `max_quantity`).
 - `src/entities/order/order_data.gd` y `order_generator.gd`: pedido `OrderData` y generador `OrderGenerator`.
-- `resources/recipes/encebollado.tres`: receta `RecipeData` del encebollado (líquido + cebolla + pescado + yuca).
+- `resources/recipes/encebollado.tres`: receta `RecipeData` del encebollado (líquido + cebolla + albacora + yuca).
 - Las rutas de escenas actuales tienen mayúsculas en nombres como `Station.tscn` y `CustomerSpawner.tscn`; respeta la capitalización exacta de cada ruta.
 
 ## Contrato de integración ítem-cliente
@@ -46,7 +50,7 @@
 - Un `BaseItem` cuyo `data.is_container` es true **duplica su `ItemData` en `_ready`** para poder mutar `recipe_key` sin tocar el `.tres` compartido. Por eso las claves usan `ItemData.item_id` (estable en runtime) y no `resource_path`.
 - El cliente solo acepta una entrega si sigue esperando y la clave/ítem coincide; NO requiere estar seleccionado, cualquier cliente de la fila recibe su pedido. Si `receive_item()` devuelve `true`: un alimento no contenedor se consume (`queue_free()`) y una bandeja se vacía y vuelve a su posición (`reset_container()`); si se rechaza, debe conservarse el comportamiento de retorno al punto inicial.
 - Al soltar un ítem sobre un contenedor, el ingrediente se consume (`queue_free()`) tras registrarse en `collect_ingredients()`.
-- Destinos de drop resueltos en `BaseItem._verify_target_and_drop()`: contenedor (`collect_ingredients`), `TrashBin` (`discard`), `DispatchZone` (`dispatch`) y `CustomerBase` (`receive_item`). Cada uno se detecta por el `Area2D` hijo.
+- Destinos de drop resueltos en `BaseItem._verify_target_and_drop()`: contenedor (`collect_ingredients`), `TrashBin` (`discard`), `DispatchZone` (`dispatch`), `CustomerBase` (`receive_item`) y `CorteDesmenuce` (`recibir_item`). Cada uno se detecta por el `Area2D` hijo. Al entrar a la estación de corte, el nodo `BaseItem` se consume (`queue_free()`) y el `ItemData` queda en la estación hasta completar los clics.
 - `WorkSurface` (`src/entities/station/work_surface.gd`/`.tscn`) es la mesa de trabajo: al soltar un ítem encima, se queda donde el jugador lo dejó (no vuelve a `initial_position`). Es un destino **de reserva**: `base_item.gd` lo registra con la bandera `on_work_surface` y sólo lo aplica si ningún otro destino del drop lo atendió, así que la mesa nunca roba un drop a un contenedor/tacho/cliente/despacho. La `PreparationStation` tiene una instancia `MesaTrabajo` (480x420, centrada en 900,550) que coincide con la `ZonaPreparacion`; si se mueve/agranda la zona hay que ajustar también el `CollisionShape2D` de la mesa.
 - El `Area2D` del cliente debe seguir siendo detectable por el `Area2D` del ítem y su forma debe cubrir el área visible de interacción.
 
@@ -59,21 +63,29 @@
 - Visual "icono base + badges": el icono del marco del pedido es el plato base y los extras se muestran como fila de badges (`OrderExtrasRow`, creada en runtime); la bandeja en el mundo muestra badges en fila horizontal bajo su sprite.
 - Los 3 ingredientes básicos del encebollado son fijos y NO se modelan en `OrderData` ni en la bandeja: al preparar solo se agregan el plato de encebollado (`resources/items/encebollado.tres`, alimento final) y los extras.
 - `.tres` de alimentos finales en `resources/items/`: `encebollado`, `pan`, `chifle`, `limon`, `canguil`, `maiz_tostado` (todos `is_final_product = true`) y `bandeja` (`is_container = true`). Iconos en `assets/sprites/items/*.svg`.
-- Ítems de la sección de preparación en `resources/items/`: `plato` (`is_container`), `liquido_sopa`, `cebolla_cortada`, `pescado_desmenuzado` y `yuca_desmenuzada`; todos con `item_id` e icono en `assets/sprites/items/`.
-- `FoodSpawner` (`src/entities/item/food_spawner.gd`): repone alimentos arrastrables en una columna; un slot por `ItemData` y respawn tras `respawn_delay` cuando el alimento se consume. En la sección de preparación también aprovisiona platos e ingredientes de prueba.
+- Ítems de la sección de preparación en `resources/items/`: `plato` (`is_container`), `liquido_sopa`, `cebolla_cortada`, `pescado_desmenuzado` (nombre visible "Albacora desmenuzada", `item_id = "albacora_desmenuzada"`) y `yuca_desmenuzada`; todos con `item_id` e icono en `assets/sprites/items/`.
+- Materia prima de la Sección 2 en `resources/items/`: `item_cebolla_colorada`, `item_albacora`, `item_yuca` (crudos, con `next_data_state` apuntando a los ítems preparados del equipo y con icono SVG del proyecto). Cada regla vive en `encebollado_cebolla_colorada.tres`, `encebollado_albacora.tres` y `encebollado_yuca.tres` (`clics_necesarios = 3`). El cilantro queda fuera del flujo.
+- `FoodSpawner` (`src/entities/item/food_spawner.gd`): repone alimentos arrastrables en una columna; un slot por `ItemData` y respawn tras `respawn_delay` cuando el alimento se consume. Con `stock_mode = true` se abastece del `AlmacenPreparados`: sólo muestra un alimento mientras haya unidades y descuenta una al consumirse (lo usa la fuente `Ingredientes` de la Sección 3). La fuente `MateriaPrima` de la Sección 2 usa el modo normal (infinita).
 - Navegación: `main.tscn` (main scene) arranca en `MainMenu.tscn`; "Jugar" llama `GameManager.go_to_game()` → `main.start_game()`, que instancia las 4 estaciones en `SceneLayer` y las registra en `GameManager.setup_stations()`. Girar usa `GameManager.turn_left/turn_right/turn_back` desde `mouse_interaction`. `GameManager.get_station(side)` expone una estación registrada.
 - El `Control` raíz `Main` usa `mouse_filter = 2` (IGNORE): si captura el mouse (STOP), se come el clic a pantalla completa y el drag and drop de los `Area2D` deja de funcionar. No lo cambies a STOP.
 
 ## Sección de preparación (sección 3, estación derecha)
 
-- Flujo jugable: el jugador toma un **plato** (`resources/items/plato.tres`, contenedor) en el centro, le sirve el **líquido de sopa** (`liquido_sopa.tres`) desde la olla y luego agrega **cebolla cortada, pescado desmenuzado y yuca desmenuzada** en cualquier orden. Al completar el conjunto, el plato se transforma en el plato de **encebollado** y se despacha a la estación principal para agregarle los extras.
+- Flujo jugable: el jugador toma un **plato** (`resources/items/plato.tres`, contenedor) en el centro, le sirve el **líquido de sopa** (`liquido_sopa.tres`) desde la olla y luego agrega **cebolla cortada, albacora desmenuzada y yuca desmenuzada** en cualquier orden (provistas por la fuente `Ingredientes` en modo `stock_mode`, abastecida por la Sección 2 vía `GameManager.warehouse`). Al completar el conjunto, el plato se transforma en el plato de **encebollado** y se despacha a la estación principal para agregarle los extras.
 - Transformación por receta: `BaseItem` tiene `@export var recipe: RecipeData`. `collect_ingredients()` llama a `_try_complete_recipe()`, que compara el conjunto `collected_ingredients` con `recipe.require_ingredients` usando `OrderData.key_of_contents` (orden irrelevante; un ingrediente ajeno impide la transformación). Si coincide, `_transform_into(recipe.final_product)` cambia `data` por el producto final (sin mutar el `.tres`).
 - `plato_item.tscn` es el plato contenedor con `recipe = resources/recipes/encebollado.tres`; su `ItemData` se duplica en `_ready` como cualquier contenedor.
 - `DispatchZone.dispatch(item)` acepta solo `ItemData.is_final_product`, localiza la bandeja receptora (por nombre, o el primer contenedor reutilizable) en `GameManager.get_station(target_side)` y llama `collect_ingredients()`; luego libera el plato. No requiere que la estación destino esté visible.
 - `SoupPot` mantiene un único líquido arrastrable y lo repone tras `respawn_delay` cuando se consume (`tree_exited`).
-- Fuentes locales temporales: `Platos` e `IngredientesTemp` (ambos `FoodSpawner`) permiten probar la estación sin la sección previa; deberán sustituirse cuando esa sección entregue los ingredientes reales.
+- La fuente `Ingredientes` (`FoodSpawner` en `stock_mode`) muestra un ingrediente sólo mientras el `AlmacenPreparados` tenga unidades; al soltar uno en el plato se descuenta del almacén. La fuente `Platos` sigue en modo normal (infinita).
 - Ojo con las coordenadas: todas las estaciones comparten el espacio de la escena. `GameManager.show_side()` ahora deshabilita `monitoring`/`monitorable` de los `Area2D` de las estaciones ocultas (`_set_interaction_enabled`) para que no interfieran con drops; aun así, evita que nodos interactivos de estaciones distintas coincidan en la misma posición.
 
+## Sección de corte/desmenuce (sección 2, estación izquierda)
+
+- Arranca en `main.tscn` como `LEFT_STATION_SCENE` (`CorteDesmenuce.tscn`, `extends Station`). El lado atrás sigue siendo placeholder.
+- Flujo jugable: el jugador arrastra materia prima desde la fuente `MateriaPrima` (`FoodSpawner` en modo normal con `item_cebolla_colorada`, `item_albacora`, `item_yuca`) y la suelta sobre el `DropArea`. El `BaseItem` se consume y el `ItemData` queda en la estación; el jugador da **3 clics** (`ZonaProcesamiento`) para completarlo. Cebolla y yuca se procesan en `ZonaCorte`; la albacora se desmenuza en `ZonaDesmenuce`.
+- `CorteDesmenuce.recibir_item(item: ItemData) -> bool` valida contra su `RECETAS` (`EncebolladoIngrediente`): acepta sólo si el ítem es un `item_entrada` con `next_data_state` no nulo y su zona no está ocupada. Al completar los clics emite `item_preparado(item: ItemData)` (el recurso preparado) y resetea la zona.
+- `ZonaProcesamiento` sólo arranca con el `tipo_aceptado` correcto (`0` = corte, `1` = desmenuce) y la `preparacion` de la regla; `clics_necesarios = 3` en los tres `.tres`.
+- El resultado se guarda vía `GameManager.warehouse.agregar(item)`: `main.gd` conecta `corte.item_preparado` a `AlmacenPreparados.agregar`. La identidad del almacén es `ItemData.item_id` (fallback `resource_path`), con `consumir()` que descuenta una unidad y emite `inventario_actualizado(item, cantidad)`.
 ## Cliente y generador
 
 - `CustomerBase` expone señales de selección, paciencia, rechazo/aceptación del ítem, servicio y finalización. Conserva estas señales como contrato para HUD y sistemas externos.
@@ -84,9 +96,8 @@
 
 Estos puntos describen el estado observado y no implican permiso para ampliar una tarea que no los solicite:
 
-- `Station.tscn` y `BackStation.tscn` son marcadores de posición: los lados izquierda/derecha/atrás apuntan a la misma `BackStation.tscn` (con un `BaseItem` sin `data`), así que girar aún no muestra contenido distinto. La sección de preparación ya ocupa el lado derecho.
+- `Station.tscn` y `BackStation.tscn` son marcadores de posición: el lado atrás sigue apuntando a `BackStation.tscn` (con un `BaseItem` sin `data`). Los lados izquierda (corte/desmenuce) y derecha (preparación) ya tienen contenido real.
 - El ejemplo de cliente tiene `CustomerData` sin `requested_item`; eso es correcto cuando se usa `order` (lo asigna el `OrderGenerator` del spawner). El modo `requested_item` queda como respaldo.
-- El drop sobre estaciones ya se resuelve con `WorkSurface` (mesa de trabajo; ver contrato arriba); la transformación por `ItemData.next_data_state` sigue sin implementar, hoy la transformación es por `RecipeData`.
+- El drop sobre estaciones se resuelve con `WorkSurface` (mesa de trabajo) y con `CorteDesmenuce` (`recibir_item`); la transformación de ítems por `ItemData.next_data_state` no se aplica de forma genérica: la Sección 2 lo usa para elegir el resultado del corte/desmenuce y la Sección 3 transforma por `RecipeData`.
 - `SpawnerIngredients` (`spawner_ingredients.gd`) está en WIP: `replenish_stock()` tiene un no-op (`current_stock - item_data.max_quantity` sin asignar) y su recurso de ejemplo no define `item_id`.
-- `project.godot` declara `viewport_width = 1980` (probable errata por 1920); no afecta la lógica pero conviene corregirlo.
 - En el entorno donde se redactó este archivo no se encontró `godot`/`godot4` en el PATH. Vuelve a comprobarlo antes de concluir que no se puede ejecutar una validación headless.
