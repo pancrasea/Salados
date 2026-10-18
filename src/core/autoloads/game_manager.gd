@@ -1,6 +1,6 @@
 extends Node
 
-var current_level: Level = null
+# --- Estado del juego ---
 var current_station: Station = null
 
 # Referencia al nodo Main (asignada por main.gd en _ready)
@@ -11,28 +11,54 @@ var main: Control = null
 
 func go_to_game() -> void:
 	if is_instance_valid(main):
-		main.change_screen(main.TESTING_LEVEL_SCENE)
+		main.start_game()
 
 func go_to_menu() -> void:
 	if is_instance_valid(main):
-		main.change_screen(main.MAIN_MENU_SCENE)
+		main.return_to_menu()
 
 
-# --- Lógica de nivel ---
+# --- Lógica de las 4 estaciones (antes en Level) ---
 
-func load_level(level: Level) -> void:
-	if not is_instance_valid(level): return
-	current_level = level
-	current_level.show_side(Level.Side.FRONT)
+enum Side { FRONT, LEFT, RIGHT, BACK }
+enum Turn { LEFT, RIGHT, BACK }
+
+const SideOrder: Array = [Side.FRONT, Side.LEFT, Side.BACK, Side.RIGHT]
+
+var _stations: Dictionary = {}   # Side → Station
+var _current_side: int = Side.FRONT
+
+func setup_stations(stations: Dictionary) -> void:
+	_stations = stations
+	show_side(Side.FRONT)
+
+func show_side(side: int) -> void:
+	for s in _stations.values():
+		if is_instance_valid(s):
+			s.hide()
+
+	var target: Station = _stations.get(side, null)
+	if is_instance_valid(target):
+		target.show()
+
+	_current_side = side
+	current_station = target
 
 func turn_left() -> void:
-	if is_instance_valid(current_level):
-		current_level.turn_view(Level.Turn.LEFT)
+	_turn(Turn.LEFT)
 
 func turn_right() -> void:
-	if is_instance_valid(current_level):
-		current_level.turn_view(Level.Turn.RIGHT)
+	_turn(Turn.RIGHT)
 
 func turn_back() -> void:
-	if is_instance_valid(current_level):
-		current_level.turn_view(Level.Turn.BACK)
+	_turn(Turn.BACK)
+
+func _turn(direction: int) -> void:
+	var index: int = SideOrder.find(_current_side)
+	if index == -1:
+		return
+	match direction:
+		Turn.LEFT:  index = (index + 1) % SideOrder.size()
+		Turn.RIGHT: index = (index - 1 + SideOrder.size()) % SideOrder.size()
+		Turn.BACK:  index = (index + 2) % SideOrder.size()
+	show_side(SideOrder[index])

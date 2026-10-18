@@ -1,24 +1,58 @@
 extends Control
 
-# Referencia al CanvasLayer que contiene la pantalla activa
 @onready var scene_layer: CanvasLayer = $SceneLayer
+@onready var mouse_interaction: CanvasLayer = $MouseInteraction
 
-# Escenas disponibles para cargar
+# Escenas de pantallas
 const MAIN_MENU_SCENE = preload("res://src/ui/MainMenu.tscn")
-const TESTING_LEVEL_SCENE = preload("res://src/levels/TestingLevel.tscn")
+
+# Escenas de las 4 estaciones
+const MAIN_STATION_SCENE  = preload("res://src/entities/station/MainStation.tscn")
+const LEFT_STATION_SCENE  = preload("res://src/entities/station/BackStation.tscn")
+const RIGHT_STATION_SCENE = preload("res://src/entities/station/BackStation.tscn")
+const BACK_STATION_SCENE  = preload("res://src/entities/station/BackStation.tscn")
 
 func _ready() -> void:
-	# Registrar Main en GameManager para que pueda pedir cambios de pantalla
 	GameManager.main = self
-	# Empezar en el menú principal
+	mouse_interaction.hide()
 	change_screen(MAIN_MENU_SCENE)
 
 
-# Limpia SceneLayer y carga la nueva pantalla como hijo
+# Limpia SceneLayer y carga la nueva pantalla
 func change_screen(scene: PackedScene) -> void:
-	# Eliminar la pantalla actual si existe
+	for child in scene_layer.get_children():
+		child.queue_free()
+	scene_layer.add_child(scene.instantiate())
+
+
+# Inicia el juego: instancia las 4 estaciones en SceneLayer y las registra en GameManager
+func start_game() -> void:
+	# Limpiar pantalla anterior
 	for child in scene_layer.get_children():
 		child.queue_free()
 
-	var instance := scene.instantiate()
-	scene_layer.add_child(instance)
+	var stations: Dictionary = {}
+
+	var configs: Array = [
+		[GameManager.Side.FRONT, MAIN_STATION_SCENE],
+		[GameManager.Side.LEFT,  LEFT_STATION_SCENE],
+		[GameManager.Side.RIGHT, RIGHT_STATION_SCENE],
+		[GameManager.Side.BACK,  BACK_STATION_SCENE],
+	]
+
+	for cfg in configs:
+		var side: int = cfg[0]
+		var packed: PackedScene = cfg[1]
+		var node := packed.instantiate()
+		node.hide()
+		scene_layer.add_child(node)
+		stations[side] = node
+
+	GameManager.setup_stations(stations)
+	mouse_interaction.show()
+
+
+# Llamado al volver al menú (oculta la UI de navegación)
+func return_to_menu() -> void:
+	mouse_interaction.hide()
+	change_screen(MAIN_MENU_SCENE)
