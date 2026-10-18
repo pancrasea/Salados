@@ -125,7 +125,7 @@ func start_day() -> void:
 
 	_day_timer.start(_day_duration())
 
-## Para el temporizador
+## Para el temporizador (sin resetear el tiempo transcurrido).
 func stop_day() -> void:
 	day_running = false
 	if is_instance_valid(_day_timer):
@@ -148,6 +148,17 @@ func end_day() -> Dictionary:
 	}
 	day_settled.emit(day_earnings, rent, money)
 	return last_settlement
+
+## Reanuda el temporizador desde donde quedó (usado al salir de pausa).
+## No resetea dinero ni _day_elapsed.
+func resume_day() -> void:
+	if _day_timer == null:
+		return
+	var remaining := maxf(DAY_DURATION - _day_elapsed, 0.0)
+	if remaining <= 0.0:
+		return
+	day_running = true
+	_day_timer.start(remaining)
 
 func _process(delta: float) -> void:
 	if not day_running:

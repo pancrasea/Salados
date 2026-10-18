@@ -75,7 +75,18 @@ func return_to_menu() -> void:
 	change_screen(MAIN_MENU_SCENE)
 
 
-# Lógica al terminar el día: liquida la renta y muestra el resumen.
+# Llamado desde menu_pause cuando se pausa el juego
+func on_game_paused() -> void:
+	GameManager.stop_day()
+
+
+# Llamado desde menu_pause cuando se reanuda el juego
+func on_game_resumed() -> void:
+	# Reanuda el timer con el tiempo que ya transcurrió (stop_day no resetea _day_elapsed)
+	GameManager.resume_day()
+
+
+# Lógica al terminar el día. Liquida la renta y muestra el resumen.
 func _on_day_ended() -> void:
 	GameManager.end_day()
 	mouse_interaction.hide()
