@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://hud_salados01"]
+
+[ext_resource type="Script" path="res://src/ui/hud.gd" id="1_hudsc"]
+
+[node name="HUD" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_hudsc")
+
+[node name="MoneyLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 200.0
+offset_bottom = 60.0
+theme_override_font_sizes/font_size = 32
+text = "$20"
+
+[node name="TimerLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 62.0
+offset_right = 200.0
+offset_bottom = 102.0
+theme_override_font_sizes/font_size = 28
+text = "5:00"

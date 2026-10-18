@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://iieop4be0tji" path="res://src/core/main/main.gd" id="1_6t2ow"]
 [ext_resource type="PackedScene" uid="uid://dl02jj5ury3y8" path="res://src/ui/mouse_interaction.tscn" id="2_mouse"]
+[ext_resource type="PackedScene" path="res://src/ui/hud.tscn" id="3_hud"]
 
 [node name="Main" type="Control" unique_id=64781277]
 layout_mode = 3
@@ -16,3 +17,5 @@ script = ExtResource("1_6t2ow")
 [node name="SceneLayer" type="CanvasLayer" parent="." unique_id=1579182508]
 
 [node name="MouseInteraction" parent="." unique_id=-2060399406 instance=ExtResource("2_mouse")]
+
+[node name="HUD" parent="." unique_id=-949288395 instance=ExtResource("3_hud")]

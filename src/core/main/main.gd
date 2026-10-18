@@ -2,6 +2,7 @@ extends Control
 
 @onready var scene_layer: CanvasLayer = $SceneLayer
 @onready var mouse_interaction: CanvasLayer = $MouseInteraction
+@onready var hud: CanvasLayer = $HUD
 
 # Escenas de pantallas
 const MAIN_MENU_SCENE = preload("res://src/ui/MainMenu.tscn")
@@ -15,6 +16,7 @@ const BACK_STATION_SCENE  = preload("res://src/entities/station/BackStation.tscn
 func _ready() -> void:
 	GameManager.main = self
 	mouse_interaction.hide()
+	hud.hide()
 	change_screen(MAIN_MENU_SCENE)
 
 
@@ -49,10 +51,23 @@ func start_game() -> void:
 		stations[side] = node
 
 	GameManager.setup_stations(stations)
+	GameManager.start_day()
+	GameManager.day_ended.connect(_on_day_ended, CONNECT_ONE_SHOT)
 	mouse_interaction.show()
+	hud.show()
 
 
 # Llamado al volver al menú (oculta la UI de navegación)
 func return_to_menu() -> void:
+	GameManager.stop_day()
 	mouse_interaction.hide()
+	hud.hide()
+	change_screen(MAIN_MENU_SCENE)
+
+
+# Lógica al terminar el día
+func _on_day_ended() -> void:
+	mouse_interaction.hide()
+	hud.hide()
+	# TODO: change_screen(END_OF_DAY_SCENE) cuando exista esa pantalla
 	change_screen(MAIN_MENU_SCENE)
