@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cplatoitem01"]
+
+[ext_resource type="Script" path="res://src/entities/item/base_item.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/plato.svg" id="2_tex"]
+[ext_resource type="Resource" path="res://resources/items/plato.tres" id="3_data"]
+[ext_resource type="Resource" path="res://resources/recipes/encebollado.tres" id="4_recipe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plato"]
+size = Vector2(128, 128)
+
+[node name="Plato" type="Node2D"]
+script = ExtResource("1_script")
+data = ExtResource("3_data")
+recipe = ExtResource("4_recipe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_tex")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_plato")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

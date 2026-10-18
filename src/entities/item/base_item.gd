@@ -2,6 +2,12 @@ class_name BaseItem extends Node2D
 
 @export var data: ItemData
 
+## Receta que este contenedor puede completar: cuando reúne exactamente sus
+## `require_ingredients` (como conjunto, sin importar el orden), el ítem se
+## transforma en `recipe.final_product`. Opcional; solo lo usan los platos de
+## preparación (ver `plato_item.tscn`). La bandeja va sin receta.
+@export var recipe: RecipeData
+
 var is_dragging: bool = false
 var collected_ingredients: Array[ItemData] = []
 var initial_position: Vector2 = Vector2.ZERO
@@ -54,11 +60,18 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 func _verify_target_and_drop():
 	var overlapping_areas = $Area2D.get_overlapping_areas()
 	var successful_drop = false
+	# La mesa (WorkSurface) es un destino de reserva: sólo mantiene el ítem
+	# si ningún otro destino lo atendió, para no competir con ellos.
+	var on_work_surface := false
 	
 	for area in overlapping_areas:
 		var target = area.get_parent()
 		
 		if target == self:
+			continue
+
+		if target is WorkSurface:
+			on_work_surface = true
 			continue
 		
 		# Caso contenedor (plato o vaso): el ingrediente se consume.
@@ -86,9 +99,18 @@ func _verify_target_and_drop():
 				else:
 					queue_free()
 				break
-		
-		#TODO: Caso de las estaciones de trabajo
-		
+
+		# Zona de despacho de preparación: envía el plato listo a la
+		# estación principal (bandeja) para agregarle los extras.
+		if target is DispatchZone:
+			if target.dispatch(self):
+				successful_drop = true
+				break
+
+	# Sobre una mesa de trabajo el ítem se queda donde el jugador lo dejó.
+	if not successful_drop and on_work_surface:
+		successful_drop = true
+
 	if not successful_drop:
 		global_position = initial_position
 	
@@ -102,6 +124,28 @@ func collect_ingredients(new_ingredient: ItemData):
 		collected_ingredients.append(new_ingredient)
 		data.recipe_key = OrderData.key_of_contents(collected_ingredients)
 		_update_visual()
+		_try_complete_recipe()
+
+
+## Si este contenedor tiene una `recipe` y su contenido coincide con el
+## conjunto de `require_ingredients`, se transforma en el producto final.
+## La comparación es por clave canónica (OrderData.key_of_contents), así que
+## el orden en que se agregaron los ingredientes es irrelevante y agregar un
+## ingrediente ajeno impide la transformación.
+func _try_complete_recipe() -> void:
+	if recipe == null or recipe.final_product == null:
+		return
+	if OrderData.key_of_contents(collected_ingredients) != OrderData.key_of_contents(recipe.require_ingredients):
+		return
+	_transform_into(recipe.final_product)
+
+
+## Convierte el ítem en `product` (plato terminado): deja de ser contenedor y
+## pierde sus ingredientes. No muta `product` (es un .tres compartido).
+func _transform_into(product: ItemData) -> void:
+	collected_ingredients.clear()
+	data = product
+	_update_visual()
 
 
 ## Vacía la bandeja y la devuelve a su última posición inicial. Se llama

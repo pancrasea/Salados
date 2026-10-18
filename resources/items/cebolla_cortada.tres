@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/entities/item/item_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/items/cebolla_cortada.svg" id="2"]
+
+[resource]
+script = ExtResource("1")
+name = "Cebolla cortada"
+item_id = "cebolla_cortada"
+icon = ExtResource("2")
+is_container = false
+is_final_product = false
