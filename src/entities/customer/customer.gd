@@ -49,6 +49,10 @@ var patience_ratio_at_serve: float = 1.0
 ## se crea en runtime porque la escena no la define.
 @onready var order_extras_row: HBoxContainer = _create_order_extras_row()
 
+## Etiqueta con el precio del pedido, sobre el marco del icono. Se crea en
+## runtime porque la escena no la define.
+@onready var order_price_label: Label = _create_order_price_label()
+
 var patience_fill_style: StyleBoxFlat
 
 
@@ -59,8 +63,9 @@ func _ready() -> void:
 	patience_bar.add_theme_stylebox_override("fill", patience_fill_style)
 
 	if customer_data != null:
-		patience_remaining = maxf(customer_data.patience_seconds, 0.0)
-		patience_bar.max_value = maxf(customer_data.patience_seconds, 0.1)
+		var patience := _patience_for(customer_data)
+		patience_remaining = maxf(patience, 0.0)
+		patience_bar.max_value = maxf(patience, 0.1)
 		# Aplicar textura del arquetipo si está definida en el CustomerData.
 		if customer_data.texture != null:
 			var visual := get_node_or_null("Visual") as Sprite2D
@@ -73,6 +78,19 @@ func _ready() -> void:
 	if customer_data != null:
 		_update_patience_display()
 	selection_area.input_event.connect(_on_selection_area_input_event)
+
+
+## Paciencia efectiva: la del arquetipo si la define (> 0); si no, la central
+## de `RunBalance.default_patience`. 30 s como último respaldo.
+func _patience_for(data: CustomerData) -> float:
+	if data.patience_seconds > 0.0:
+		return data.patience_seconds
+	var game_manager := get_node_or_null("/root/GameManager")
+	if game_manager != null:
+		var balance: RunBalance = game_manager.get("balance")
+		if balance != null:
+			return balance.default_patience
+	return 30.0
 
 
 ## Counts down patience while waiting and emits the leave signals at zero.
@@ -100,6 +118,7 @@ func _update_order_display() -> void:
 	order_icon_frame.visible = has_order or has_request
 	if not order_icon_frame.visible:
 		_rebuild_extras_row([])
+		order_price_label.visible = false
 		return
 
 	var base: ItemData = order.base if has_order else customer_data.requested_item
@@ -107,6 +126,10 @@ func _update_order_display() -> void:
 	order_icon.visible = order_icon.texture != null
 	order_placeholder.visible = order_icon.texture == null
 	_rebuild_extras_row(order.extras if has_order else [])
+	# Precio solo para pedidos estructurados (plato base + extras).
+	order_price_label.visible = has_order
+	if has_order:
+		order_price_label.text = "$%d" % order.price()
 
 
 ## Creates the horizontal container that holds the extras badges, placed
@@ -118,6 +141,23 @@ func _create_order_extras_row() -> HBoxContainer:
 	add_child(row)
 	row.position = Vector2(-40.0, -146.0)
 	return row
+
+
+## Creates the small price label shown above the extras row (over the order
+## frame). Adds an outline so it stays readable over any background.
+func _create_order_price_label() -> Label:
+	var label := Label.new()
+	label.name = "OrderPriceLabel"
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.add_theme_font_size_override("font_size", 16)
+	label.add_theme_color_override("font_color", Color(0.95, 0.86, 0.62))
+	label.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.85))
+	label.add_theme_constant_override("outline_size", 4)
+	add_child(label)
+	label.position = Vector2(-40.0, -172.0)
+	label.custom_minimum_size = Vector2(80.0, 22.0)
+	return label
 
 
 ## Rebuilds the extras badges row. Each extra shows its icon, or its first

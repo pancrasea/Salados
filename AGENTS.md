@@ -13,6 +13,8 @@
 - Conserva las APIs existentes salvo que la integración lo requiera; cuando cambies una firma, busca y actualiza todos sus usos.
 - No edites manualmente archivos `.uid` generados por Godot.
 - No des por probada una escena solo porque pase diagnósticos estáticos. Ejecuta una validación en Godot si el motor está disponible; en caso contrario, indícalo.
+- Validación headless sugerida: `godot --headless --path . --import` y luego un script temporal con `--script "res://<tmp>.gd"` (que termina en `quit(n_fallos)`), o `--quit-after <frames>`. Borra los `.gd`/`.uid` temporales al terminar.
+- En arranques con `--script` el autoload `GameManager` NO existe como identificador global: los scripts que se cargan dinámicamente deben resolverlo con `get_node_or_null("/root/GameManager")` (ver `customer_spawner.gd`). Además `_ready` se difiere: usa `await process_frame` (y `await physics_frame` para solapamiento de `Area2D`) tras `add_child` antes de interactuar.
 
 ## Estructura relevante
 
@@ -21,7 +23,7 @@
 - `src/entities/customer/customer.gd`: comportamiento base `CustomerBase`, selección, paciencia, entrega y señales.
 - `src/entities/customer/customer.tscn`: escena del cliente; contiene `SelectionArea`, `PatienceBar` y `OrderIconFrame`.
 - `src/entities/customer/customer_spawner.gd` y `CustomerSpawner.tscn`: generador de clientes en fila; límite previsto de tres.
-- `src/entities/item/item_data.gd`: recurso `ItemData` con nombre, icono, estado siguiente y flags de contenedor/producto final.
+- `src/entities/item/item_data.gd`: recurso `ItemData` con nombre, icono, estado siguiente, precio (`price`) y flags de contenedor/producto final.
 - `src/entities/item/base_item.gd` y `base_item.tscn`: nodo arrastrable `BaseItem`.
 - `src/entities/item/food_spawner.gd`: `FoodSpawner`, repone alimentos en la zona de suministro.
 - `src/entities/item/bandeja_item.tscn`: bandeja contenedora reutilizable de la sección.
@@ -34,9 +36,14 @@
 - `src/entities/station/corte_desmenuce/corte_desmenuce.gd` y `CorteDesmenuce.tscn`: sección 2 (estación izquierda) de corte/desmenuce; DropArea + dos `ZonaProcesamiento` + fuente de materia prima.
 - `src/entities/station/corte_desmenuce/components/zona_procesamiento.gd` y `.tscn`: `ZonaProcesamiento`; cuenta los clics de un ingrediente y emite `ingrediente_terminado`.
 - `src/core/resources_scripts/encebollado_ingrediente.gd`: recurso `EncebolladoIngrediente` con las reglas de corte/desmenuce (item de entrada, `preparacion`, `clics_necesarios`).
-- `src/core/warehouse/almacen_preparados.gd`: `AlmacenPreparados`, almacén persistente (creado por `GameManager.warehouse`) que conecta la Sección 2 con la Sección 3.
+- `src/core/inventory/inventario.gd`: `Inventario`, contador genérico de `ItemData` con identidad `item_id` (fallback `resource_path`), cupos opcionales por ítem, señal `inventario_actualizado(item, cantidad)` y `reset_dia()`/`reset()`.
+- `src/core/warehouse/almacen_preparados.gd`: `AlmacenPreparados extends Inventario`, almacén persistente sin cupo (creado por `GameManager.warehouse`) que conecta la Sección 2 con la Sección 3.
+- `src/core/resources_scripts/run_balance.gd` y `src/core/resources_scripts/stock_item.gd`: `RunBalance` (tunables de la partida: dinero inicial, renta, duración del día, cupos `stock_limits: Array[StockItem]`, config de clientes/paciencia) y `StockItem` (ítem + cupo diario).
+- `resources/config/balance_default.tres`: valores de equilibrio cargados por `GameManager`.
+- `src/ui/end_of_day.gd` y `src/ui/EndOfDay.tscn`: panel de fin de día (ganado/renta/saldo o deuda) con botón que vuelve al menú.
 - `src/core/main/main.gd` y `main.tscn`: main scene; menú + capa de escenas + navegación entre estaciones.
 - `src/ui/mouse_interaction.gd` y `mouse_interaction.tscn`: controles de borde para girar estación.
+- `src/ui/hud.gd` y `hud.tscn`: HUD permanente (dinero, tiempo y panel de información con stock y precios).
 - `src/entities/item/ingredients/spawner_ingredients.gd` y `.tscn`: `SpawnerIngredients` (WIP de otra célula; repone un ítem por `max_quantity`).
 - `src/entities/order/order_data.gd` y `order_generator.gd`: pedido `OrderData` y generador `OrderGenerator`.
 - `resources/recipes/encebollado.tres`: receta `RecipeData` del encebollado (líquido + cebolla + albacora + yuca).
@@ -65,32 +72,43 @@
 - `.tres` de alimentos finales en `resources/items/`: `encebollado`, `pan`, `chifle`, `limon`, `canguil`, `maiz_tostado` (todos `is_final_product = true`) y `bandeja` (`is_container = true`). Iconos en `assets/sprites/items/*.svg`.
 - Ítems de la sección de preparación en `resources/items/`: `plato` (`is_container`), `liquido_sopa`, `cebolla_cortada`, `pescado_desmenuzado` (nombre visible "Albacora desmenuzada", `item_id = "albacora_desmenuzada"`) y `yuca_desmenuzada`; todos con `item_id` e icono en `assets/sprites/items/`.
 - Materia prima de la Sección 2 en `resources/items/`: `item_cebolla_colorada`, `item_albacora`, `item_yuca` (crudos, con `next_data_state` apuntando a los ítems preparados del equipo y con icono SVG del proyecto). Cada regla vive en `encebollado_cebolla_colorada.tres`, `encebollado_albacora.tres` y `encebollado_yuca.tres` (`clics_necesarios = 3`). El cilantro queda fuera del flujo.
-- `FoodSpawner` (`src/entities/item/food_spawner.gd`): repone alimentos arrastrables en una columna; un slot por `ItemData` y respawn tras `respawn_delay` cuando el alimento se consume. Con `stock_mode = true` se abastece del `AlmacenPreparados`: sólo muestra un alimento mientras haya unidades y descuenta una al consumirse (lo usa la fuente `Ingredientes` de la Sección 3). La fuente `MateriaPrima` de la Sección 2 usa el modo normal (infinita).
-- Navegación: `main.tscn` (main scene) arranca en `MainMenu.tscn`; "Jugar" llama `GameManager.go_to_game()` → `main.start_game()`, que instancia las 4 estaciones en `SceneLayer` y las registra en `GameManager.setup_stations()`. Girar usa `GameManager.turn_left/turn_right/turn_back` desde `mouse_interaction`. `GameManager.get_station(side)` expone una estación registrada.
+- `FoodSpawner` (`src/entities/item/food_spawner.gd`): repone alimentos arrastrables en una columna; un slot por `ItemData` y respawn tras `respawn_delay` cuando el alimento se consume. `stock_source` (`enum { INFINITE, PREPARADOS, MATERIA_PRIMA }`) elige de qué inventario se abastece (`GameManager.warehouse` o `GameManager.materia_prima`): en modo con inventario sólo muestra un alimento mientras haya unidades y descuenta una al consumirse. La fuente `Ingredientes` de la Sección 3 usa `PREPARADOS`; la fuente `MateriaPrima` de la Sección 2 usa `MATERIA_PRIMA`; `Platos` sigue en `INFINITE`. `item_scale` escala los alimentos spawneados (fuentes compactas); la fuente `Agregados` de la estación principal lo usa.
+- Navegación: `main.tscn` (main scene) arranca en `MainMenu.tscn`; "Jugar" llama `GameManager.go_to_game()` → `main.start_game()`, que instancia las 4 estaciones en `SceneLayer` y las registra en `GameManager.setup_stations()`. Girar usa `GameManager.turn_left/turn_right/turn_back` desde `mouse_interaction`. `GameManager.get_station(side)` expone una estación registrada; `GameManager.current_side()` y la señal `station_changed(side)` informan la sección visible (las usa el HUD).
 - El `Control` raíz `Main` usa `mouse_filter = 2` (IGNORE): si captura el mouse (STOP), se come el clic a pantalla completa y el drag and drop de los `Area2D` deja de funcionar. No lo cambies a STOP.
 
 ## Sección de preparación (sección 3, estación derecha)
 
-- Flujo jugable: el jugador toma un **plato** (`resources/items/plato.tres`, contenedor) en el centro, le sirve el **líquido de sopa** (`liquido_sopa.tres`) desde la olla y luego agrega **cebolla cortada, albacora desmenuzada y yuca desmenuzada** en cualquier orden (provistas por la fuente `Ingredientes` en modo `stock_mode`, abastecida por la Sección 2 vía `GameManager.warehouse`). Al completar el conjunto, el plato se transforma en el plato de **encebollado** y se despacha a la estación principal para agregarle los extras.
+- Flujo jugable: el jugador toma un **plato** (`resources/items/plato.tres`, contenedor) en el centro, le sirve el **líquido de sopa** (`liquido_sopa.tres`) desde la olla y luego agrega **cebolla cortada, albacora desmenuzada y yuca desmenuzada** en cualquier orden (provistas por la fuente `Ingredientes` con `stock_source = PREPARADOS`, abastecida por la Sección 2 vía `GameManager.warehouse`). Al completar el conjunto, el plato se transforma en el plato de **encebollado** y se despacha a la estación principal para agregarle los extras.
 - Transformación por receta: `BaseItem` tiene `@export var recipe: RecipeData`. `collect_ingredients()` llama a `_try_complete_recipe()`, que compara el conjunto `collected_ingredients` con `recipe.require_ingredients` usando `OrderData.key_of_contents` (orden irrelevante; un ingrediente ajeno impide la transformación). Si coincide, `_transform_into(recipe.final_product)` cambia `data` por el producto final (sin mutar el `.tres`).
 - `plato_item.tscn` es el plato contenedor con `recipe = resources/recipes/encebollado.tres`; su `ItemData` se duplica en `_ready` como cualquier contenedor.
 - `DispatchZone.dispatch(item)` acepta solo `ItemData.is_final_product`, localiza la bandeja receptora (por nombre, o el primer contenedor reutilizable) en `GameManager.get_station(target_side)` y llama `collect_ingredients()`; luego libera el plato. No requiere que la estación destino esté visible.
 - `SoupPot` mantiene un único líquido arrastrable y lo repone tras `respawn_delay` cuando se consume (`tree_exited`).
-- La fuente `Ingredientes` (`FoodSpawner` en `stock_mode`) muestra un ingrediente sólo mientras el `AlmacenPreparados` tenga unidades; al soltar uno en el plato se descuenta del almacén. La fuente `Platos` sigue en modo normal (infinita).
+- La fuente `Ingredientes` (`FoodSpawner` con `stock_source = PREPARADOS`) muestra un ingrediente sólo mientras el `AlmacenPreparados` tenga unidades; al soltar uno en el plato se descuenta del almacén. La fuente `Platos` sigue en modo `INFINITE` (infinita).
 - Ojo con las coordenadas: todas las estaciones comparten el espacio de la escena. `GameManager.show_side()` ahora deshabilita `monitoring`/`monitorable` de los `Area2D` de las estaciones ocultas (`_set_interaction_enabled`) para que no interfieran con drops; aun así, evita que nodos interactivos de estaciones distintas coincidan en la misma posición.
 
 ## Sección de corte/desmenuce (sección 2, estación izquierda)
 
 - Arranca en `main.tscn` como `LEFT_STATION_SCENE` (`CorteDesmenuce.tscn`, `extends Station`). El lado atrás sigue siendo placeholder.
-- Flujo jugable: el jugador arrastra materia prima desde la fuente `MateriaPrima` (`FoodSpawner` en modo normal con `item_cebolla_colorada`, `item_albacora`, `item_yuca`) y la suelta sobre el `DropArea`. El `BaseItem` se consume y el `ItemData` queda en la estación; el jugador da **3 clics** (`ZonaProcesamiento`) para completarlo. Cebolla y yuca se procesan en `ZonaCorte`; la albacora se desmenuza en `ZonaDesmenuce`.
+- Flujo jugable: el jugador arrastra materia prima desde la fuente `MateriaPrima` (`FoodSpawner` con `stock_source = MATERIA_PRIMA` y `item_cebolla_colorada`, `item_albacora`, `item_yuca`) y la suelta sobre el `DropArea`. El `BaseItem` se consume y el `ItemData` queda en la estación; el jugador da **3 clics** (`ZonaProcesamiento`) para completarlo. Cebolla y yuca se procesan en `ZonaCorte`; la albacora se desmenuza en `ZonaDesmenuce`.
 - `CorteDesmenuce.recibir_item(item: ItemData) -> bool` valida contra su `RECETAS` (`EncebolladoIngrediente`): acepta sólo si el ítem es un `item_entrada` con `next_data_state` no nulo y su zona no está ocupada. Al completar los clics emite `item_preparado(item: ItemData)` (el recurso preparado) y resetea la zona.
 - `ZonaProcesamiento` sólo arranca con el `tipo_aceptado` correcto (`0` = corte, `1` = desmenuce) y la `preparacion` de la regla; `clics_necesarios = 3` en los tres `.tres`.
-- El resultado se guarda vía `GameManager.warehouse.agregar(item)`: `main.gd` conecta `corte.item_preparado` a `AlmacenPreparados.agregar`. La identidad del almacén es `ItemData.item_id` (fallback `resource_path`), con `consumir()` que descuenta una unidad y emite `inventario_actualizado(item, cantidad)`.
+- El resultado se guarda vía `GameManager.warehouse.agregar(item)`: `main.gd` conecta `corte.item_preparado` a `AlmacenPreparados.agregar`. La identidad del inventario es `ItemData.item_id` (fallback `resource_path`), con `consumir()` que descuenta una unidad y emite `inventario_actualizado(item, cantidad)`.
+
+## Economía y datos de partida
+
+- `GameManager` carga `RunBalance` desde `resources/config/balance_default.tres` (cuando no hay recurso, usa constantes de respaldo) y expone `balance`, `warehouse` (sin cupo) y `materia_prima` (con cupos de `balance.stock_limits`). `start_day()` reinicia `materia_prima` (cupo diario gratuito) y `end_day()` cobra la renta, publica `last_settlement` (earnings/rent/balance/debt) y emite `day_settled`.
+- Precios: `ItemData.price` por ítem; el valor de un pedido es `OrderData.price()` = precio base + extras. Al atender un pedido, `CustomerSpawner` paga `precio × multiplicador de paciencia` vía `GameManager.add_money()` y acumula en `day_earnings`.
+- Paciencia y clientes se configuran en `RunBalance` (`max_customers`, `spawn_interval`, `default_patience`); `CustomerData.patience_seconds` en 0 usa el valor del balance (`CustomerBase._patience_for()`).
+- Fin de día: `main.gd` conecta `day_settled` para pausar y mostrar `EndOfDay.tscn`; su botón llama `GameManager.go_to_menu()` y des-pausa. La renta puede dejar saldo negativo (deuda) y el panel la avisa.
+- Cupos iniciales: cebolla/albacora/yuca = 8/8/8 (⇒ hasta 8 encebollados por día); precios encebollado 12, pan 2, chifle 3, limón 1, canguil 2, maíz 2. Crudos y preparados no tienen precio.
+- UI: `RunBalance` expone catálogos de solo-lectura para el HUD (`preparados_catalogo`, `platos_catalogo`). El panel del HUD (`hud.gd`/`hud.tscn`) cambia según la estación visible (`GameManager.current_side` + señal `station_changed`): precios de platos en la principal, stock de crudos (`actual/cupo`) en la Sección 2 y stock de preparados en la Sección 3; el lado trasero lo oculta. Se refresca con la señal `inventario_actualizado` de `materia_prima` y `warehouse`.
+- Estación principal: fuente `Agregados` (`FoodSpawner` `INFINITE` con pan, chifle, limón, canguil y maíz tostado, en escala compacta) para agregarlos a la bandeja. El precio del pedido se muestra en el mundo sobre el icono del cliente (`CustomerBase.order_price_label`).
 ## Cliente y generador
 
 - `CustomerBase` expone señales de selección, paciencia, rechazo/aceptación del ítem, servicio y finalización. Conserva estas señales como contrato para HUD y sistemas externos.
 - Los controles visuales requeridos por `customer.gd` están enlazados por rutas: `$SelectionArea`, `$PatienceBar`, `$OrderIconFrame`, `$OrderIconFrame/OrderIcon` y `$OrderIconFrame/OrderPlaceholder`.
 - `CustomerSpawner` añade clientes como hijos, los coloca hacia la derecha usando `customer_spacing` en coordenadas locales, y compacta la fila al salir un cliente. Su escena debe asignar un `PackedScene` cuya raíz herede de `CustomerBase`.
+- Además de la fila de badges (`OrderExtrasRow`), el cliente crea en runtime `OrderPriceLabel` (Label sobre el icono del pedido) con `OrderData.price()`; solo aparece cuando hay pedido estructurado.
 
 ## Pendientes conocidos al redactar este archivo
 

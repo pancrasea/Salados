@@ -29,6 +29,13 @@ var spawn_timer: Timer
 
 ## Creates the timer and optionally spawns the first customer immediately.
 func _ready() -> void:
+	# El ritmo de clientes se centraliza en RunBalance; los exports quedan como
+	# respaldo si el recurso no está disponible (p. ej. arranques headless).
+	var balance := _balance()
+	if balance != null:
+		max_customers = balance.max_customers
+		spawn_interval = balance.spawn_interval
+
 	spawn_timer = Timer.new()
 	spawn_timer.wait_time = maxf(spawn_interval, 0.1)
 	spawn_timer.timeout.connect(spawn_customer)
@@ -36,6 +43,20 @@ func _ready() -> void:
 	if spawn_on_ready:
 		spawn_customer()
 		spawn_timer.start()
+
+
+## Autoload GameManager. Se resuelve por ruta en vez del identificador global
+## para que el script compile también en arranques headless con `--script`.
+func _game_manager() -> Node:
+	return get_node_or_null("/root/GameManager")
+
+
+## RunBalance del autoload GameManager, o null si no está disponible.
+func _balance() -> RunBalance:
+	var game_manager := _game_manager()
+	if game_manager == null:
+		return null
+	return game_manager.get("balance") as RunBalance
 
 
 ## Creates the next customer in the row, or returns null if spawning is unavailable.
@@ -80,6 +101,8 @@ func _on_customer_finished(customer: CustomerBase) -> void:
 
 
 ## Paga al jugador cuando un cliente queda satisfecho.
+## El pago base es el valor del pedido (OrderData.price, precio por ítem) o,
+## en modo clásico sin pedido, CustomerData.reward.
 ## El pago escalonado depende del ratio de paciencia en el momento de ser servido:
 ##   > 0.66  → 100 % del pago (cliente recién esperando)
 ##   > 0.33  →  80 % del pago (llegando a la mitad)
@@ -88,9 +111,10 @@ func _on_customer_finished(customer: CustomerBase) -> void:
 func _on_customer_served(customer: CustomerBase) -> void:
 	if customer.customer_data == null:
 		return
-	var base: int = customer.customer_data.reward
-	var tip: int = int(base * customer.customer_data.tip_percent / 100.0)
-	var total: int = base + tip
+	var base_value: int = customer.order.price() if customer.order != null \
+		else customer.customer_data.reward
+	var tip: int = int(base_value * customer.customer_data.tip_percent / 100.0)
+	var total: int = base_value + tip
 
 	var ratio := customer.patience_ratio_at_serve
 	var multiplier: float
@@ -101,7 +125,9 @@ func _on_customer_served(customer: CustomerBase) -> void:
 	else:
 		multiplier = 0.5    # tramo 3: paciencia baja → 50 %
 
-	GameManager.add_money(int(total * multiplier))
+	var gm := _game_manager()
+	if gm != null:
+		gm.call("add_money", int(total * multiplier))
 
 
 ## Keeps the active list and row positions correct if a customer is freed externally.

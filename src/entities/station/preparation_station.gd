@@ -7,6 +7,6 @@ extends Station
 ##
 ## La lógica vive en los nodos hijos (SoupPot, FoodSpawner, DispatchZone y
 ## TrashBin); esta clase sólo marca la estación para GameManager. La fuente
-## `Ingredientes` (FoodSpawner en `stock_mode`) se abastece del
+## `Ingredientes` (FoodSpawner con `stock_source = PREPARADOS`) se abastece del
 ## AlmacenPreparados que llena la Sección 2 (corte/desmenuce): sólo muestra un
 ## ingrediente mientras haya unidades y descuenta una al usarlo.

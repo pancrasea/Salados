@@ -9,3 +9,4 @@ name = "Pan"
 item_id = "pan"
 icon = ExtResource("2")
 is_final_product = true
+price = 2

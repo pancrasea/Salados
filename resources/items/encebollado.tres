@@ -10,3 +10,4 @@ item_id = "encebollado"
 icon = ExtResource("2")
 is_container = false
 is_final_product = true
+price = 12

@@ -4,6 +4,11 @@ class_name ItemData extends Resource
 @export var icon: Texture2D
 @export var max_quantity: int = 10
 
+# Precio de venta del ítem. El valor de un pedido es la suma de los precios de
+# su plato base más sus extras (ver OrderData.price). Los ingredientes sueltos
+# (crudos y preparados) valen 0 porque no se venden directamente.
+@export var price: int = 0
+
 # Identificador estable para claves de recetas/pedidos en runtime.
 # Preferible a resource_path porque este se pierde al duplicar el recurso
 # (los platos contenedores duplican su ItemData para no mutar el .tres).

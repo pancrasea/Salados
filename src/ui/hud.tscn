@@ -1,6 +1,22 @@
-[gd_scene format=3 uid="uid://hud_salados01"]
+[gd_scene load_steps=3 format=3 uid="uid://hud_salados01"]
 
 [ext_resource type="Script" path="res://src/ui/hud.gd" id="1_hudsc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_info"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+bg_color = Color(0.06, 0.09, 0.1, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.89, 0.78, 0.53, 0.55)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="HUD" type="CanvasLayer"]
 layer = 10
@@ -23,3 +39,18 @@ offset_right = 200.0
 offset_bottom = 102.0
 theme_override_font_sizes/font_size = 28
 text = "5:00"
+
+[node name="InfoPanel" type="PanelContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -320.0
+offset_top = 20.0
+offset_right = -20.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_info")
+
+[node name="InfoList" type="VBoxContainer" parent="InfoPanel"]
+layout_mode = 2
+mouse_filter = 2

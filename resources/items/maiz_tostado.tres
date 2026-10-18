@@ -9,3 +9,4 @@ name = "Maíz tostado"
 item_id = "maiz_tostado"
 icon = ExtResource("2")
 is_final_product = true
+price = 2

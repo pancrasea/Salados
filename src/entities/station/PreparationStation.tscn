@@ -112,7 +112,7 @@ item_scene = ExtResource("7_base")
 respawn_delay = 0.6
 slot_spacing = 150.0
 first_slot_offset = Vector2(0, 0)
-stock_mode = true
+stock_source = 1
 
 [node name="ZonaBasura" type="ColorRect" parent="."]
 offset_left = 90.0

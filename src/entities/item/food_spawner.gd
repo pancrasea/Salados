@@ -25,37 +25,52 @@ signal food_spawned(food: ItemData, item: BaseItem)
 @export var spawn_on_ready: bool = true
 ## Si está activo, añade una etiqueta con el nombre bajo cada alimento.
 @export var show_name_labels: bool = true
-## Si está activo, la fuente se abastece del `AlmacenPreparados`: sólo mantiene
-## un alimento mientras haya unidades disponibles y descuenta una al consumirse.
-## Se usa en la sección de preparación para los ingredientes que procesa la
-## Sección 2 (corte/desmenuce).
-@export var stock_mode: bool = false
+## Escala aplicada a cada alimento spawneado. Permite que una fuente compacta
+## (p. ej. los agregados de la estación principal) muestre ítems pequeños sin
+## encoger la escena base ni su colisión.
+@export var item_scale: Vector2 = Vector2.ONE
+## Origen del stock de la fuente:
+## - INFINITE: repone sin límite (materia prima de prueba, platos).
+## - PREPARADOS: se abastece de `GameManager.warehouse`; solo muestra un
+##   ingrediente mientras la Sección 2 lo haya preparado, y descuenta una
+##   unidad al consumirse (Sección 3).
+## - MATERIA_PRIMA: se abastece de `GameManager.materia_prima`; respeta el
+##   cupo diario de crudos (Sección 2) y descuenta una unidad al consumirse.
+enum StockSource { INFINITE, PREPARADOS, MATERIA_PRIMA }
+
+@export var stock_source: StockSource = StockSource.INFINITE
 
 var _slot_timers: Array[Timer] = []
 var _slot_instances: Array[BaseItem] = []
-var _warehouse: AlmacenPreparados = null
+var _inventory: Inventario = null
 
 
 func _ready() -> void:
 	_slot_instances.resize(foods.size())
 	_create_slot_timers()
-	if stock_mode:
-		_warehouse = _resolve_warehouse()
-		if _warehouse != null:
-			_warehouse.inventario_actualizado.connect(_on_stock_changed)
+	if stock_source != StockSource.INFINITE:
+		_inventory = _resolve_inventory()
+		if _inventory != null:
+			_inventory.inventario_actualizado.connect(_on_stock_changed)
 	if spawn_on_ready:
 		refill()
 
 
-## Resuelve el almacén desde el autoload GameManager. Se resuelve por ruta en
-## vez del identificador global para que el script también compile en arranques
-## headless con `--script`, donde los autoloads no se registran como globales.
-func _resolve_warehouse() -> AlmacenPreparados:
+## Resuelve el inventario desde el autoload GameManager. Se resuelve por ruta
+## en vez del identificador global para que el script también compile en
+## arranques headless con `--script`, donde los autoloads no se registran como
+## globales.
+func _resolve_inventory() -> Inventario:
 	var game_manager := get_node_or_null("/root/GameManager")
 	if game_manager == null:
-		push_warning("FoodSpawner en modo stock sin GameManager; la fuente quedará vacía.")
+		push_warning("FoodSpawner con stock sin GameManager; la fuente quedará vacía.")
 		return null
-	return game_manager.get("warehouse") as AlmacenPreparados
+	match stock_source:
+		StockSource.PREPARADOS:
+			return game_manager.get("warehouse") as Inventario
+		StockSource.MATERIA_PRIMA:
+			return game_manager.get("materia_prima") as Inventario
+	return null
 
 
 ## Rellena todos los slots vacíos de inmediato (sin esperar el timer).
@@ -84,13 +99,14 @@ func _spawn(food: ItemData, index: int) -> void:
 	if item_scene == null or food == null:
 		push_warning("FoodSpawner necesita item_scene y foods sin nulos.")
 		return
-	if stock_mode and (_warehouse == null or _warehouse.cantidad_de(food) <= 0):
+	if stock_source != StockSource.INFINITE and (_inventory == null or not _inventory.tiene_stock(food)):
 		return
 	var item := item_scene.instantiate() as BaseItem
 	if item == null:
 		push_error("FoodSpawner.item_scene debe heredar de BaseItem.")
 		return
 	item.data = food
+	item.scale = item_scale
 	item.position = first_slot_offset + Vector2(0.0, index * slot_spacing)
 	add_child(item)
 	if show_name_labels:
@@ -118,8 +134,8 @@ func _on_food_exited(index: int) -> void:
 	if not is_inside_tree() or index < 0 or index >= _slot_timers.size():
 		return
 	_slot_instances[index] = null
-	if stock_mode and _warehouse != null and index < foods.size():
-		_warehouse.consumir(foods[index])
+	if stock_source != StockSource.INFINITE and _inventory != null and index < foods.size():
+		_inventory.consumir(foods[index])
 	_slot_timers[index].start()
 
 

@@ -32,6 +32,7 @@ item_scene = ExtResource("5_base")
 respawn_delay = 0.6
 slot_spacing = 150.0
 first_slot_offset = Vector2(0, 0)
+stock_source = 2
 
 [node name="DropArea" type="Area2D" parent="."]
 position = Vector2(960, 445)

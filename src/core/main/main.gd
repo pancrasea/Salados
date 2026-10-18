@@ -6,6 +6,8 @@ extends Control
 
 # Escenas de pantallas
 const MAIN_MENU_SCENE = preload("res://src/ui/MainMenu.tscn")
+# Panel de resumen de fin de día (ganado/renta/saldo).
+const END_OF_DAY_SCENE = preload("res://src/ui/EndOfDay.tscn")
 
 # Escenas de las 4 estaciones
 const MAIN_STATION_SCENE  = preload("res://src/entities/station/MainStation.tscn")
@@ -15,6 +17,7 @@ const BACK_STATION_SCENE  = preload("res://src/entities/station/BackStation.tscn
 
 func _ready() -> void:
 	GameManager.main = self
+	get_tree().paused = false
 	mouse_interaction.hide()
 	hud.hide()
 	change_screen(MAIN_MENU_SCENE)
@@ -58,6 +61,7 @@ func start_game() -> void:
 		corte.item_preparado.connect(GameManager.warehouse.agregar)
 	GameManager.start_day()
 	GameManager.day_ended.connect(_on_day_ended, CONNECT_ONE_SHOT)
+	get_tree().paused = false
 	mouse_interaction.show()
 	hud.show()
 
@@ -65,14 +69,18 @@ func start_game() -> void:
 # Llamado al volver al menú (oculta la UI de navegación)
 func return_to_menu() -> void:
 	GameManager.stop_day()
+	get_tree().paused = false
 	mouse_interaction.hide()
 	hud.hide()
 	change_screen(MAIN_MENU_SCENE)
 
 
-# Lógica al terminar el día
+# Lógica al terminar el día: liquida la renta y muestra el resumen.
 func _on_day_ended() -> void:
+	GameManager.end_day()
 	mouse_interaction.hide()
 	hud.hide()
-	# TODO: change_screen(END_OF_DAY_SCENE) cuando exista esa pantalla
-	change_screen(MAIN_MENU_SCENE)
+	get_tree().paused = true
+	var panel := END_OF_DAY_SCENE.instantiate()
+	panel.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(panel)

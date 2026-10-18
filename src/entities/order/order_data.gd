@@ -34,6 +34,19 @@ func matches(item: ItemData) -> bool:
 	return item != null and item.recipe_key != "" and item.recipe_key == key()
 
 
+## Valor de venta del pedido: suma de los precios de los ítems que lo componen
+## (plato base + extras). Lo usa CustomerSpawner para calcular el pago; los
+## ítems con `price = 0` no aportan.
+func price() -> int:
+	var total: int = 0
+	if base != null:
+		total += base.price
+	for extra in extras:
+		if extra != null:
+			total += extra.price
+	return total
+
+
 ## Clave canónica de un conjunto de alimentos: ids únicos ordenados
 ## unidos por coma. El orden de agregado y las repeticiones no alteran la
 ## clave; [encebollado, pan, limón] y [limón, encebollado, pan] son el

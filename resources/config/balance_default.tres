@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="RunBalance" load_steps=19 format=3]
+
+[ext_resource type="Script" path="res://src/core/resources_scripts/run_balance.gd" id="1_bal"]
+[ext_resource type="Script" path="res://src/core/resources_scripts/stock_item.gd" id="2_stock"]
+[ext_resource type="Resource" path="res://resources/items/item_cebolla_colorada.tres" id="3_cebolla"]
+[ext_resource type="Resource" path="res://resources/items/item_albacora.tres" id="4_albacora"]
+[ext_resource type="Resource" path="res://resources/items/item_yuca.tres" id="5_yuca"]
+[ext_resource type="Resource" path="res://resources/items/cebolla_cortada.tres" id="6_prep_cebolla"]
+[ext_resource type="Resource" path="res://resources/items/pescado_desmenuzado.tres" id="7_prep_pescado"]
+[ext_resource type="Resource" path="res://resources/items/yuca_desmenuzada.tres" id="8_prep_yuca"]
+[ext_resource type="Resource" path="res://resources/items/encebollado.tres" id="9_encebollado"]
+[ext_resource type="Resource" path="res://resources/items/pan.tres" id="10_pan"]
+[ext_resource type="Resource" path="res://resources/items/chifle.tres" id="11_chifle"]
+[ext_resource type="Resource" path="res://resources/items/limon.tres" id="12_limon"]
+[ext_resource type="Resource" path="res://resources/items/canguil.tres" id="13_canguil"]
+[ext_resource type="Resource" path="res://resources/items/maiz_tostado.tres" id="14_maiz"]
+[ext_resource type="Script" path="res://src/entities/item/item_data.gd" id="15_item"]
+
+[sub_resource type="Resource" id="Stock_cebolla"]
+script = ExtResource("2_stock")
+item = ExtResource("3_cebolla")
+daily_limit = 8
+
+[sub_resource type="Resource" id="Stock_albacora"]
+script = ExtResource("2_stock")
+item = ExtResource("4_albacora")
+daily_limit = 8
+
+[sub_resource type="Resource" id="Stock_yuca"]
+script = ExtResource("2_stock")
+item = ExtResource("5_yuca")
+daily_limit = 8
+
+[resource]
+script = ExtResource("1_bal")
+starting_money = 20
+rent_cost = 15
+day_duration = 120.0
+stock_limits = Array[ExtResource("2_stock")]([SubResource("Stock_cebolla"), SubResource("Stock_albacora"), SubResource("Stock_yuca")])
+max_customers = 3
+spawn_interval = 5.0
+default_patience = 30.0
+preparados_catalogo = Array[ExtResource("15_item")]([ExtResource("6_prep_cebolla"), ExtResource("7_prep_pescado"), ExtResource("8_prep_yuca")])
+platos_catalogo = Array[ExtResource("15_item")]([ExtResource("9_encebollado"), ExtResource("10_pan"), ExtResource("11_chifle"), ExtResource("12_limon"), ExtResource("13_canguil"), ExtResource("14_maiz")])

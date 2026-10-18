@@ -9,8 +9,9 @@ class_name CustomerData
 ## Sprite que se muestra en el Visual del cliente. Si es null se conserva
 ## la textura que tenga la escena como fallback.
 @export var texture: Texture2D
-## Time available before this customer leaves without being served.
-@export_range(1.0, 300.0, 1.0) var patience_seconds: float = 30.0
+## Paciencia en segundos. 0 = usar `RunBalance.default_patience` (valor central
+## de la partida); el arquetipo solo la define cuando necesita diferenciarse.
+@export_range(0.0, 300.0, 1.0) var patience_seconds: float = 0.0
 ## Item definition that must be delivered to satisfy this order.
 ## Solo se usa en modo clásico (sin OrderData); en la demo se ignora.
 @export var requested_item: ItemData

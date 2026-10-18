@@ -9,3 +9,4 @@ name = "Canguil"
 item_id = "canguil"
 icon = ExtResource("2")
 is_final_product = true
+price = 2
