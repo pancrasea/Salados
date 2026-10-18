@@ -5,6 +5,7 @@
 [ext_resource type="Resource" uid="uid://dcpdqjergkvg6" path="res://resources/items/naranja.tres" id="3_xm5kj"]
 [ext_resource type="PackedScene" uid="uid://damlcd1kxwvv4" path="res://src/entities/item/ingredients/naranja_ingredient.tscn" id="4_4cm5f"]
 [ext_resource type="PackedScene" uid="uid://c4g7s4uyhxp1s" path="res://src/entities/item/exprimidor_item.tscn" id="4_xm5kj"]
+[ext_resource type="Script" uid="uid://cs5wjexahbcwf" path="res://src/entities/item/refiller_pana.gd" id="6_8c21h"]
 [ext_resource type="Texture2D" uid="uid://svxt66mhkaxa" path="res://icon.svg" id="6_mkb0r"]
 [ext_resource type="PackedScene" uid="uid://cdispatch001" path="res://src/entities/station/dispatch_zone.tscn" id="7_qj16u"]
 
@@ -29,13 +30,14 @@ offset_right = 1598.0
 offset_bottom = 708.0
 show_percentage = false
 
-[node name="Area2D" type="Area2D" parent="." unique_id=69915181]
+[node name="RefillerPana" type="Area2D" parent="." unique_id=69915181]
 position = Vector2(456, 336)
+script = ExtResource("6_8c21h")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=452936697]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RefillerPana" unique_id=452936697]
 shape = SubResource("RectangleShape2D_g4v7s")
 
-[node name="Sprite2D" type="Sprite2D" parent="Area2D" unique_id=473011566]
+[node name="Sprite2D" type="Sprite2D" parent="RefillerPana" unique_id=473011566]
 scale = Vector2(3.828125, 3.71875)
 texture = ExtResource("6_mkb0r")
 
@@ -62,3 +64,5 @@ position = Vector2(1477, 821)
 
 [node name="JugoSpawn" type="Node2D" parent="." unique_id=784755835]
 position = Vector2(1107, 562)
+
+[connection signal="input_event" from="RefillerPana" to="RefillerPana" method="_on_input_event"]

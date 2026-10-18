@@ -1,23 +1,23 @@
 [gd_scene format=3 uid="uid://cprepstation1"]
 
-[ext_resource type="Script" path="res://src/entities/station/preparation_station.gd" id="1_script"]
-[ext_resource type="PackedScene" path="res://src/entities/station/soup_pot.tscn" id="2_pot"]
-[ext_resource type="PackedScene" path="res://src/entities/station/dispatch_zone.tscn" id="3_dispatch"]
-[ext_resource type="PackedScene" path="res://src/entities/station/trash_bin.tscn" id="4_trash"]
-[ext_resource type="Script" path="res://src/entities/item/food_spawner.gd" id="5_spawner"]
-[ext_resource type="Script" path="res://src/entities/item/item_data.gd" id="6_item"]
-[ext_resource type="PackedScene" path="res://src/entities/item/base_item.tscn" id="7_base"]
-[ext_resource type="PackedScene" path="res://src/entities/item/plato_item.tscn" id="8_plato"]
+[ext_resource type="Script" uid="uid://cpdr06go35ch6" path="res://src/entities/station/preparation_station.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://csouppot001" path="res://src/entities/station/soup_pot.tscn" id="2_pot"]
+[ext_resource type="PackedScene" uid="uid://cdispatch001" path="res://src/entities/station/dispatch_zone.tscn" id="3_dispatch"]
+[ext_resource type="PackedScene" uid="uid://ctrashbin01" path="res://src/entities/station/trash_bin.tscn" id="4_trash"]
+[ext_resource type="Script" uid="uid://d32mm0dvlxby5" path="res://src/entities/item/food_spawner.gd" id="5_spawner"]
+[ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="6_item"]
+[ext_resource type="PackedScene" uid="uid://cprepj6on75a7" path="res://src/entities/item/base_item.tscn" id="7_base"]
+[ext_resource type="PackedScene" uid="uid://cplatoitem01" path="res://src/entities/item/plato_item.tscn" id="8_plato"]
 [ext_resource type="Resource" path="res://resources/items/plato.tres" id="9_plato_data"]
 [ext_resource type="Resource" path="res://resources/items/cebolla_cortada.tres" id="10_cebolla"]
 [ext_resource type="Resource" path="res://resources/items/pescado_desmenuzado.tres" id="11_pescado"]
 [ext_resource type="Resource" path="res://resources/items/yuca_desmenuzada.tres" id="12_yuca"]
-[ext_resource type="PackedScene" path="res://src/entities/station/work_surface.tscn" id="13_mesa"]
+[ext_resource type="PackedScene" uid="uid://cworksurface1" path="res://src/entities/station/work_surface.tscn" id="13_mesa"]
 
-[node name="PreparationStation" type="Node2D"]
+[node name="PreparationStation" type="Node2D" unique_id=1358951242]
 script = ExtResource("1_script")
 
-[node name="ZonaPreparacion" type="ColorRect" parent="."]
+[node name="ZonaPreparacion" type="ColorRect" parent="." unique_id=1317591954]
 offset_left = 660.0
 offset_top = 340.0
 offset_right = 1140.0
@@ -25,17 +25,17 @@ offset_bottom = 760.0
 mouse_filter = 2
 color = Color(0.12, 0.14, 0.16, 0.35)
 
-[node name="Titulo" type="Label" parent="ZonaPreparacion"]
+[node name="Titulo" type="Label" parent="ZonaPreparacion" unique_id=881220121]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 472.0
 offset_bottom = 40.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.85, 0.82, 0.7, 1)
 theme_override_font_sizes/font_size = 20
 text = "Preparación: plato + líquido + ingredientes"
 
-[node name="ZonaOlla" type="ColorRect" parent="."]
+[node name="ZonaOlla" type="ColorRect" parent="." unique_id=975833175]
 offset_left = 1330.0
 offset_top = 300.0
 offset_right = 1550.0
@@ -43,23 +43,23 @@ offset_bottom = 560.0
 mouse_filter = 2
 color = Color(0.16, 0.13, 0.1, 0.35)
 
-[node name="Titulo" type="Label" parent="ZonaOlla"]
+[node name="Titulo" type="Label" parent="ZonaOlla" unique_id=500252737]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 212.0
 offset_bottom = 40.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.85, 0.82, 0.7, 1)
 theme_override_font_sizes/font_size = 20
 text = "Olla (líquido)"
 
-[node name="MesaTrabajo" parent="." instance=ExtResource("13_mesa")]
+[node name="MesaTrabajo" parent="." unique_id=1647676312 instance=ExtResource("13_mesa")]
 position = Vector2(900, 550)
 
-[node name="Olla" parent="." instance=ExtResource("2_pot")]
+[node name="Olla" parent="." unique_id=855834328 instance=ExtResource("2_pot")]
 position = Vector2(1440, 420)
 
-[node name="ZonaPlatos" type="ColorRect" parent="."]
+[node name="ZonaPlatos" type="ColorRect" parent="." unique_id=1746078183]
 offset_left = 1330.0
 offset_top = 700.0
 offset_right = 1550.0
@@ -67,17 +67,17 @@ offset_bottom = 860.0
 mouse_filter = 2
 color = Color(0.1, 0.14, 0.13, 0.35)
 
-[node name="Titulo" type="Label" parent="ZonaPlatos"]
+[node name="Titulo" type="Label" parent="ZonaPlatos" unique_id=859082350]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 212.0
 offset_bottom = 40.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.85, 0.82, 0.7, 1)
 theme_override_font_sizes/font_size = 20
 text = "Platos"
 
-[node name="Platos" type="Node2D" parent="."]
+[node name="Platos" type="Node2D" parent="." unique_id=752006757]
 position = Vector2(1440, 780)
 script = ExtResource("5_spawner")
 foods = Array[ExtResource("6_item")]([ExtResource("9_plato_data")])
@@ -86,7 +86,7 @@ slot_spacing = 130.0
 first_slot_offset = Vector2(0, 0)
 show_name_labels = false
 
-[node name="ZonaIngredientes" type="ColorRect" parent="."]
+[node name="ZonaIngredientes" type="ColorRect" parent="." unique_id=1621689862]
 offset_left = 60.0
 offset_top = 300.0
 offset_right = 380.0
@@ -94,17 +94,17 @@ offset_bottom = 820.0
 mouse_filter = 2
 color = Color(0.14, 0.12, 0.16, 0.35)
 
-[node name="Titulo" type="Label" parent="ZonaIngredientes"]
+[node name="Titulo" type="Label" parent="ZonaIngredientes" unique_id=496504392]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 312.0
 offset_bottom = 40.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.85, 0.82, 0.7, 1)
 theme_override_font_sizes/font_size = 20
 text = "Ingredientes preparados"
 
-[node name="Ingredientes" type="Node2D" parent="."]
+[node name="Ingredientes" type="Node2D" parent="." unique_id=1277474414]
 position = Vector2(220, 380)
 script = ExtResource("5_spawner")
 foods = Array[ExtResource("6_item")]([ExtResource("10_cebolla"), ExtResource("11_pescado"), ExtResource("12_yuca")])
@@ -116,10 +116,9 @@ show_name_labels = false
 item_scale = Vector2(0.55, 0.55)
 slots_per_item = 3
 horizontal_groups = true
-row_spacing = 120.0
 stock_source = 1
 
-[node name="ZonaBasura" type="ColorRect" parent="."]
+[node name="ZonaBasura" type="ColorRect" parent="." unique_id=1410996426]
 offset_left = 90.0
 offset_top = 900.0
 offset_right = 270.0
@@ -127,20 +126,20 @@ offset_bottom = 1020.0
 mouse_filter = 2
 color = Color(0.18, 0.11, 0.11, 0.35)
 
-[node name="Titulo" type="Label" parent="ZonaBasura"]
+[node name="Titulo" type="Label" parent="ZonaBasura" unique_id=1720588686]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 172.0
 offset_bottom = 40.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.85, 0.82, 0.7, 1)
 theme_override_font_sizes/font_size = 20
 text = "Basura"
 
-[node name="TrashBin" parent="." instance=ExtResource("4_trash")]
+[node name="TrashBin" parent="." unique_id=1992756239 instance=ExtResource("4_trash")]
 position = Vector2(180, 960)
 
-[node name="ZonaDespacho" type="ColorRect" parent="."]
+[node name="ZonaDespacho" type="ColorRect" parent="." unique_id=1337376582]
 offset_left = 820.0
 offset_top = 860.0
 offset_right = 1120.0
@@ -148,15 +147,15 @@ offset_bottom = 1020.0
 mouse_filter = 2
 color = Color(0.11, 0.15, 0.19, 0.45)
 
-[node name="Titulo" type="Label" parent="ZonaDespacho"]
+[node name="Titulo" type="Label" parent="ZonaDespacho" unique_id=1644847564]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 292.0
 offset_bottom = 40.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.85, 0.82, 0.7, 1)
 theme_override_font_sizes/font_size = 20
 text = "Despacho a clientes"
 
-[node name="DispatchZone" parent="." instance=ExtResource("3_dispatch")]
+[node name="DispatchZone" parent="." unique_id=549202623 instance=ExtResource("3_dispatch")]
 position = Vector2(970, 940)

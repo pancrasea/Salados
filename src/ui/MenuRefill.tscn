@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://b5ku1lqfetv3k"]
+
+[ext_resource type="Script" uid="uid://bf6r478otnjvd" path="res://src/ui/menu_refill.gd" id="1_3f5af"]
+[ext_resource type="Texture2D" uid="uid://c2hiiop35lfat" path="res://assets/sprites/items/cebolla_cortada.svg" id="2_j1qat"]
+[ext_resource type="Texture2D" uid="uid://cftkyeypwi7a4" path="res://assets/sprites/items/yuca_desmenuzada.svg" id="3_8bca1"]
+[ext_resource type="Texture2D" uid="uid://cbvio35ghrond" path="res://assets/sprites/items/pescado_desmenuzado.svg" id="4_c8ssv"]
+[ext_resource type="Texture2D" uid="uid://b0upw2ceki5co" path="res://assets/sprites/items/limon.svg" id="5_phnem"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_titd2"]
+atlas = ExtResource("2_j1qat")
+region = Rect2(2.7359314, -0.2725067, 124.581665, 129.90565)
+
+[node name="MenuRefill" type="Control" unique_id=279778921]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3f5af")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1135213384]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -121.5
+offset_top = -92.0
+offset_right = 121.5
+offset_bottom = 92.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1646811266]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer" unique_id=1049578117]
+layout_mode = 2
+text = "Reabastecer"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="Panel/VBoxContainer" unique_id=2048107686]
+layout_mode = 2
+columns = 2
+
+[node name="OnionButton" type="TextureButton" parent="Panel/VBoxContainer/GridContainer" unique_id=193818853]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_titd2")
+
+[node name="YucaButton" type="TextureButton" parent="Panel/VBoxContainer/GridContainer" unique_id=2055650839]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+texture_normal = ExtResource("3_8bca1")
+
+[node name="FishButton" type="TextureButton" parent="Panel/VBoxContainer/GridContainer" unique_id=1262627398]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+texture_normal = ExtResource("4_c8ssv")
+
+[node name="OrangeButton" type="TextureButton" parent="Panel/VBoxContainer/GridContainer" unique_id=1727859915]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+texture_normal = ExtResource("5_phnem")
+
+[connection signal="pressed" from="Panel/VBoxContainer/GridContainer/OnionButton" to="." method="_on_onion_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/GridContainer/YucaButton" to="." method="_on_yuca_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/GridContainer/FishButton" to="." method="_on_fish_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/GridContainer/OrangeButton" to="." method="_on_orange_button_pressed"]

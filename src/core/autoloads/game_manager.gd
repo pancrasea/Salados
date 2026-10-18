@@ -312,3 +312,12 @@ func _turn(direction: int) -> void:
 	current_station = next_st
 	station_changed.emit(next_side)
 	_is_animating = false
+
+
+func refill_ing(item: ItemData, cantidad: int) -> void:
+	if materia_prima == null or item == null or cantidad < 0:
+		return
+
+	var diferencia := cantidad - materia_prima.cantidad_de(item)
+	if diferencia > 0:
+		materia_prima.agregar(item, diferencia)
