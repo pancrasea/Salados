@@ -1,0 +1,373 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/core/game_data/panel_datos_partida.gd" id="1_panel"]
+
+[sub_resource type="StyleBoxFlat" id="StyleHUD"]
+bg_color = Color(0.045, 0.10, 0.13, 0.64)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.41, 0.81, 0.68, 0.48)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+shadow_color = Color(0, 0, 0, 0.16)
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleTrack"]
+bg_color = Color(0.04, 0.11, 0.13, 0.48)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleFill"]
+bg_color = Color(0.45, 0.86, 0.68, 0.95)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+
+[node name="PanelDatosPartida" type="CanvasLayer"]
+layer = 12
+script = ExtResource("1_panel")
+
+[node name="HUDRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PanelHUD" type="PanelContainer" parent="HUDRoot"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -359.0
+offset_top = -490.0
+offset_right = -18.0
+offset_bottom = -18.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleHUD")
+
+[node name="Margen" type="MarginContainer" parent="HUDRoot/PanelHUD"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 17
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 17
+theme_override_constants/margin_bottom = 14
+
+[node name="Columna" type="VBoxContainer" parent="HUDRoot/PanelHUD/Margen"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="Cabecera" type="HBoxContainer" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Titulo" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/Cabecera"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.96, 1, 0.98, 1)
+theme_override_font_sizes/font_size = 18
+text = "SALADOS  /  ESTADO"
+
+[node name="Estado" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/Cabecera"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.93, 0.97, 0.94, 1)
+theme_override_font_sizes/font_size = 11
+text = "EN ESPERA"
+
+[node name="FilaTiempo" type="HBoxContainer" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Etiqueta" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaTiempo"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.78, 0.88, 0.87, 1)
+theme_override_font_sizes/font_size = 15
+text = "Tiempo restante"
+
+[node name="Valor" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaTiempo"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.93, 1, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+text = "02:00"
+horizontal_alignment = 2
+
+[node name="TituloInventario" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.56, 0.94, 0.78, 1)
+theme_override_font_sizes/font_size = 13
+text = "INVENTARIO"
+
+[node name="FilaAderezos" type="HBoxContainer" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Etiqueta" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaAderezos"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.78, 0.88, 0.87, 1)
+theme_override_font_sizes/font_size = 15
+text = "Aderezos"
+
+[node name="Valor" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaAderezos"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.93, 1, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+text = "0"
+horizontal_alignment = 2
+
+[node name="FilaIngredientes" type="HBoxContainer" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Etiqueta" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaIngredientes"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.78, 0.88, 0.87, 1)
+theme_override_font_sizes/font_size = 15
+text = "Ingredientes preparados"
+
+[node name="Valor" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaIngredientes"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.93, 1, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+text = "0"
+horizontal_alignment = 2
+
+[node name="FilaFrutas" type="HBoxContainer" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Etiqueta" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaFrutas"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.78, 0.88, 0.87, 1)
+theme_override_font_sizes/font_size = 15
+text = "Frutas para jugo"
+
+[node name="Valor" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaFrutas"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.93, 1, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+text = "0"
+horizontal_alignment = 2
+
+[node name="FilaFondo" type="HBoxContainer" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Etiqueta" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaFondo"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.78, 0.88, 0.87, 1)
+theme_override_font_sizes/font_size = 15
+text = "Barra de fondo"
+
+[node name="Valor" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaFondo"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.93, 1, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+text = "100 / 100"
+horizontal_alignment = 2
+
+[node name="BarraFondo" type="ProgressBar" parent="HUDRoot/PanelHUD/Margen/Columna"]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleTrack")
+theme_override_styles/fill = SubResource("StyleFill")
+show_percentage = false
+
+[node name="FilaJugo" type="HBoxContainer" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Etiqueta" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaJugo"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.78, 0.88, 0.87, 1)
+theme_override_font_sizes/font_size = 15
+text = "Barra de jugo"
+
+[node name="Valor" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaJugo"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.93, 1, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+text = "100 / 100"
+horizontal_alignment = 2
+
+[node name="BarraJugo" type="ProgressBar" parent="HUDRoot/PanelHUD/Margen/Columna"]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleTrack")
+theme_override_styles/fill = SubResource("StyleFill")
+show_percentage = false
+
+[node name="TituloPartida" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.56, 0.94, 0.78, 1)
+theme_override_font_sizes/font_size = 13
+text = "DATOS DE LA PARTIDA"
+
+[node name="FilaDinero" type="HBoxContainer" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Etiqueta" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaDinero"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.78, 0.88, 0.87, 1)
+theme_override_font_sizes/font_size = 15
+text = "Dinero actual"
+
+[node name="Valor" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaDinero"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.93, 1, 0.96, 1)
+theme_override_font_sizes/font_size = 18
+text = "$20"
+horizontal_alignment = 2
+
+[node name="FilaGanado" type="HBoxContainer" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Etiqueta" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaGanado"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.78, 0.88, 0.87, 1)
+theme_override_font_sizes/font_size = 15
+text = "Dinero ganado"
+
+[node name="Valor" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaGanado"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.93, 1, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+text = "$0"
+horizontal_alignment = 2
+
+[node name="FilaMaximo" type="HBoxContainer" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Etiqueta" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaMaximo"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.78, 0.88, 0.87, 1)
+theme_override_font_sizes/font_size = 15
+text = "Máximo alcanzado"
+
+[node name="Valor" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaMaximo"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.93, 1, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+text = "$20"
+horizontal_alignment = 2
+
+[node name="FilaFallados" type="HBoxContainer" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Etiqueta" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaFallados"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.78, 0.88, 0.87, 1)
+theme_override_font_sizes/font_size = 15
+text = "Platos fallados"
+
+[node name="Valor" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaFallados"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.93, 1, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+text = "0"
+horizontal_alignment = 2
+
+[node name="TituloMeta" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.56, 0.94, 0.78, 1)
+theme_override_font_sizes/font_size = 13
+text = "META ECONÓMICA"
+
+[node name="FilaObjetivo" type="HBoxContainer" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Etiqueta" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaObjetivo"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.78, 0.88, 0.87, 1)
+theme_override_font_sizes/font_size = 15
+text = "Dinero objetivo"
+
+[node name="Valor" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna/FilaObjetivo"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.93, 1, 0.96, 1)
+theme_override_font_sizes/font_size = 18
+text = "$100"
+horizontal_alignment = 2
+
+[node name="BarraMeta" type="ProgressBar" parent="HUDRoot/PanelHUD/Margen/Columna"]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleTrack")
+theme_override_styles/fill = SubResource("StyleFill")
+show_percentage = false
+
+[node name="TextoMeta" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.93, 1, 0.96, 1)
+theme_override_font_sizes/font_size = 13
+text = "Faltan $80 para la meta"
+autowrap_mode = 2
+
+[node name="Nota" type="Label" parent="HUDRoot/PanelHUD/Margen/Columna"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.74, 0.84, 0.82, 0.92)
+theme_override_font_sizes/font_size = 11
+text = "* Aderezos, frutas y barras: datos de prueba"
+autowrap_mode = 2
