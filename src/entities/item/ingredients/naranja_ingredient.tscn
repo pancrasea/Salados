@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://damlcd1kxwvv4"]
+
+[ext_resource type="Script" uid="uid://npd3t0qihfqp" path="res://src/entities/item/ingredients/naranja_ingredient.gd" id="1_ktyta"]
+[ext_resource type="Texture2D" uid="uid://b0upw2ceki5co" path="res://assets/sprites/items/limon.svg" id="2_x1rlc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l8yjr"]
+size = Vector2(128, 128)
+
+[node name="NaranjaIngredient" type="Node2D" unique_id=988343671]
+script = ExtResource("1_ktyta")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1132507056]
+texture = ExtResource("2_x1rlc")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1575327342]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1232284542]
+shape = SubResource("RectangleShape2D_l8yjr")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

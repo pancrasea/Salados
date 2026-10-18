@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://c4g7s4uyhxp1s"]
+
+[ext_resource type="Script" uid="uid://c70q5rq4tpyj5" path="res://src/entities/item/exprimidor_item.gd" id="1_iox87"]
+[ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="2_urwan"]
+[ext_resource type="Texture2D" uid="uid://qpypbfd4qa0k" path="res://assets/sprites/items/bandeja.svg" id="2_weguy"]
+
+[sub_resource type="Resource" id="Resource_4cm5f"]
+script = ExtResource("2_urwan")
+name = "Exprimidor"
+item_id = "exprimidor"
+is_container = true
+metadata/_custom_type_script = "uid://3lbagxejrkv8"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_urwan"]
+size = Vector2(128, 128)
+
+[node name="ExprimidorItem" type="Node2D" unique_id=1939094178]
+script = ExtResource("1_iox87")
+data = SubResource("Resource_4cm5f")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1046413380]
+texture = ExtResource("2_weguy")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1700189823]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1896151775]
+shape = SubResource("RectangleShape2D_urwan")

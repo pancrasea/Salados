@@ -5,15 +5,13 @@
 [node name="MouseInteraction" type="CanvasLayer" unique_id=1888662768]
 script = ExtResource("1_kubse")
 
-[node name="left" type="Control" parent="." unique_id=890908332]
-layout_mode = 3
+[node name="left" type="TextureButton" parent="." unique_id=1223972218]
 anchors_preset = 9
 anchor_bottom = 1.0
 offset_right = 50.0
 grow_vertical = 2
 
-[node name="right" type="Control" parent="." unique_id=457479201]
-layout_mode = 3
+[node name="right" type="TextureButton" parent="." unique_id=238538194]
 anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
@@ -22,8 +20,7 @@ offset_left = -49.0
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="buttom" type="Control" parent="." unique_id=871741355]
-layout_mode = 3
+[node name="buttom" type="TextureButton" parent="." unique_id=1160394354]
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0

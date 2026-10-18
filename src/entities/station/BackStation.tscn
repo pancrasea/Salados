@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://ceuw03dukq2ux" path="res://src/entities/station/back_station.gd" id="1_1k28f"]
 [ext_resource type="PackedScene" uid="uid://bh067rwvbxrpr" path="res://src/entities/item/ingredients/spawner_ingredients.tscn" id="2_4cm5f"]
-[ext_resource type="Texture2D" uid="uid://qpypbfd4qa0k" path="res://assets/sprites/items/bandeja.svg" id="2_vgtui"]
 [ext_resource type="Resource" uid="uid://dcpdqjergkvg6" path="res://resources/items/naranja.tres" id="3_xm5kj"]
-[ext_resource type="PackedScene" uid="uid://cg21macgon3or" path="res://src/entities/item/Orange.tscn" id="4_4cm5f"]
+[ext_resource type="PackedScene" uid="uid://damlcd1kxwvv4" path="res://src/entities/item/ingredients/naranja_ingredient.tscn" id="4_4cm5f"]
+[ext_resource type="PackedScene" uid="uid://c4g7s4uyhxp1s" path="res://src/entities/item/exprimidor_item.tscn" id="4_xm5kj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
-size = Vector2(612.5, 434.5)
+size = Vector2(502, 486)
 
 [node name="BackStation" type="Node2D" unique_id=1333356077]
 script = ExtResource("1_1k28f")
@@ -15,17 +15,17 @@ script = ExtResource("1_1k28f")
 [node name="SpawnerIngredients" parent="." unique_id=173325988 instance=ExtResource("2_4cm5f")]
 position = Vector2(1757, 147)
 item_data = ExtResource("3_xm5kj")
+item_scene = ExtResource("4_4cm5f")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1137227556]
-position = Vector2(1534, 658)
+[node name="ExprimidorItem" parent="." unique_id=1939094178 instance=ExtResource("4_xm5kj")]
+position = Vector2(1466, 588)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1731982074]
+[node name="Area2D" type="Area2D" parent="." unique_id=69915181]
+position = Vector2(456, 336)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=452936697]
 shape = SubResource("RectangleShape2D_g4v7s")
 
-[node name="Sprite2D" type="Sprite2D" parent="Area2D/CollisionShape2D" unique_id=413346831]
-position = Vector2(-1.2499924, 2.750023)
-scale = Vector2(4.515625, 3.2890627)
-texture = ExtResource("2_vgtui")
-
-[node name="Orange" parent="." unique_id=1571478154 instance=ExtResource("4_4cm5f")]
-position = Vector2(462, 240)
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1650042148]
+offset_right = 4.0
+offset_bottom = 27.0

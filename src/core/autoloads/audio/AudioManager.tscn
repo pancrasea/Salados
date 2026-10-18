@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://b27n5jkjfn841"]
+
+[ext_resource type="Script" uid="uid://d2rbck8vl3snu" path="res://src/core/autoloads/audio/audio_manager.gd" id="1_8n5vj"]
+[ext_resource type="Script" uid="uid://b8bejo3e37bln" path="res://src/core/autoloads/audio/audio_setting.gd" id="2_u4njw"]
+
+[sub_resource type="Resource" id="Resource_rd3ms"]
+script = ExtResource("2_u4njw")
+metadata/_custom_type_script = "uid://b8bejo3e37bln"
+
+[sub_resource type="Resource" id="Resource_rwqoj"]
+script = ExtResource("2_u4njw")
+metadata/_custom_type_script = "uid://b8bejo3e37bln"
+
+[node name="AudioManager" type="Node" unique_id=1327485429]
+script = ExtResource("1_8n5vj")
+SFX_DIC = Dictionary[int, ExtResource("2_u4njw")]({
+0: SubResource("Resource_rd3ms")
+})
+MUSIC_DIC = Dictionary[int, ExtResource("2_u4njw")]({
+0: SubResource("Resource_rwqoj")
+})
+
+[node name="MusicStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1675133168]
+
+[node name="EffectsPool" type="Node" parent="." unique_id=1476871507]
