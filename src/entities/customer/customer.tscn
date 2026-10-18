@@ -1,13 +1,6 @@
 [gd_scene format=3 uid="uid://brp05csmt5g42"]
 
 [ext_resource type="Script" uid="uid://cq2nammtabqhx" path="res://src/entities/customer/customer.gd" id="1_customer"]
-[ext_resource type="Script" uid="uid://yvcolwcuf4a0" path="res://src/core/resources_scripts/customer_data.gd" id="2_le1bf"]
-[ext_resource type="Texture2D" uid="uid://svxt66mhkaxa" path="res://icon.svg" id="2_rk5ek"]
-
-[sub_resource type="Resource" id="Resource_le1bf"]
-script = ExtResource("2_le1bf")
-display_name = "Pedro"
-metadata/_custom_type_script = "uid://yvcolwcuf4a0"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_selection"]
 radius = 32.0
@@ -45,10 +38,8 @@ corner_radius_bottom_left = 8
 
 [node name="Customer" type="Node2D" unique_id=926383298]
 script = ExtResource("1_customer")
-customer_data = SubResource("Resource_le1bf")
 
 [node name="Visual" type="Sprite2D" parent="." unique_id=626254291]
-texture = ExtResource("2_rk5ek")
 
 [node name="PatienceBar" type="ProgressBar" parent="."]
 offset_left = -42.0

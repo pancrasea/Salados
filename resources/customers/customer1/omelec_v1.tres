@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CustomerData" format=3 uid="uid://h0p1oe53ub4q"]
+
+[ext_resource type="Script" uid="uid://yvcolwcuf4a0" path="res://src/core/resources_scripts/customer_data.gd" id="1_7ois0"]
+[ext_resource type="Texture2D" uid="uid://svxt66mhkaxa" path="res://icon.svg" id="2_kdrpk"]
+
+[resource]
+script = ExtResource("1_7ois0")
+display_name = "Omelec"
+texture = ExtResource("2_kdrpk")
+metadata/_custom_type_script = "uid://yvcolwcuf4a0"

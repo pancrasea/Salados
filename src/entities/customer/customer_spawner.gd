@@ -7,6 +7,9 @@ signal customer_spawned(customer: CustomerBase)
 
 ## Scene to instantiate; its root must inherit from CustomerBase.
 @export var customer_scene: PackedScene
+## Pool de arquetipos de cliente. Se selecciona uno al azar en cada spawn.
+## Si el pool está vacío se usa el customer_data que traiga la escena base.
+@export var customer_data_pool: Array[CustomerData] = []
 ## Optional generator; when assigned, each spawned customer receives a
 ## random OrderData before entering the tree (so its HUD shows the order).
 @export var order_generator: OrderGenerator
@@ -53,6 +56,10 @@ func spawn_customer() -> CustomerBase:
 		return null
 
 	customer.position = Vector2(active_customers.size() * maxf(customer_spacing, 0.0), 0.0)
+	# Asignar CustomerData desde el pool (aleatorio) antes de add_child.
+	# Si el pool está vacío se respeta el customer_data que traiga la escena.
+	if not customer_data_pool.is_empty():
+		customer.customer_data = customer_data_pool[randi() % customer_data_pool.size()]
 	if order_generator != null:
 		# Asignado antes de add_child para que _ready pinte el pedido.
 		customer.order = order_generator.generate()
@@ -73,13 +80,28 @@ func _on_customer_finished(customer: CustomerBase) -> void:
 
 
 ## Paga al jugador cuando un cliente queda satisfecho.
-## Usa CustomerData.reward como base y aplica tip_percent si aplica.
+## El pago escalonado depende del ratio de paciencia en el momento de ser servido:
+##   > 0.66  → 100 % del pago (cliente recién esperando)
+##   > 0.33  →  80 % del pago (llegando a la mitad)
+##   <= 0.33 →  50 % del pago (a punto de irse)
+## Encima se aplica tip_percent como porcentaje adicional fijo del arquetipo.
 func _on_customer_served(customer: CustomerBase) -> void:
 	if customer.customer_data == null:
 		return
 	var base: int = customer.customer_data.reward
 	var tip: int = int(base * customer.customer_data.tip_percent / 100.0)
-	GameManager.add_money(base + tip)
+	var total: int = base + tip
+
+	var ratio := customer.patience_ratio_at_serve
+	var multiplier: float
+	if ratio > 0.66:
+		multiplier = 1.0    # tramo 1: paciencia alta → pago completo
+	elif ratio > 0.33:
+		multiplier = 0.8    # tramo 2: paciencia media → 80 %
+	else:
+		multiplier = 0.5    # tramo 3: paciencia baja → 50 %
+
+	GameManager.add_money(int(total * multiplier))
 
 
 ## Keeps the active list and row positions correct if a customer is freed externally.
