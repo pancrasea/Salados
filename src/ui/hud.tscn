@@ -150,5 +150,18 @@ theme_override_font_sizes/font_size = 16
 text = "Haz clic para continuar"
 horizontal_alignment = 1
 
+[node name="OrdersPanel" type="HBoxContainer" parent="." unique_id=1902771200]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -210.0
+offset_right = 210.0
+offset_bottom = 168.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+alignment = 1
+
 [connection signal="pressed" from="HBoxContainer/PauseButton" to="." method="_on_pause_button_pressed"]
 [connection signal="gui_input" from="ObjectiveBanner" to="." method="_on_objective_banner_gui_input"]
