@@ -42,6 +42,7 @@ func _on_jugo_exprimiendo(item: BaseItem) -> void:
 		var jugo  = preload("res://src/entities/item/base_item.tscn").instantiate() as BaseItem
 		jugo._transform_into(jugo_data)
 		jugo.global_position = jugo_spawn.global_position
+		jugo.scale *= 0.5
 		add_child(jugo)
 		jugos_producidos += 1
 		# La jarra actualiza el sprite y se deshabilita al llegar a cero.

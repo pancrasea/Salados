@@ -44,19 +44,20 @@ position = Vector2(927, 549)
 texture = ExtResource("3_wxak0")
 
 [node name="SpawnerIngredients" parent="." unique_id=173325988 instance=ExtResource("2_4cm5f")]
-position = Vector2(1757, 147)
+position = Vector2(468, 909)
 item_data = ExtResource("3_xm5kj")
 item_scene = ExtResource("4_4cm5f")
 
 [node name="ExprimidorItem" parent="." unique_id=1939094178 instance=ExtResource("4_xm5kj")]
-position = Vector2(1466, 588)
+position = Vector2(1051, 313)
+scale = Vector2(3, 3)
 data = SubResource("Resource_rcgfe")
 
 [node name="JugoProgress" type="ProgressBar" parent="." unique_id=1650042148]
-offset_left = 1352.0
-offset_top = 681.0
-offset_right = 1598.0
-offset_bottom = 708.0
+offset_left = 925.0
+offset_top = 115.0
+offset_right = 1171.0
+offset_bottom = 142.0
 show_percentage = false
 
 [node name="RefillerPana" type="Area2D" parent="." unique_id=69915181]

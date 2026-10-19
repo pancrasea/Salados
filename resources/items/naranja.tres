@@ -1,11 +1,15 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://dcpdqjergkvg6"]
 
-[ext_resource type="Texture2D" uid="uid://b0upw2ceki5co" path="res://assets/sprites/items/limon.svg" id="1_bsw1t"]
+[ext_resource type="Texture2D" uid="uid://dmp704iey3eay" path="res://assets/sprites/items/assets_jugo.png" id="1_bsw1t"]
 [ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="1_u200i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsw1t"]
+atlas = ExtResource("1_bsw1t")
+region = Rect2(323, 755, 114, 181)
 
 [resource]
 script = ExtResource("1_u200i")
 name = "Naranja"
-icon = ExtResource("1_bsw1t")
+icon = SubResource("AtlasTexture_bsw1t")
 item_id = "naranja"
 metadata/_custom_type_script = "uid://3lbagxejrkv8"

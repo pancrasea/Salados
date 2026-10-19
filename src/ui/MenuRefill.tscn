@@ -4,11 +4,17 @@
 [ext_resource type="Texture2D" uid="uid://c2hiiop35lfat" path="res://assets/sprites/items/cebolla_cortada.svg" id="2_j1qat"]
 [ext_resource type="Texture2D" uid="uid://cftkyeypwi7a4" path="res://assets/sprites/items/yuca_desmenuzada.svg" id="3_8bca1"]
 [ext_resource type="Texture2D" uid="uid://cbvio35ghrond" path="res://assets/sprites/items/pescado_desmenuzado.svg" id="4_c8ssv"]
-[ext_resource type="Texture2D" uid="uid://b0upw2ceki5co" path="res://assets/sprites/items/limon.svg" id="5_phnem"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_titd2"]
 atlas = ExtResource("2_j1qat")
 region = Rect2(2.7359314, -0.2725067, 124.581665, 129.90565)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s8gdv"]
+load_path = "res://.godot/imported/assets_jugo.png-93ee5cd1d7dc339ffcd5f1c237cca5e7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wxak0"]
+atlas = SubResource("CompressedTexture2D_s8gdv")
+region = Rect2(1297, 88, 450, 527)
 
 [node name="MenuRefill" type="CanvasLayer" unique_id=1056578324]
 layer = 9999
@@ -78,8 +84,11 @@ texture_normal = ExtResource("4_c8ssv")
 [node name="OrangeButton" type="TextureButton" parent="Panel/VBoxContainer/GridContainer" unique_id=1727859915]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
+custom_maximum_size = Vector2(130, 130)
+clip_contents = true
 layout_mode = 2
-texture_normal = ExtResource("5_phnem")
+texture_normal = SubResource("AtlasTexture_wxak0")
+stretch_mode = 5
 
 [connection signal="pressed" from="Panel/VBoxContainer/GridContainer/OnionButton" to="Panel" method="_on_onion_button_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/GridContainer/YucaButton" to="Panel" method="_on_yuca_button_pressed"]
