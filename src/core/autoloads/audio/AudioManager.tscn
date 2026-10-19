@@ -10,6 +10,8 @@
 [ext_resource type="AudioStream" uid="uid://bv703y2j11eso" path="res://assets/audio/Deshilachar.wav" id="8_36jr2"]
 [ext_resource type="AudioStream" uid="uid://cpov25b50t0fo" path="res://assets/audio/Exprimiendo_Limon.wav" id="9_36jr2"]
 [ext_resource type="AudioStream" uid="uid://cqhd0o3vb7foh" path="res://assets/audio/Encebollado_a_la basura.wav" id="10_v23o0"]
+[ext_resource type="AudioStream" uid="uid://bwq3lvo0mh4so" path="res://assets/audio/MENU_TRACK.mp3" id="11_v23o0"]
+[ext_resource type="AudioStream" uid="uid://wyhhija0fihy" path="res://assets/audio/GAME_TRACK.mp3" id="12_luk1g"]
 
 [sub_resource type="Resource" id="Resource_rd3ms"]
 script = ExtResource("2_u4njw")
@@ -53,6 +55,14 @@ metadata/_custom_type_script = "uid://b8bejo3e37bln"
 
 [sub_resource type="Resource" id="Resource_rwqoj"]
 script = ExtResource("2_u4njw")
+source = ExtResource("11_v23o0")
+volume_db = -11.585
+metadata/_custom_type_script = "uid://b8bejo3e37bln"
+
+[sub_resource type="Resource" id="Resource_tsyu5"]
+script = ExtResource("2_u4njw")
+source = ExtResource("12_luk1g")
+volume_db = -10.215
 metadata/_custom_type_script = "uid://b8bejo3e37bln"
 
 [node name="AudioManager" type="Node" unique_id=1327485429]
@@ -68,7 +78,8 @@ SFX_DIC = Dictionary[int, ExtResource("2_u4njw")]({
 7: SubResource("Resource_2un7b")
 })
 MUSIC_DIC = Dictionary[int, ExtResource("2_u4njw")]({
-0: SubResource("Resource_rwqoj")
+0: SubResource("Resource_rwqoj"),
+1: SubResource("Resource_tsyu5")
 })
 
 [node name="MusicStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1675133168]
