@@ -34,6 +34,7 @@ func _on_jugo_exprimiendo(item: BaseItem) -> void:
 	jugo_progress.value-= 1.0
 	
 	if fruits_progress[item] == 0:
+		AudioManager.play_sound(AudioManager.SFX.Exprimir_Limon)
 		fruits_progress.erase(item)
 		item.queue_free()
 		print("EXPRIMIDA POR COMPLETO")
