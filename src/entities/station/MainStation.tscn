@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bexpx1tiqvgk3" path="res://src/entities/station/station.gd" id="1_cx8jq"]
 [ext_resource type="PackedScene" uid="uid://ctrashbin01" path="res://src/entities/station/trash_bin.tscn" id="2_jmkyi"]
+[ext_resource type="Texture2D" uid="uid://s5qeduu7tk2t" path="res://assets/sprites/environment/carreta_asset.png" id="3_66wod"]
 [ext_resource type="PackedScene" uid="uid://cf84hgeql0ots" path="res://src/entities/customer/CustomerSpawner.tscn" id="3_nupy7"]
 [ext_resource type="PackedScene" uid="uid://cbandeja1tem" path="res://src/entities/item/bandeja_item.tscn" id="4_5v824"]
 [ext_resource type="Script" uid="uid://yvcolwcuf4a0" path="res://src/core/resources_scripts/customer_data.gd" id="4_rgdf7"]
@@ -35,6 +36,15 @@ grow_vertical = 2
 texture = ExtResource("17_vh7rw")
 expand_mode = 1
 stretch_mode = 6
+
+[node name="CustomerSpawner" parent="." unique_id=1128089222 instance=ExtResource("3_nupy7")]
+position = Vector2(556, 461)
+customer_data_pool = Array[ExtResource("4_rgdf7")]([ExtResource("5_ocrjh"), ExtResource("6_w7hfa"), ExtResource("15_5gle3")])
+
+[node name="CarretaAsset" type="Sprite2D" parent="." unique_id=1771308921]
+position = Vector2(998.5, 540)
+scale = Vector2(1.0744792, 1)
+texture = ExtResource("3_66wod")
 
 [node name="ZonaAgregados" type="ColorRect" parent="." unique_id=618801456]
 offset_left = 60.0
@@ -76,10 +86,6 @@ item_scale = Vector2(0.55, 0.55)
 
 [node name="TrashBin" parent="." unique_id=290934445 instance=ExtResource("2_jmkyi")]
 position = Vector2(204, 945)
-
-[node name="CustomerSpawner" parent="." unique_id=1128089222 instance=ExtResource("3_nupy7")]
-position = Vector2(556, 461)
-customer_data_pool = Array[ExtResource("4_rgdf7")]([ExtResource("5_ocrjh"), ExtResource("6_w7hfa"), ExtResource("15_5gle3")])
 
 [node name="Bandeja" parent="." unique_id=1324478999 instance=ExtResource("4_5v824")]
 position = Vector2(953, 927)

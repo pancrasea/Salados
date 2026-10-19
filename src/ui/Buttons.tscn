@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://du0lyamsulleb"]
+
+[ext_resource type="Script" uid="uid://bwikomfhkjg7w" path="res://src/ui/widgets/button_widget.gd" id="1_bbfr6"]
+
+[node name="Buttons" type="Control" unique_id=2133867460]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=93110592]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_right = 522.0
+offset_bottom = 106.0
+script = ExtResource("1_bbfr6")
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer" unique_id=784012863]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="HBoxContainer" unique_id=1481763600]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "JUGAR"
+
+[connection signal="mouse_entered" from="HBoxContainer/Button" to="HBoxContainer" method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="HBoxContainer/Button" to="HBoxContainer" method="_on_button_mouse_exited"]

@@ -9,8 +9,7 @@ const NARANJA: ItemData = preload("res://resources/items/naranja.tres")
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	hide()
-
-
+	
 func _on_onion_button_pressed() -> void:
 	GameManager.refill_ing(CEBOLLA, 8)
 	hide()

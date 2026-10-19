@@ -2,7 +2,8 @@
 
 [ext_resource type="Script" uid="uid://ceuw03dukq2ux" path="res://src/entities/station/back_station.gd" id="1_1k28f"]
 [ext_resource type="PackedScene" uid="uid://bh067rwvbxrpr" path="res://src/entities/item/ingredients/spawner_ingredients.tscn" id="2_4cm5f"]
-[ext_resource type="Texture2D" uid="uid://dhkwnxxqekyqg" path="res://assets/backgrounds/fondo_atras.jpg" id="2_xk64i"]
+[ext_resource type="Texture2D" uid="uid://b74auttk21vt4" path="res://assets/backgrounds/fondo_atras_alt.png" id="2_r8trk"]
+[ext_resource type="Texture2D" uid="uid://1g42q5p36vyl" path="res://assets/sprites/environment/mesa_asset.png" id="3_wxak0"]
 [ext_resource type="Resource" uid="uid://dcpdqjergkvg6" path="res://resources/items/naranja.tres" id="3_xm5kj"]
 [ext_resource type="PackedScene" uid="uid://damlcd1kxwvv4" path="res://src/entities/item/ingredients/naranja_ingredient.tscn" id="4_4cm5f"]
 [ext_resource type="PackedScene" uid="uid://c4g7s4uyhxp1s" path="res://src/entities/item/exprimidor_item.tscn" id="4_xm5kj"]
@@ -26,9 +27,13 @@ offset_right = 1987.0
 offset_bottom = 1078.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_xk64i")
+texture = ExtResource("2_r8trk")
 expand_mode = 1
 stretch_mode = 6
+
+[node name="MesaAsset" type="Sprite2D" parent="." unique_id=1507317752]
+position = Vector2(927, 549)
+texture = ExtResource("3_wxak0")
 
 [node name="SpawnerIngredients" parent="." unique_id=173325988 instance=ExtResource("2_4cm5f")]
 position = Vector2(1757, 147)

@@ -10,17 +10,11 @@
 atlas = ExtResource("2_j1qat")
 region = Rect2(2.7359314, -0.2725067, 124.581665, 129.90565)
 
-[node name="MenuRefill" type="Control" unique_id=279778921]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_3f5af")
+[node name="MenuRefill" type="CanvasLayer" unique_id=1056578324]
+layer = 9999
 
-[node name="Panel" type="PanelContainer" parent="." unique_id=1135213384]
-layout_mode = 1
+[node name="Panel" type="Control" parent="." unique_id=255792002]
+layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -28,13 +22,31 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -121.5
 offset_top = -92.0
-offset_right = 121.5
-offset_bottom = 92.0
+offset_right = 138.5
+offset_bottom = 196.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_3f5af")
+
+[node name="ColorRect" type="ColorRect" parent="Panel" unique_id=655157127]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -172.75
+offset_top = -156.0
+offset_right = 172.75
+offset_bottom = 156.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.35686275)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1646811266]
-layout_mode = 2
+layout_mode = 0
+offset_right = 260.0
+offset_bottom = 288.0
 
 [node name="Label" type="Label" parent="Panel/VBoxContainer" unique_id=1049578117]
 layout_mode = 2
@@ -69,7 +81,7 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 texture_normal = ExtResource("5_phnem")
 
-[connection signal="pressed" from="Panel/VBoxContainer/GridContainer/OnionButton" to="." method="_on_onion_button_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/GridContainer/YucaButton" to="." method="_on_yuca_button_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/GridContainer/FishButton" to="." method="_on_fish_button_pressed"]
-[connection signal="pressed" from="Panel/VBoxContainer/GridContainer/OrangeButton" to="." method="_on_orange_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/GridContainer/OnionButton" to="Panel" method="_on_onion_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/GridContainer/YucaButton" to="Panel" method="_on_yuca_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/GridContainer/FishButton" to="Panel" method="_on_fish_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/GridContainer/OrangeButton" to="Panel" method="_on_orange_button_pressed"]
