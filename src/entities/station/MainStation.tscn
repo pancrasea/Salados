@@ -18,6 +18,10 @@
 [ext_resource type="Resource" uid="uid://b0oknv14q3n6q" path="res://resources/items/maiz_tostado.tres" id="14_maiz"]
 [ext_resource type="Resource" uid="uid://nl3jb2lsawa2" path="res://resources/customers/customer3/toti_v1.tres" id="15_5gle3"]
 [ext_resource type="Texture2D" uid="uid://batqqqmaqsmyt" path="res://assets/backgrounds/fondo_frontal.jpg" id="17_vh7rw"]
+[ext_resource type="Script" path="res://src/entities/station/draggable_zone.gd" id="18_draggable"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_as38o"]
+size = Vector2(1383, 264)
 
 [node name="MainStation" type="Node2D" unique_id=1321946310]
 script = ExtResource("1_cx8jq")
@@ -45,6 +49,15 @@ customer_data_pool = Array[ExtResource("4_rgdf7")]([ExtResource("5_ocrjh"), ExtR
 position = Vector2(998.5, 540)
 scale = Vector2(1.0744792, 1)
 texture = ExtResource("3_66wod")
+
+[node name="DraggableZone" type="Area2D" parent="." unique_id=1165796187]
+position = Vector2(121, 565)
+script = ExtResource("18_draggable")
+item_scene = ExtResource("9_base")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DraggableZone" unique_id=1546855906]
+position = Vector2(966.5, 149)
+shape = SubResource("RectangleShape2D_as38o")
 
 [node name="ZonaAgregados" type="ColorRect" parent="." unique_id=618801456]
 offset_left = 60.0
