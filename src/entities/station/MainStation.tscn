@@ -8,6 +8,7 @@
 [ext_resource type="Resource" uid="uid://h0p1oe53ub4q" path="res://resources/customers/customer1/omelec_v1.tres" id="5_ocrjh"]
 [ext_resource type="Resource" uid="uid://6rbxjldn5s3m" path="res://resources/customers/customer2/chancleada_v1.tres" id="6_w7hfa"]
 [ext_resource type="Script" uid="uid://d32mm0dvlxby5" path="res://src/entities/item/food_spawner.gd" id="7_spawner"]
+[ext_resource type="Resource" uid="uid://b2ulsu3k36gus" path="res://resources/customers/customer4/yandri_v1.tres" id="8_66wod"]
 [ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="8_item"]
 [ext_resource type="PackedScene" uid="uid://cprepj6on75a7" path="res://src/entities/item/base_item.tscn" id="9_base"]
 [ext_resource type="Resource" uid="uid://bpb7mdaexy70q" path="res://resources/items/chifle.tres" id="11_chifle"]
@@ -59,7 +60,7 @@ stretch_mode = 6
 
 [node name="CustomerSpawner" parent="." unique_id=1128089222 instance=ExtResource("3_nupy7")]
 position = Vector2(556, 461)
-customer_data_pool = Array[ExtResource("4_rgdf7")]([ExtResource("5_ocrjh"), ExtResource("6_w7hfa"), ExtResource("15_5gle3")])
+customer_data_pool = Array[ExtResource("4_rgdf7")]([ExtResource("5_ocrjh"), ExtResource("6_w7hfa"), ExtResource("15_5gle3"), ExtResource("8_66wod")])
 
 [node name="CarretaAsset" type="Sprite2D" parent="." unique_id=1771308921]
 position = Vector2(998.5, 540)
