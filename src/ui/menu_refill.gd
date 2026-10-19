@@ -8,6 +8,12 @@ const ALBACORA: ItemData = preload("res://resources/items/item_albacora.tres")
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	# Ambos controles de navegación emiten esta señal al cambiar de estación.
+	GameManager.station_changed.connect(_on_station_changed)
+	hide()
+
+
+func _on_station_changed(_side: int) -> void:
 	hide()
 	
 func _on_onion_button_pressed() -> void:

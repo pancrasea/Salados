@@ -37,6 +37,8 @@ signal food_spawned(food: ItemData, item: BaseItem)
 ## Si es mayor que 0, ajusta el collider a esta proporción del sprite visible.
 ## 1.25 deja un margen de clic del 25 % sin cambiar el tamaño del dibujo.
 @export_range(0.0, 2.0, 0.05) var click_area_visual_factor: float = 0.0
+## Multiplica solo el ancho del collider ajustado; 1.0 conserva el ancho actual.
+@export_range(1.0, 3.0, 0.05) var click_area_width_factor: float = 1.0
 ## Slots (unidades visibles) por cada ItemData de `foods`. Acota cuántas
 ## unidades del mismo ingrediente se muestran a la vez.
 @export_range(1, 6, 1) var slots_per_item: int = 1
@@ -197,6 +199,7 @@ func _fit_click_area_to_sprite(item: BaseItem) -> void:
 	if rectangle == null or rectangle.size.x <= 0.0 or rectangle.size.y <= 0.0:
 		return
 	var visual_size := item.sprite_2d.texture.get_size() * item.sprite_2d.scale.abs() * click_area_visual_factor
+	visual_size.x *= click_area_width_factor
 	# La forma se duplica para no cambiar el collider compartido de otros ítems.
 	var adjusted_rectangle := rectangle.duplicate() as RectangleShape2D
 	adjusted_rectangle.size = visual_size
