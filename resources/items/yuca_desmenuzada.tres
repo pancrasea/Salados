@@ -1,12 +1,16 @@
-[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://brmnjx18mklq5"]
 
-[ext_resource type="Script" path="res://src/entities/item/item_data.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/items/yuca_desmenuzada.svg" id="2"]
+[ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="1"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xyqky"]
+load_path = "res://.godot/imported/assets_corte_2.png-8c42a3667818a71c1b481250ae9b81fd.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rtnu0"]
+atlas = SubResource("CompressedTexture2D_xyqky")
+region = Rect2(1453, 646, 232, 172)
 
 [resource]
 script = ExtResource("1")
 name = "Yuca desmenuzada"
+icon = SubResource("AtlasTexture_rtnu0")
 item_id = "yuca_desmenuzada"
-icon = ExtResource("2")
-is_container = false
-is_final_product = false

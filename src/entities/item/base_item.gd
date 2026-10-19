@@ -14,6 +14,16 @@ var initial_position: Vector2 = Vector2.ZERO
 static var current_item_dragging: BaseItem = null
 
 @onready var sprite_2d: Sprite2D = get_node_or_null("Sprite2D") as Sprite2D
+## Escala propia de la escena, para restaurarla al cambiar de producto.
+@onready var _default_sprite_scale: Vector2 = sprite_2d.scale if sprite_2d != null else Vector2.ONE
+
+## Solo estos iconos grandes se reducen; el Area2D mantiene su tamaño.
+const SMALL_ICON_SCALE: float = 0.2
+const SMALL_ICON_KEYS = [
+	"item_cebolla_colorada", "item_albacora", "item_yuca",
+	"cebolla_cortada", "albacora_desmenuzada", "yuca_desmenuzada",
+	"encebollado",
+]
 
 # Contenedor visual de los badges de ingredientes (opción "icono base +
 # badges"): se crea en runtime porque la escena no lo define.
@@ -36,8 +46,12 @@ func _update_visual():
 	if sprite_2d:
 		if data and data.icon:
 			sprite_2d.texture = data.icon
+			# Los crudos sin item_id usan el nombre de su .tres como clave.
+			var visual_key := data.item_id if data.item_id != "" else data.resource_path.get_file().get_basename()
+			sprite_2d.scale = _default_sprite_scale * (SMALL_ICON_SCALE if visual_key in SMALL_ICON_KEYS else 1.0)
 		else:
 			sprite_2d.texture = null
+			sprite_2d.scale = _default_sprite_scale
 	_update_badges()
 
 func _process(delta: float) -> void:

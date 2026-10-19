@@ -4,10 +4,14 @@
 [ext_resource type="Resource" uid="uid://d1wpe56ey86qb" path="res://resources/items/pescado_desmenuzado.tres" id="3_next"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nd4j8"]
-load_path = "res://.godot/imported/pescado_desmenuzado.svg-ad91ebb7761f127ae3c57503e2249a47.ctex"
+load_path = "res://.godot/imported/assets_corte_2.png-8c42a3667818a71c1b481250ae9b81fd.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_us68p"]
+atlas = SubResource("CompressedTexture2D_nd4j8")
+region = Rect2(93, 115, 638, 292)
 
 [resource]
 script = ExtResource("1_item")
 name = "Albacora cocida"
-icon = SubResource("CompressedTexture2D_nd4j8")
+icon = SubResource("AtlasTexture_us68p")
 next_data_state = ExtResource("3_next")

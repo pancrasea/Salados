@@ -110,8 +110,9 @@ position = Vector2(234, 626)
 scale = Vector2(0.23212892, 0.24255489)
 texture = SubResource("AtlasTexture_1a7nu")
 
-[node name="Aji3" type="Sprite2D" parent="Aji2" unique_id=1843229628]
-position = Vector2(-112.006714, 74.20996)
+[node name="Aji3" type="Sprite2D" parent="." unique_id=1843229628]
+position = Vector2(208, 644)
+scale = Vector2(0.23212892, 0.24255489)
 texture = SubResource("AtlasTexture_1a7nu")
 
 [node name="Limon" type="Sprite2D" parent="." unique_id=744251054]

@@ -1,11 +1,17 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://ddhjmj1sdmjxl"]
 
 [ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="1_item"]
-[ext_resource type="Texture2D" uid="uid://cftkyeypwi7a4" path="res://assets/sprites/items/yuca_desmenuzada.svg" id="2_sprite"]
-[ext_resource type="Resource" path="res://resources/items/yuca_desmenuzada.tres" id="3_next"]
+[ext_resource type="Resource" uid="uid://brmnjx18mklq5" path="res://resources/items/yuca_desmenuzada.tres" id="3_next"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_axcus"]
+load_path = "res://.godot/imported/assets_corte_2.png-8c42a3667818a71c1b481250ae9b81fd.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y1yg1"]
+atlas = SubResource("CompressedTexture2D_axcus")
+region = Rect2(1321, 162, 462, 211)
 
 [resource]
 script = ExtResource("1_item")
 name = "Yuca cocida"
-icon = ExtResource("2_sprite")
+icon = SubResource("AtlasTexture_y1yg1")
 next_data_state = ExtResource("3_next")

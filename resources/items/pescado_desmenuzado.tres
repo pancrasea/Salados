@@ -1,10 +1,16 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://d1wpe56ey86qb"]
 
 [ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://cbvio35ghrond" path="res://assets/sprites/items/pescado_desmenuzado.svg" id="2"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5na66"]
+load_path = "res://.godot/imported/assets_corte_2.png-8c42a3667818a71c1b481250ae9b81fd.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wj4j"]
+atlas = SubResource("CompressedTexture2D_5na66")
+region = Rect2(160, 627, 384, 228)
 
 [resource]
 script = ExtResource("1")
 name = "Albacora desmenuzada"
-icon = ExtResource("2")
+icon = SubResource("AtlasTexture_4wj4j")
 item_id = "albacora_desmenuzada"

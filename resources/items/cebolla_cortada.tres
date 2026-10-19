@@ -1,12 +1,16 @@
-[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://borulpe255co3"]
 
-[ext_resource type="Script" path="res://src/entities/item/item_data.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/items/cebolla_cortada.svg" id="2"]
+[ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="1"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_kn6e4"]
+load_path = "res://.godot/imported/assets_corte_2.png-8c42a3667818a71c1b481250ae9b81fd.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ai6av"]
+atlas = SubResource("CompressedTexture2D_kn6e4")
+region = Rect2(817, 634, 321, 213)
 
 [resource]
 script = ExtResource("1")
 name = "Cebolla cortada"
+icon = SubResource("AtlasTexture_ai6av")
 item_id = "cebolla_cortada"
-icon = ExtResource("2")
-is_container = false
-is_final_product = false
