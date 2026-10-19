@@ -171,6 +171,8 @@ func _spawn(food: ItemData, flat_index: int) -> void:
 	add_child(item)
 	if show_name_labels:
 		_add_name_label(item, food)
+	if stock_source == StockSource.MATERIA_PRIMA:
+		_add_stock_label(item, food)
 	item.tree_exited.connect(_on_food_exited.bind(flat_index))
 	_slot_instances[flat_index] = item
 	food_spawned.emit(food, item)
@@ -187,6 +189,38 @@ func _add_name_label(item: BaseItem, food: ItemData) -> void:
 	label.add_theme_font_size_override("font_size", 12)
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	item.add_child(label)
+
+
+## Muestra restantes/cupo abajo a la derecha del crudo; al ser hijo del ítem,
+## desaparece junto a él cuando se agota el stock.
+func _add_stock_label(item: BaseItem, food: ItemData) -> void:
+	var label := Label.new()
+	label.name = "StockLabel"
+	label.position = Vector2(48.0, 40.0)
+	label.custom_minimum_size = Vector2(64.0, 0.0)
+	label.add_theme_font_size_override("font_size", 14)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	item.add_child(label)
+	_update_stock_label(label, food)
+
+
+func _update_stock_label(label: Label, food: ItemData) -> void:
+	var game_manager := get_node_or_null("/root/GameManager")
+	var balance: RunBalance = null
+	if game_manager != null:
+		balance = game_manager.get("balance") as RunBalance
+	var limite := balance.limite_de(food) if balance != null else 0
+	var restante := _inventory.cantidad_de(food) if _inventory != null else 0
+	label.text = "%d/%d" % [restante, limite]
+
+
+func _refresh_stock_labels() -> void:
+	for slot in _slot_instances.size():
+		if not _is_slot_filled(slot):
+			continue
+		var label := _slot_instances[slot].get_node_or_null("StockLabel") as Label
+		if label != null:
+			_update_stock_label(label, foods[_item_index(slot)])
 
 
 ## Un alimento salió del árbol (consumido). Descuenta el stock y programa la
@@ -207,6 +241,8 @@ func _on_food_exited(flat_index: int) -> void:
 ## rellena los huecos, salvo cuando el cambio viene de consumir en esta fuente
 ## (entonces la reposición la controla el timer del slot).
 func _on_stock_changed(_item: ItemData, _cantidad: int) -> void:
+	if stock_source == StockSource.MATERIA_PRIMA:
+		_refresh_stock_labels()
 	if _consuming:
 		return
 	refill()

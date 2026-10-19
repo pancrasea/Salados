@@ -99,6 +99,7 @@ position = Vector2(204, 945)
 
 [node name="Bandeja" parent="." unique_id=1324478999 instance=ExtResource("4_5v824")]
 position = Vector2(953, 927)
+scale = Vector2(2, 2)
 
 [node name="Aji" type="Sprite2D" parent="." unique_id=1290409038]
 position = Vector2(239, 600.00006)
