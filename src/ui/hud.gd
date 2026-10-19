@@ -140,24 +140,25 @@ func _on_objective_banner_gui_input(event: InputEvent) -> void:
 ## Reconstruye el panel con la información de la sección visible. Se llama al
 ## entrar, al girar de estación y cada vez que cambia un inventario.
 func _refresh_info() -> void:
-	for child in info_list.get_children():
-		info_list.remove_child(child)
-		child.queue_free()
-	if _game_manager == null:
-		info_panel.visible = false
-		return
-	var balance: RunBalance = _game_manager.get("balance")
-	if balance == null:
-		info_panel.visible = false
-		return
-	match int(_game_manager.call("current_side")):
-		SIDE_FRONT:
-			_build_precios(balance)
-		SIDE_LEFT:
-			_build_materia_prima(balance)
-		SIDE_RIGHT:
-			_build_preparados(balance)
-	info_panel.visible = info_list.get_child_count() > 0
+	info_list.visible = false
+	#for child in info_list.get_children():
+		#info_list.remove_child(child)
+		#child.queue_free()
+	#if _game_manager == null:
+		#info_panel.visible = false
+		#return
+	#var balance: RunBalance = _game_manager.get("balance")
+	#if balance == null:
+		#info_panel.visible = false
+		#return
+	#match int(_game_manager.call("current_side")):
+		#SIDE_FRONT:
+			#_build_precios(balance)
+		#SIDE_LEFT:
+			#_build_materia_prima(balance)
+		#SIDE_RIGHT:
+			#_build_preparados(balance)
+	#info_panel.visible = info_list.get_child_count() > 0
 
 
 ## Estación principal: precio de cada plato/producto final.

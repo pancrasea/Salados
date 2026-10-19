@@ -1,6 +1,6 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dsivp3vdbf7lp"]
 
-[ext_resource type="Script" path="res://src/ui/order_card.gd" id="1_ocard"]
+[ext_resource type="Script" uid="uid://2q5npeno8ofd" path="res://src/ui/order_card.gd" id="1_ocard"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
 content_margin_left = 10.0
@@ -37,54 +37,52 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="OrderCard" type="PanelContainer"]
+[node name="OrderCard" type="PanelContainer" unique_id=507222895]
 custom_minimum_size = Vector2(110, 0)
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 script = ExtResource("1_ocard")
 
-[node name="VBox" type="VBoxContainer" parent="."]
+[node name="VBox" type="VBoxContainer" parent="." unique_id=247879757]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="OrderNumber" type="Label" parent="VBox"]
+[node name="OrderNumber" type="Label" parent="VBox" unique_id=1742095087]
 layout_mode = 2
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.89, 0.78, 0.53, 1)
 theme_override_font_sizes/font_size = 14
 text = "#1"
 horizontal_alignment = 1
 
-[node name="OrderRow" type="HBoxContainer" parent="VBox"]
+[node name="OrderRow" type="HBoxContainer" parent="VBox" unique_id=1730601532]
 layout_mode = 2
 mouse_filter = 2
 alignment = 1
 
-[node name="OrderIcon" type="TextureRect" parent="VBox/OrderRow"]
+[node name="OrderIcon" type="TextureRect" parent="VBox/OrderRow" unique_id=240751130]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="OrderPlaceholder" type="Label" parent="VBox/OrderRow"]
+[node name="OrderPlaceholder" type="Label" parent="VBox/OrderRow" unique_id=1202132835]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.89, 0.78, 0.53, 1)
 theme_override_font_sizes/font_size = 28
 text = "?"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ExtrasRow" type="HBoxContainer" parent="VBox"]
+[node name="ExtrasRow" type="HBoxContainer" parent="VBox" unique_id=1409908453]
 layout_mode = 2
 mouse_filter = 2
-alignment = 1
 theme_override_constants/separation = 4
+alignment = 1
 
-[node name="PatienceBar" type="ProgressBar" parent="VBox"]
+[node name="PatienceBar" type="ProgressBar" parent="VBox" unique_id=133676744]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 mouse_filter = 2
@@ -92,9 +90,8 @@ theme_override_styles/background = SubResource("StyleBoxFlat_patience_bg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_patience_fill")
 show_percentage = false
 
-[node name="PriceLabel" type="Label" parent="VBox"]
+[node name="PriceLabel" type="Label" parent="VBox" unique_id=503925737]
 layout_mode = 2
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.95, 0.86, 0.62, 1)
 theme_override_font_sizes/font_size = 14
 text = "$0"

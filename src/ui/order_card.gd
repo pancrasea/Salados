@@ -2,35 +2,40 @@ extends PanelContainer
 ## Tarjeta de pedido para el HUD.
 ## Muestra la orden de un cliente: número de orden, icono del plato base,
 ## badges de extras, barra de paciencia y precio.
-## Se actualiza via `setup(customer, index)` cada vez que el spawner cambia
-## la lista activa, y con la señal `patience_changed` del propio cliente.
+## Se actualiza via `setup(customer, index)` después de add_child.
 
 ## Referencia al cliente que representa esta tarjeta.
 var _customer: CustomerBase = null
 
-## ─── Nodos internos (asignados en _ready por ruta) ───
-@onready var order_number_label: Label = $VBox/OrderNumber
-@onready var order_icon: TextureRect = $VBox/OrderRow/OrderIcon
-@onready var order_placeholder: Label = $VBox/OrderRow/OrderPlaceholder
-@onready var extras_row: HBoxContainer = $VBox/ExtrasRow
-@onready var patience_bar: ProgressBar = $VBox/PatienceBar
-@onready var price_label: Label = $VBox/PriceLabel
-
+## Nodos internos — se resuelven en setup() una vez el nodo ya está en el árbol.
+var _order_number_label: Label = null
+var _order_icon: TextureRect = null
+var _order_placeholder: Label = null
+var _extras_row: HBoxContainer = null
+var _patience_bar: ProgressBar = null
+var _price_label: Label = null
 var _patience_style: StyleBoxFlat = null
 
 
-func _ready() -> void:
-	# Duplicar el estilo del fill para poder mutar su color individualmente.
-	_patience_style = patience_bar.get_theme_stylebox("fill").duplicate() as StyleBoxFlat
-	patience_bar.add_theme_stylebox_override("fill", _patience_style)
-
-
 ## Vincula esta tarjeta a un cliente y le asigna su posición en la fila (1-based).
-## Desconecta señales del cliente anterior si las había.
+## Debe llamarse DESPUÉS de add_child para que los nodos estén disponibles.
 func setup(customer: CustomerBase, index: int) -> void:
 	_disconnect_previous()
+
+	# Resolver nodos la primera vez (o si aún no se han resuelto).
+	if _order_number_label == null:
+		_order_number_label = $VBox/OrderNumber
+		_order_icon        = $VBox/OrderRow/OrderIcon
+		_order_placeholder = $VBox/OrderRow/OrderPlaceholder
+		_extras_row        = $VBox/ExtrasRow
+		_patience_bar      = $VBox/PatienceBar
+		_price_label       = $VBox/PriceLabel
+		# Duplicar estilo del fill para mutar color individualmente.
+		_patience_style = _patience_bar.get_theme_stylebox("fill").duplicate() as StyleBoxFlat
+		_patience_bar.add_theme_stylebox_override("fill", _patience_style)
+
 	_customer = customer
-	order_number_label.text = "#%d" % (index + 1)
+	_order_number_label.text = "#%d" % (index + 1)
 
 	# ── Icono base ──────────────────────────────────────────────────────────
 	var base: ItemData = null
@@ -40,30 +45,30 @@ func setup(customer: CustomerBase, index: int) -> void:
 		base = customer.customer_data.requested_item
 
 	if base != null and base.icon != null:
-		order_icon.texture = base.icon
-		order_icon.show()
-		order_placeholder.hide()
+		_order_icon.texture = base.icon
+		_order_icon.show()
+		_order_placeholder.hide()
 	else:
-		order_icon.texture = null
-		order_icon.hide()
-		order_placeholder.show()
+		_order_icon.texture = null
+		_order_icon.hide()
+		_order_placeholder.show()
 
 	# ── Extras ──────────────────────────────────────────────────────────────
 	_rebuild_extras(customer.order.extras if customer.order != null else [])
 
 	# ── Precio ──────────────────────────────────────────────────────────────
 	if customer.order != null:
-		price_label.text = "$%d" % customer.order.price()
-		price_label.show()
+		_price_label.text = "$%d" % customer.order.price()
+		_price_label.show()
 	else:
-		price_label.hide()
+		_price_label.hide()
 
 	# ── Paciencia ────────────────────────────────────────────────────────────
-	patience_bar.max_value = maxf(customer.patience_max, 0.1)
-	patience_bar.value = customer.patience_remaining
+	_patience_bar.max_value = maxf(customer.patience_max, 0.1)
+	_patience_bar.value = customer.patience_remaining
 	_update_patience_color(customer.patience_remaining / maxf(customer.patience_max, 0.1))
 
-	# Conectar señal de paciencia del cliente para actualizar la barra en tiempo real.
+	# Conectar señal de paciencia para actualizar la barra en tiempo real.
 	if not customer.patience_changed.is_connected(_on_patience_changed):
 		customer.patience_changed.connect(_on_patience_changed)
 
@@ -76,9 +81,9 @@ func _disconnect_previous() -> void:
 		_customer.patience_changed.disconnect(_on_patience_changed)
 
 
-## Reconstruye los badges de extras. Acepta Array sin tipado para pasar [] literal.
+## Reconstruye los badges de extras.
 func _rebuild_extras(extras: Array) -> void:
-	for child in extras_row.get_children():
+	for child in _extras_row.get_children():
 		child.queue_free()
 	for extra: ItemData in extras:
 		if extra == null:
@@ -90,23 +95,23 @@ func _rebuild_extras(extras: Array) -> void:
 			rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			extras_row.add_child(rect)
+			_extras_row.add_child(rect)
 		else:
 			var label := Label.new()
 			var fallback := extra.name if extra.name != "" else extra.item_id
 			label.text = fallback.substr(0, 1).to_upper() if fallback != "" else "?"
 			label.add_theme_font_size_override("font_size", 13)
 			label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			extras_row.add_child(label)
-	# Ocultar la fila si no hay extras para no ocupar espacio.
-	extras_row.visible = extras_row.get_child_count() > 0
+			_extras_row.add_child(label)
+	_extras_row.visible = _extras_row.get_child_count() > 0
 
 
-## Actualiza la barra de paciencia y su color según el ratio restante.
+## Actualiza la barra de paciencia en tiempo real con la señal del cliente.
 func _on_patience_changed(_customer_ref: CustomerBase, remaining: float) -> void:
-	patience_bar.value = remaining
-	var ratio := remaining / maxf(patience_bar.max_value, 0.1)
-	_update_patience_color(ratio)
+	if _patience_bar == null:
+		return
+	_patience_bar.value = remaining
+	_update_patience_color(remaining / maxf(_patience_bar.max_value, 0.1))
 
 
 func _update_patience_color(ratio: float) -> void:

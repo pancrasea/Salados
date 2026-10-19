@@ -151,14 +151,12 @@ text = "Haz clic para continuar"
 horizontal_alignment = 1
 
 [node name="OrdersPanel" type="HBoxContainer" parent="." unique_id=1902771200]
-visible = false
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -210.0
-offset_right = 210.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -420.0
 offset_bottom = 168.0
-grow_horizontal = 2
+grow_horizontal = 0
 mouse_filter = 2
 theme_override_constants/separation = 12
 alignment = 1
