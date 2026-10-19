@@ -4,9 +4,13 @@ class_name OrderGenerator extends Node
 ## creados. Usado por CustomerSpawner; también se puede invocar generate()
 ## manualmente desde cualquier script.
 
-## Plato base de todos los pedidos generados (ej. encebollado).
+## Plato base de los pedidos compuestos (ej. encebollado).
 @export var base_item: ItemData
-## Pool de agregados posibles (pan, chifle, limón, canguil, maíz tostado).
+## Productos que pueden pedirse solos, sin plato base ni extras.
+@export var standalone_pool: Array[ItemData] = []
+## Probabilidad de generar un pedido individual cuando hay productos configurados.
+@export_range(0.0, 1.0, 0.05) var standalone_chance: float = 0.25
+## Pool de agregados posibles para el encebollado.
 @export var extras_pool: Array[ItemData] = []
 ## Cantidad máxima de agregados por pedido.
 @export_range(0, 5, 1) var max_extras: int = 3
@@ -14,11 +18,13 @@ class_name OrderGenerator extends Node
 @export_range(0, 5, 1) var min_extras: int = 0
 
 
-## Devuelve un pedido nuevo con base_item y entre min_extras y max_extras
-## agregados elegidos al azar sin repetición. Devuelve un pedido sin extras
-## si no hay pool configurado.
+## Devuelve un producto individual o el plato base con extras sin repetición.
+## Si no hay pool de individuales, conserva el flujo anterior.
 func generate() -> OrderData:
 	var order := OrderData.new()
+	if not standalone_pool.is_empty() and randf() < standalone_chance:
+		order.base = standalone_pool.pick_random()
+		return order
 	order.base = base_item
 	if extras_pool.is_empty() or max_extras <= 0:
 		return order

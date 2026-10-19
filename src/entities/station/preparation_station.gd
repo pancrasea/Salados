@@ -74,6 +74,8 @@ func _crear_encebollado() -> bool:
 		return false
 	producto.data = recipe.final_product
 	producto.position = ingredientes_en_mesa.position
+	# Agranda solo el resultado de esta mesa, incluido su área para arrastrarlo.
+	producto.scale = Vector2.ONE * 2.0
 	add_child(producto)
 	_producto_actual = producto
 	return true
