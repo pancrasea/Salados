@@ -30,8 +30,9 @@ const ORDER_CARD_SCENE := preload("res://src/ui/order_card.tscn")
 ## Contenedor de tarjetas de pedido (añadido en hud.tscn).
 @onready var orders_panel: HBoxContainer = $OrdersPanel
 
-## Timer del auto-cierre del banner de objetivo; se reintenta si se vuelve a
-## mostrar antes de que expire.
+## Emitida cuando el banner de objetivo termina de ocultarse (por timer o clic).
+## CustomerSpawner la escucha para empezar a generar clientes.
+signal objective_banner_closed
 var _banner_timer: SceneTreeTimer = null
 
 ## Autoload GameManager. Se resuelve por ruta en vez del identificador global
@@ -144,6 +145,7 @@ func _hide_objective_banner() -> void:
 	var tween := create_tween()
 	tween.tween_property(objective_banner, "modulate:a", 0.0, 0.3)
 	tween.tween_callback(objective_banner.hide)
+	tween.tween_callback(func () -> void: objective_banner_closed.emit())
 
 
 func _on_objective_banner_gui_input(event: InputEvent) -> void:
