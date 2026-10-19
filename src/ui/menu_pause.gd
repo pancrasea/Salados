@@ -46,5 +46,4 @@ func _on_home_button_pressed() -> void:
 	
 
 func _on_option_button_pressed() -> void:
-	%OptionButton.disabled = true
-	$Panel/VBoxContainer/Label.text = "Opciones no disponibles"
+	pass
