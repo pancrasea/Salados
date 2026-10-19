@@ -24,10 +24,16 @@ func key() -> String:
 
 
 ## Devuelve true si el ItemData entregado corresponde a este pedido.
-## Exige recipe_key asignado: DraggableZone lo calcula para el encebollado
-## solo y lo actualiza al combinarlo con jugo o toppings.
+## Los platos armados usan recipe_key; los cuatro productos individuales
+## configurados también pueden servirse solos cuando no hay extras.
 func matches(item: ItemData) -> bool:
-	return item != null and item.recipe_key != "" and item.recipe_key == key()
+	if item == null:
+		return false
+	if item.recipe_key != "":
+		return item.recipe_key == key()
+	return base != null and extras.is_empty() \
+		and base.item_id in ["chifle", "jugo_naranja", "maiz_tostado", "limon"] \
+		and item.item_id == base.item_id
 
 
 ## Valor de venta del pedido: suma de los precios de los ítems que lo componen

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CustomerData" format=3 uid="uid://b2ulsu3k36gus"]
+
+[ext_resource type="Script" uid="uid://yvcolwcuf4a0" path="res://src/core/resources_scripts/customer_data.gd" id="1_m6yi0"]
+[ext_resource type="Texture2D" uid="uid://lct70rnmywrx" path="res://assets/sprites/customers/yandri/yandry 1.png" id="2_exgwh"]
+[ext_resource type="Texture2D" uid="uid://bovtvcwurosg" path="res://assets/sprites/customers/yandri/yandry 2.png" id="3_wsl0u"]
+
+[resource]
+script = ExtResource("1_m6yi0")
+texture = ExtResource("2_exgwh")
+texture_alt = ExtResource("3_wsl0u")
+scale = Vector2(0.4, 0.4)
+reward = 12
+metadata/_custom_type_script = "uid://yvcolwcuf4a0"

@@ -109,7 +109,21 @@ layout_mode = 2
 texture_normal = SubResource("AtlasTexture_wxak0")
 stretch_mode = 5
 
+[node name="CloseButton" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -44.0
+offset_right = -8.0
+offset_bottom = 36.0
+grow_horizontal = 0
+focus_mode = 0
+theme_override_font_sizes/font_size = 22
+text = "X"
+
 [connection signal="pressed" from="Panel/VBoxContainer/GridContainer/OnionButton" to="Panel" method="_on_onion_button_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/GridContainer/YucaButton" to="Panel" method="_on_yuca_button_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/GridContainer/FishButton" to="Panel" method="_on_fish_button_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/GridContainer/OrangeButton" to="Panel" method="_on_orange_button_pressed"]
+[connection signal="pressed" from="Panel/CloseButton" to="Panel" method="_on_close_button_pressed"]

@@ -2,12 +2,12 @@ extends Control
 
 ## Flecha visible de los botones de navegación entre secciones. Se dibuja con
 ## polígonos centrados en el control, sin depender de fuentes ni texturas, para
-## que las zonas de clic de `mouse_interaction` (izquierda/derecha/abajo) se
+## que las zonas de clic de `mouse_interaction` (los cuatro lados) se
 ## vean siempre. `mouse_filter` debe ser IGNORE: el clic lo recibe el
 ## TextureButton padre.
 
 ## Dirección a la que apunta la flecha.
-@export_enum("Izquierda:0", "Derecha:1", "Abajo:2") var direccion: int = 0
+@export_enum("Izquierda:0", "Derecha:1", "Abajo:2", "Arriba:3") var direccion: int = 0
 ## Tamaño (ancho/alto) del triángulo dibujado, en píxeles.
 @export var tamano: float = 46.0
 ## Color de relleno de la flecha.
@@ -40,11 +40,17 @@ func _draw() -> void:
 				centro + Vector2(-mitad, mitad),
 				centro + Vector2(mitad, 0.0),
 			])
-		_:
+		2:
 			puntos = PackedVector2Array([
 				centro + Vector2(-mitad, -mitad),
 				centro + Vector2(mitad, -mitad),
 				centro + Vector2(0.0, mitad),
+			])
+		_:
+			puntos = PackedVector2Array([
+				centro + Vector2(-mitad, mitad),
+				centro + Vector2(mitad, mitad),
+				centro + Vector2(0.0, -mitad),
 			])
 	draw_circle(centro, mitad + 8.0, color_fondo)
 	draw_colored_polygon(puntos, color)

@@ -18,4 +18,6 @@ order_generator = NodePath("OrderGenerator")
 [node name="OrderGenerator" type="Node" parent="." unique_id=687798845]
 script = ExtResource("4_gen")
 base_item = ExtResource("5_base")
+standalone_pool = Array[ExtResource("3_item")]([ExtResource("7_chifle"), ExtResource("11_jugo"), ExtResource("8_limon"), ExtResource("10_maiz")])
+standalone_chance = 0.2
 extras_pool = Array[ExtResource("3_item")]([ExtResource("7_chifle"), ExtResource("8_limon"), ExtResource("10_maiz"), ExtResource("11_jugo")])
