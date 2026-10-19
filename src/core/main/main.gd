@@ -66,14 +66,16 @@ func start_game() -> void:
 		var spawner := main_station.get_node_or_null("CustomerSpawner") as CustomerSpawner
 		if spawner != null:
 			hud.call("register_spawner", spawner)
-	GameManager.start_day()
+	# start_day diferido: el timer y el spawner arrancan al cerrar el banner.
+	GameManager.start_day(true)
 	GameManager.day_ended.connect(_on_day_ended, CONNECT_ONE_SHOT)
 	get_tree().paused = false
 	mouse_interaction.show()
 	hud.show()
-	# Banner de objetivo al arrancar la partida: onboarding mínimo para el
-	# jugador (reglas, receta y controles) sin pantallas extra.
+	# Banner de objetivo: onboarding mínimo. Al cerrarse arranca el día real.
 	hud.call("show_objective_banner")
+	var hud_typed := hud as Node
+	hud_typed.connect("objective_banner_closed", _on_objective_banner_closed, CONNECT_ONE_SHOT)
 
 
 # Llamado al volver al menú (oculta la UI de navegación)
@@ -105,3 +107,15 @@ func _on_day_ended() -> void:
 	var panel := END_OF_DAY_SCENE.instantiate()
 	panel.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(panel)
+
+
+# Arranca el día y el spawner cuando el jugador cierra el banner de objetivo.
+func _on_objective_banner_closed() -> void:
+	# Arrancar el timer del día.
+	GameManager.resume_day()
+	# Arrancar el spawner de clientes.
+	var main_station: Node = GameManager.call("get_station", GameManager.Side.FRONT)
+	if main_station != null:
+		var spawner := main_station.get_node_or_null("CustomerSpawner") as CustomerSpawner
+		if spawner != null:
+			spawner.start_spawning()

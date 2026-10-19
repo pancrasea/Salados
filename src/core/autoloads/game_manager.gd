@@ -108,14 +108,16 @@ var _day_elapsed: float = 0.0
 var day_running: bool = false
 
 ## Arranca el temporizador del día y repone los cupos diarios.
-func start_day() -> void:
+## Con `deferred = true` inicializa el estado pero NO arranca el timer ni el
+## conteo; usa `resume_day()` después (ej. al cerrar el banner de objetivo).
+func start_day(deferred: bool = false) -> void:
 	reset_money()
 	if warehouse != null:
 		warehouse.reset()
 	if materia_prima != null:
 		materia_prima.reset_dia()
 	_day_elapsed = 0.0
-	day_running = true
+	day_running = false   # se activa en resume_day()
 
 	if _day_timer == null:
 		_day_timer = Timer.new()
@@ -123,7 +125,9 @@ func start_day() -> void:
 		_day_timer.timeout.connect(_on_day_timer_timeout)
 		add_child(_day_timer)
 
-	_day_timer.start(_day_duration())
+	if not deferred:
+		day_running = true
+		_day_timer.start(_day_duration())
 
 ## Para el temporizador (sin resetear el tiempo transcurrido).
 func stop_day() -> void:
@@ -154,7 +158,7 @@ func end_day() -> Dictionary:
 func resume_day() -> void:
 	if _day_timer == null:
 		return
-	var remaining := maxf(DAY_DURATION - _day_elapsed, 0.0)
+	var remaining := maxf(_day_duration() - _day_elapsed, 0.0)
 	if remaining <= 0.0:
 		return
 	day_running = true

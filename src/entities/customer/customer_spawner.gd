@@ -24,7 +24,8 @@ signal customers_changed(customers: Array)
 ## Horizontal distance between customer origins, in this node's local coordinates.
 @export_range(0.0, 1024.0, 1.0) var customer_spacing: float = 250.0
 ## If enabled, starts spawning as soon as this node enters the scene tree.
-@export var spawn_on_ready: bool = true
+## Dejar en false cuando el arranque lo controle un sistema externo (ej. main.gd).
+@export var spawn_on_ready: bool = false
 
 ## Currently active customers in row order.
 var active_customers: Array[CustomerBase] = []
@@ -44,9 +45,17 @@ func _ready() -> void:
 	spawn_timer.wait_time = maxf(spawn_interval, 0.1)
 	spawn_timer.timeout.connect(spawn_customer)
 	add_child(spawn_timer)
+	# El arranque se difiere: main.gd llama start_spawning() cuando el HUD
+	# cierra el banner de objetivo para que el jugador tenga tiempo de leer.
 	if spawn_on_ready:
-		spawn_customer()
-		spawn_timer.start()
+		start_spawning()
+
+
+## Arranca el spawner: genera el primer cliente y enciende el timer automático.
+## Llamar desde fuera cuando el juego esté listo (ej. al cerrar el banner).
+func start_spawning() -> void:
+	spawn_customer()
+	spawn_timer.start()
 
 
 ## Autoload GameManager. Se resuelve por ruta en vez del identificador global
