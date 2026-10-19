@@ -119,7 +119,7 @@ func _update_hint(side: int) -> void:
 		SIDE_LEFT:
 			hint_label.text = "Arrastra materia prima a la zona y haz 3 clics para prepararla."
 		SIDE_RIGHT:
-			hint_label.text = "Arma el plato (líquido + ingredientes) y despáchalo a la estación principal."
+			hint_label.text = "Suelta líquido y los 3 ingredientes en la mesa; despacha el encebollado."
 		_:
 			hint_label.text = ""
 	hint_label.visible = hint_label.text != ""

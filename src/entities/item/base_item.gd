@@ -65,8 +65,18 @@ var _valid_areas: Array[Area2D] = []
 ## Recalcula los destinos válidos bajo el ítem y pide repintar el resaltado.
 func _update_drop_highlights() -> void:
 	_valid_areas.clear()
-	for area in $Area2D.get_overlapping_areas():
-		if _is_valid_drop_target(area.get_parent()):
+	var areas: Array[Area2D] = $Area2D.get_overlapping_areas()
+	var preparation_rejects := false
+	for area in areas:
+		var target := area.get_parent()
+		if target is PreparationStation:
+			preparation_rejects = not (target as PreparationStation).can_receive_ingredient(data)
+			break
+	for area in areas:
+		var target := area.get_parent()
+		if preparation_rejects and target is WorkSurface:
+			continue
+		if _is_valid_drop_target(target):
 			_valid_areas.append(area)
 	queue_redraw()
 
@@ -77,6 +87,8 @@ func _is_valid_drop_target(target: Node) -> bool:
 		return false
 	if target is WorkSurface:
 		return true
+	if target is PreparationStation:
+		return (target as PreparationStation).can_receive_ingredient(data)
 	if target is BaseItem:
 		var contenedor := target as BaseItem
 		return contenedor.data != null and contenedor.data.is_container \
@@ -141,6 +153,7 @@ func _verify_target_and_drop():
 	# La mesa (WorkSurface) es un destino de reserva: sólo mantiene el ítem
 	# si ningún otro destino lo atendió, para no competir con ellos.
 	var on_work_surface := false
+	var on_preparation_area := false
 	
 	for area in overlapping_areas:
 		var target = area.get_parent()
@@ -151,6 +164,14 @@ func _verify_target_and_drop():
 		if target is WorkSurface:
 			on_work_surface = true
 			continue
+
+		# La mesa de preparación reúne la receta sin un plato contenedor.
+		if target is PreparationStation:
+			on_preparation_area = true
+			if target.recibir_ingrediente(data):
+				successful_drop = true
+				queue_free()
+				break
 		
 		# Caso contenedor (plato o vaso): el ingrediente se consume.
 		if target is BaseItem and target.data and target.data.is_container:
@@ -201,7 +222,7 @@ func _verify_target_and_drop():
 				break
 
 	# Sobre una mesa de trabajo el ítem se queda donde el jugador lo dejó.
-	if not successful_drop and on_work_surface:
+	if not successful_drop and on_work_surface and not on_preparation_area:
 		successful_drop = true
 
 	if not successful_drop:

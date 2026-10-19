@@ -30,10 +30,10 @@ signal food_spawned(food: ItemData, item: BaseItem)
 @export var spawn_on_ready: bool = true
 ## Si está activo, añade una etiqueta con el nombre bajo cada alimento.
 @export var show_name_labels: bool = true
-## Escala aplicada a cada alimento spawneado. Permite que una fuente compacta
-## (p. ej. los agregados de la estación principal) muestre ítems pequeños sin
-## encoger la escena base ni su colisión.
+## Escala aplicada a cada alimento spawneado, incluida su colisión.
 @export var item_scale: Vector2 = Vector2.ONE * 1
+## Multiplica solo el sprite del alimento; el Area2D conserva su tamaño.
+@export_range(0.1, 4.0, 0.1) var item_visual_scale: float = 1.0
 ## Slots (unidades visibles) por cada ItemData de `foods`. Acota cuántas
 ## unidades del mismo ingrediente se muestran a la vez.
 @export_range(1, 6, 1) var slots_per_item: int = 1
@@ -56,6 +56,8 @@ enum StockSource { INFINITE, PREPARADOS, MATERIA_PRIMA }
 
 var _slot_timers: Array[Timer] = []
 var _slot_instances: Array[BaseItem] = []
+## Etiquetas del stock por slot, hijas de la fuente para no seguir al ítem.
+var _stock_labels: Array[Label] = []
 var _inventory: Inventario = null
 ## Evita que el refill inmediato dispare al consumir un ítem: al descontar el
 ## inventario se emite `inventario_actualizado`, pero el hueco debe reponerse
@@ -65,6 +67,7 @@ var _consuming: bool = false
 
 func _ready() -> void:
 	_slot_instances.resize(_slot_count())
+	_stock_labels.resize(_slot_count())
 	_create_slot_timers()
 	if stock_source != StockSource.INFINITE:
 		_inventory = _resolve_inventory()
@@ -169,10 +172,12 @@ func _spawn(food: ItemData, flat_index: int) -> void:
 	item.scale = item_scale
 	item.position = _slot_position(flat_index)
 	add_child(item)
+	if item.sprite_2d != null:
+		item.sprite_2d.scale *= item_visual_scale
 	if show_name_labels:
 		_add_name_label(item, food)
 	if stock_source == StockSource.MATERIA_PRIMA:
-		_add_stock_label(item, food)
+		_add_stock_label(flat_index, food)
 	item.tree_exited.connect(_on_food_exited.bind(flat_index))
 	_slot_instances[flat_index] = item
 	food_spawned.emit(food, item)
@@ -191,16 +196,20 @@ func _add_name_label(item: BaseItem, food: ItemData) -> void:
 	item.add_child(label)
 
 
-## Muestra restantes/cupo abajo a la derecha del crudo; al ser hijo del ítem,
-## desaparece junto a él cuando se agota el stock.
-func _add_stock_label(item: BaseItem, food: ItemData) -> void:
-	var label := Label.new()
-	label.name = "StockLabel"
-	label.position = Vector2(48.0, 40.0)
-	label.custom_minimum_size = Vector2(64.0, 0.0)
-	label.add_theme_font_size_override("font_size", 14)
-	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	item.add_child(label)
+## Conserva el contador en la posición del slot aunque el crudo se arrastre.
+func _add_stock_label(flat_index: int, food: ItemData) -> void:
+	var label := _stock_labels[flat_index]
+	if label == null:
+		label = Label.new()
+		label.name = "StockLabel_%d" % flat_index
+		label.position = _slot_position(flat_index) + Vector2(48.0, 40.0) * item_scale
+		label.scale = item_scale
+		label.z_index = 1
+		label.custom_minimum_size = Vector2(64.0, 0.0)
+		label.add_theme_font_size_override("font_size", 24)
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(label)
+		_stock_labels[flat_index] = label
 	_update_stock_label(label, food)
 
 
@@ -212,13 +221,12 @@ func _update_stock_label(label: Label, food: ItemData) -> void:
 	var limite := balance.limite_de(food) if balance != null else 0
 	var restante := _inventory.cantidad_de(food) if _inventory != null else 0
 	label.text = "%d/%d" % [restante, limite]
+	label.visible = restante > 0
 
 
 func _refresh_stock_labels() -> void:
-	for slot in _slot_instances.size():
-		if not _is_slot_filled(slot):
-			continue
-		var label := _slot_instances[slot].get_node_or_null("StockLabel") as Label
+	for slot in _stock_labels.size():
+		var label := _stock_labels[slot]
 		if label != null:
 			_update_stock_label(label, foods[_item_index(slot)])
 

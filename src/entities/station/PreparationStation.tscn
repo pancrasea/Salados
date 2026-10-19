@@ -11,10 +11,13 @@
 [ext_resource type="PackedScene" uid="uid://cprepj6on75a7" path="res://src/entities/item/base_item.tscn" id="7_base"]
 [ext_resource type="PackedScene" uid="uid://cplatoitem01" path="res://src/entities/item/plato_item.tscn" id="8_plato"]
 [ext_resource type="Resource" path="res://resources/items/plato.tres" id="9_plato_data"]
-[ext_resource type="Resource" path="res://resources/items/cebolla_cortada.tres" id="10_cebolla"]
+[ext_resource type="Resource" uid="uid://borulpe255co3" path="res://resources/items/cebolla_cortada.tres" id="10_cebolla"]
 [ext_resource type="Resource" uid="uid://d1wpe56ey86qb" path="res://resources/items/pescado_desmenuzado.tres" id="11_pescado"]
-[ext_resource type="Resource" path="res://resources/items/yuca_desmenuzada.tres" id="12_yuca"]
+[ext_resource type="Resource" uid="uid://brmnjx18mklq5" path="res://resources/items/yuca_desmenuzada.tres" id="12_yuca"]
 [ext_resource type="PackedScene" uid="uid://cworksurface1" path="res://src/entities/station/work_surface.tscn" id="13_mesa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_assembly"]
+size = Vector2(351, 280)
 
 [node name="PreparationStation" type="Node2D" unique_id=1358951242]
 script = ExtResource("1_script")
@@ -33,16 +36,20 @@ texture = ExtResource("2_peek1")
 expand_mode = 1
 stretch_mode = 6
 
+[node name="Olla" parent="." unique_id=855834328 instance=ExtResource("2_pot")]
+position = Vector2(1388, 397)
+scale = Vector2(3, 3)
+
 [node name="Fondo2" type="TextureRect" parent="." unique_id=2043830741]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 217.0
-offset_top = 226.0
-offset_right = 1794.5277
-offset_bottom = 1080.0
+offset_left = 215.0
+offset_top = 151.0
+offset_right = 1792.5277
+offset_bottom = 1005.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_6t4h4")
@@ -50,6 +57,7 @@ expand_mode = 1
 stretch_mode = 6
 
 [node name="ZonaPreparacion" type="ColorRect" parent="." unique_id=1317591954]
+visible = false
 offset_left = 660.0
 offset_top = 340.0
 offset_right = 1140.0
@@ -58,6 +66,7 @@ mouse_filter = 2
 color = Color(0.12, 0.14, 0.16, 0.35)
 
 [node name="Titulo" type="Label" parent="ZonaPreparacion" unique_id=881220121]
+visible = false
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
@@ -65,17 +74,19 @@ offset_right = 472.0
 offset_bottom = 40.0
 theme_override_colors/font_color = Color(0.85, 0.82, 0.7, 1)
 theme_override_font_sizes/font_size = 20
-text = "Preparación: plato + líquido + ingredientes"
+text = "Preparación: líquido + ingredientes"
 
 [node name="ZonaOlla" type="ColorRect" parent="." unique_id=975833175]
-offset_left = 1330.0
-offset_top = 300.0
-offset_right = 1550.0
-offset_bottom = 560.0
+visible = false
+offset_left = 1278.0
+offset_top = 265.0
+offset_right = 1498.0
+offset_bottom = 525.0
 mouse_filter = 2
 color = Color(0.16, 0.13, 0.1, 0.35)
 
 [node name="Titulo" type="Label" parent="ZonaOlla" unique_id=500252737]
+visible = false
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
@@ -86,12 +97,20 @@ theme_override_font_sizes/font_size = 20
 text = "Olla (líquido)"
 
 [node name="MesaTrabajo" parent="." unique_id=1647676312 instance=ExtResource("13_mesa")]
-position = Vector2(900, 550)
+position = Vector2(1265, 781)
 
-[node name="Olla" parent="." unique_id=855834328 instance=ExtResource("2_pot")]
-position = Vector2(1440, 420)
+[node name="AssemblyArea" type="Area2D" parent="." unique_id=271692714]
+position = Vector2(1268, 782)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AssemblyArea" unique_id=2118983524]
+position = Vector2(3, -1)
+shape = SubResource("RectangleShape2D_assembly")
+
+[node name="IngredientesEnMesa" type="Node2D" parent="." unique_id=1567281425]
+position = Vector2(1273, 778)
 
 [node name="ZonaPlatos" type="ColorRect" parent="." unique_id=1746078183]
+visible = false
 offset_left = 1330.0
 offset_top = 700.0
 offset_right = 1550.0
@@ -116,17 +135,20 @@ foods = Array[ExtResource("6_item")]([ExtResource("9_plato_data")])
 item_scene = ExtResource("8_plato")
 slot_spacing = 130.0
 first_slot_offset = Vector2(0, 0)
+spawn_on_ready = false
 show_name_labels = false
 
 [node name="ZonaIngredientes" type="ColorRect" parent="." unique_id=1621689862]
-offset_left = 60.0
-offset_top = 300.0
-offset_right = 380.0
-offset_bottom = 820.0
+visible = false
+offset_left = 261.0
+offset_top = 200.0
+offset_right = 992.0
+offset_bottom = 950.0
 mouse_filter = 2
 color = Color(0.14, 0.12, 0.16, 0.35)
 
 [node name="Titulo" type="Label" parent="ZonaIngredientes" unique_id=496504392]
+visible = false
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
@@ -137,17 +159,18 @@ theme_override_font_sizes/font_size = 20
 text = "Ingredientes preparados"
 
 [node name="Ingredientes" type="Node2D" parent="." unique_id=1277474414]
-position = Vector2(220, 380)
+position = Vector2(626, 325)
 script = ExtResource("5_spawner")
 foods = Array[ExtResource("6_item")]([ExtResource("10_cebolla"), ExtResource("11_pescado"), ExtResource("12_yuca")])
 item_scene = ExtResource("7_base")
 respawn_delay = 0.6
-slot_spacing = 80.0
-first_slot_offset = Vector2(-80, 0)
+slot_spacing = 243.0
+first_slot_offset = Vector2(-243, 0)
 show_name_labels = false
-item_scale = Vector2(0.55, 0.55)
+item_scale = Vector2(1.1, 1.1)
 slots_per_item = 3
 horizontal_groups = true
+row_spacing = 250.0
 stock_source = 1
 
 [node name="ZonaBasura" type="ColorRect" parent="." unique_id=1410996426]
@@ -159,6 +182,7 @@ mouse_filter = 2
 color = Color(0.18, 0.11, 0.11, 0.35)
 
 [node name="Titulo" type="Label" parent="ZonaBasura" unique_id=1720588686]
+visible = false
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
@@ -172,14 +196,15 @@ text = "Basura"
 position = Vector2(180, 960)
 
 [node name="ZonaDespacho" type="ColorRect" parent="." unique_id=1337376582]
-offset_left = 820.0
-offset_top = 860.0
-offset_right = 1120.0
-offset_bottom = 1020.0
+offset_left = 818.0
+offset_top = 913.0
+offset_right = 1118.0
+offset_bottom = 1073.0
 mouse_filter = 2
 color = Color(0.11, 0.15, 0.19, 0.45)
 
 [node name="Titulo" type="Label" parent="ZonaDespacho" unique_id=1644847564]
+visible = false
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
@@ -190,4 +215,4 @@ theme_override_font_sizes/font_size = 20
 text = "Despacho a clientes"
 
 [node name="DispatchZone" parent="." unique_id=549202623 instance=ExtResource("3_dispatch")]
-position = Vector2(970, 940)
+position = Vector2(970, 998)

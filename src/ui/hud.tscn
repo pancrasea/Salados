@@ -137,7 +137,7 @@ theme_override_colors/font_color = Color(0.92, 0.94, 0.9, 1)
 theme_override_font_sizes/font_size = 22
 text = "Objetivo: prepara y sirve encebollados antes de que se acabe el tiempo.
 
-Receta: un plato + líquido de sopa + cebolla, albacora y yuca. Los tres ingredientes se preparan con 3 clics en la sección de corte.
+Receta: líquido de sopa + cebolla, albacora y yuca, directo en la mesa de preparación. Los tres ingredientes se preparan con 3 clics en la sección de corte.
 
 Gira la vista con las flechas de los bordes y arrastra los ingredientes con el mouse."
 horizontal_alignment = 1

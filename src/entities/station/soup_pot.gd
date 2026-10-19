@@ -2,9 +2,9 @@ class_name SoupPot extends Node2D
 
 ## Olla del líquido de la sopa (sección de preparación). Mantiene UN `BaseItem`
 ## de líquido arrastrable en su posición; cuando el jugador lo consume al
-## servirlo en un plato (queue_free), la olla repone otro tras `respawn_delay`.
+## soltarlo en la mesa de preparación (queue_free), repone otro tras `respawn_delay`.
 ##
-## Nota: el ítem no se consume al levantarlo, solo al soltarlo en un contenedor
+## Nota: el ítem no se consume al levantarlo, solo al soltarlo en la mesa
 ## (ver BaseItem._verify_target_and_drop). Si el drop no encuentra destino, el
 ## ítem vuelve a su posición y la olla conserva su líquido.
 

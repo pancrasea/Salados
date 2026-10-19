@@ -15,7 +15,6 @@ const MAX_INGREDIENTES: int = 3
 var actual: EncebolladoIngrediente
 var clics: int = 0
 var _ingredientes: Array[EncebolladoIngrediente] = [null, null, null]
-var _clics_completados: int = 0
 
 @onready var titulo: Label = $Contenido/Titulo
 @onready var instruccion: Label = $Contenido/Instruccion
@@ -76,19 +75,18 @@ func primer_pendiente() -> EncebolladoIngrediente:
 			return dato
 	return null
 
-## Puntos de todo el lote: cada crudo añade sus clics y los completados quedan
-## marcados hasta vaciar la fila. Se muestran arriba del DropArea.
+## Muestra arriba del DropArea solo los puntos de los crudos pendientes.
+## Al terminar uno, sus tres puntos desaparecen junto con su icono.
 func puntos_progreso() -> String:
 	if cantidad_en_fila() == 0:
 		return ""
-	var total := _clics_completados
+	var total := 0
 	for dato in _ingredientes:
 		if dato != null:
 			total += dato.clics_necesarios
-	var hechos := _clics_completados + clics
 	var puntos: PackedStringArray = []
 	for indice in range(total):
-		puntos.append("●" if indice < hechos else "○")
+		puntos.append("●" if indice < clics else "○")
 	return " ".join(puntos)
 
 ## Añade al primer espacio libre sin reiniciar los clics de los demás.
@@ -136,12 +134,9 @@ func procesar_click() -> void:
 	var dato := _ingredientes[0]
 	clics = mini(clics + 1, dato.clics_necesarios)
 	if clics >= dato.clics_necesarios:
-		_clics_completados += dato.clics_necesarios
 		_ingredientes.remove_at(0)
 		_ingredientes.append(null)
 		clics = 0
-		if cantidad_en_fila() == 0:
-			_clics_completados = 0
 		for indice in range(MAX_INGREDIENTES):
 			_dibujar_espacio(indice)
 		ingrediente_terminado.emit(dato.id)

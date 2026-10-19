@@ -11,9 +11,28 @@
 [ext_resource type="Resource" uid="uid://dp16ststomd85" path="res://resources/items/item_cebolla_colorada.tres" id="7_cebolla"]
 [ext_resource type="Resource" uid="uid://bs6x8roxg4tob" path="res://resources/items/item_albacora.tres" id="8_albacora"]
 [ext_resource type="Resource" uid="uid://ddhjmj1sdmjxl" path="res://resources/items/item_yuca.tres" id="9_yuca"]
+[ext_resource type="Texture2D" uid="uid://d4aptrxmy0ejo" path="res://assets/sprites/items/assets_corte_1.png" id="12_vhvwb"]
 
 [sub_resource type="RectangleShape2D" id="Shape_Entrada"]
-size = Vector2(900, 420)
+size = Vector2(829, 523)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vhvwb"]
+load_path = "res://.godot/imported/assets_corte_1.png-811147ed5236cd8e478e7c5bd78984ac.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j7r2t"]
+atlas = SubResource("CompressedTexture2D_vhvwb")
+region = Rect2(599, 387, 487, 308)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_oxcom"]
+load_path = "res://.godot/imported/assets_corte_1.png-811147ed5236cd8e478e7c5bd78984ac.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7w4h1"]
+atlas = SubResource("CompressedTexture2D_oxcom")
+region = Rect2(1237, 421, 489, 260)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_as38o"]
+atlas = ExtResource("12_vhvwb")
+region = Rect2(57, 398, 452, 275)
 
 [node name="CorteDesmenuce" type="Node2D" unique_id=673223503]
 script = ExtResource("1_script")
@@ -36,10 +55,10 @@ stretch_mode = 6
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 63.0
-offset_top = 91.0
-offset_right = 1518.6111
-offset_bottom = 879.0
+offset_left = 205.0
+offset_top = 127.0
+offset_right = 1660.6111
+offset_bottom = 915.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_iphls")
@@ -47,26 +66,28 @@ expand_mode = 1
 stretch_mode = 6
 
 [node name="ZonaMateriaPrima" type="ColorRect" parent="." unique_id=256214451]
-offset_left = 60.0
-offset_top = 300.0
-offset_right = 380.0
-offset_bottom = 820.0
+offset_left = 243.0
+offset_top = 251.0
+offset_right = 563.0
+offset_bottom = 771.0
 mouse_filter = 2
 color = Color(0.14, 0.12, 0.16, 0.35)
 
 [node name="MateriaPrima" type="Node2D" parent="." unique_id=139199273]
-position = Vector2(220, 420)
+position = Vector2(380, 363)
 script = ExtResource("4_spawner")
 foods = Array[ExtResource("6_item")]([ExtResource("7_cebolla"), ExtResource("8_albacora"), ExtResource("9_yuca")])
 item_scene = ExtResource("5_base")
 respawn_delay = 0.6
 first_slot_offset = Vector2(0, 0)
+show_name_labels = false
 stock_source = 2
 
 [node name="DropArea" type="Area2D" parent="." unique_id=830420208]
 position = Vector2(960, 445)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DropArea" unique_id=1856897309]
+position = Vector2(133.5, 87.5)
 shape = SubResource("Shape_Entrada")
 
 [node name="UILayer" type="Control" parent="." unique_id=2017049497]
@@ -89,6 +110,7 @@ mouse_filter = 2
 theme = ExtResource("3_theme")
 
 [node name="EtiquetaStock" type="Label" parent="UILayer/Pantalla" unique_id=1097413075]
+visible = false
 layout_mode = 0
 offset_left = 60.0
 offset_top = 310.0
@@ -100,6 +122,7 @@ text = "Materia prima"
 horizontal_alignment = 1
 
 [node name="AyudaStock" type="Label" parent="UILayer/Pantalla" unique_id=256560525]
+visible = false
 layout_mode = 0
 offset_left = 60.0
 offset_top = 350.0
@@ -135,22 +158,21 @@ ayuda_visible = "Desmenuza la albacora cocida"
 [node name="ZonaCentral" parent="UILayer/Pantalla" unique_id=1272387911 instance=ExtResource("2_zona")]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 760.0
-offset_top = 250.0
-offset_right = 1160.0
-offset_bottom = 640.0
+offset_left = 744.0
+offset_top = 335.0
+offset_right = 1474.0
+offset_bottom = 725.0
 tipo_aceptado = 2
 titulo_visible = "ZONA DE PREPARACIÓN"
 ayuda_visible = "Hasta 3 ingredientes; haz clic en la zona para picarlos en orden"
 
-[node name="ProgresoPuntos" type="Label" parent="UILayer/Pantalla"]
+[node name="ProgresoPuntos" type="Label" parent="UILayer/Pantalla" unique_id=1345041462]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 510.0
-offset_top = 238.0
-offset_right = 1410.0
-offset_bottom = 282.0
-mouse_filter = 2
+offset_left = 643.0
+offset_top = 305.0
+offset_right = 1543.0
+offset_bottom = 349.0
 theme_override_colors/font_color = Color(0.2, 0.36, 0.3, 1)
 theme_override_font_sizes/font_size = 25
 horizontal_alignment = 1
@@ -181,3 +203,18 @@ theme_override_colors/font_color = Color(0.16, 0.36, 0.26, 1)
 theme_override_font_sizes/font_size = 24
 text = "Total preparado: 0"
 horizontal_alignment = 1
+
+[node name="Cebolla" type="Sprite2D" parent="." unique_id=94165861]
+position = Vector2(402.8786, 349.5212)
+scale = Vector2(0.40607223, 0.3475403)
+texture = SubResource("AtlasTexture_j7r2t")
+
+[node name="Yuca" type="Sprite2D" parent="." unique_id=781790266]
+position = Vector2(398.67383, 653.99994)
+scale = Vector2(0.39130414, 0.41759324)
+texture = SubResource("AtlasTexture_7w4h1")
+
+[node name="Pescado" type="Sprite2D" parent="." unique_id=939323050]
+position = Vector2(384.125, 497.99994)
+scale = Vector2(0.4120575, 0.37363634)
+texture = SubResource("AtlasTexture_as38o")
