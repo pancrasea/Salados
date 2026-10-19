@@ -1,38 +1,45 @@
 [gd_scene format=3 uid="uid://bjm1nid030ca0"]
 
 [ext_resource type="Script" uid="uid://d3r4uquulj0u4" path="res://src/ui/main_menu.gd" id="1_0ogta"]
-[ext_resource type="PackedScene" uid="uid://d275fvo82a3ek" path="res://src/ui/widgets/ButtonWidget.tscn" id="2_l8p87"]
-[ext_resource type="Texture2D" uid="uid://tahwsojnv71l" path="res://assets/sprites/ui/buttons/botones_hd.png" id="3_ihbld"]
+[ext_resource type="Texture2D" uid="uid://cytql4154ax01" path="res://assets/sprites/ui/buttons/botones-21.png" id="2_0ogta"]
+[ext_resource type="Texture2D" uid="uid://ca2h28qvlu26b" path="res://assets/sprites/ui/logos/Logo salados.png" id="2_ihbld"]
+[ext_resource type="Texture2D" uid="uid://dwu3kpbwaf335" path="res://assets/sprites/ui/logos/logo studio.png" id="4_u6542"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_icyp6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5uh16"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ihbld"]
+atlas = ExtResource("2_0ogta")
+region = Rect2(21.093702, 26.577908, 248.32231, 61.866344)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u6542"]
-atlas = ExtResource("3_ihbld")
-region = Rect2(1058, 644, 1058, 322)
-margin = Rect2(-28, -46, -56, -92)
+atlas = ExtResource("2_0ogta")
+region = Rect2(276.583, 26.578, 248.322, 61.866)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dbyr8"]
-atlas = ExtResource("3_ihbld")
-region = Rect2(0, 644, 1058, 322)
-margin = Rect2(-28, -46, -56, -92)
+atlas = ExtResource("2_0ogta")
+region = Rect2(21.094, 103.699, 248.322, 61.866)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4h2rs"]
-atlas = ExtResource("3_ihbld")
-region = Rect2(1058, 322, 1058, 322)
-margin = Rect2(-28, -46, -56, -92)
+atlas = ExtResource("2_0ogta")
+region = Rect2(276.583, 103.765, 248.322, 61.866)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fqh1q"]
-atlas = ExtResource("3_ihbld")
-region = Rect2(1058, 322, 1058, 322)
-margin = Rect2(-28, -46, -56, -92)
+[sub_resource type="AtlasTexture" id="AtlasTexture_icyp6"]
+atlas = ExtResource("2_0ogta")
+region = Rect2(21.094, 256.659, 248.322, 61.866)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wewln"]
-atlas = ExtResource("3_ihbld")
-region = Rect2(1058, 964, 1058, 322)
-margin = Rect2(-28, -46, -56, -92)
+[sub_resource type="AtlasTexture" id="AtlasTexture_287bw"]
+atlas = ExtResource("2_0ogta")
+region = Rect2(276.583, 257.106, 248.322, 61.866)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_86t74"]
-atlas = ExtResource("3_ihbld")
-region = Rect2(0, 964, 1058, 322)
-margin = Rect2(-28, -46, -56, -92)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_287bw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l8p87"]
+atlas = ExtResource("2_0ogta")
+region = Rect2(22.796106, 432.88992, 116.10734, 116.10733)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1j815"]
 
 [node name="MainMenu" type="Control" unique_id=531797691]
 layout_mode = 3
@@ -49,47 +56,119 @@ offset_left = 1.0
 offset_right = 1921.0
 offset_bottom = 1080.0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=943117608]
+[node name="MainContainer" type="Panel" parent="." unique_id=698530498]
+custom_minimum_size = Vector2(800, 749)
 layout_mode = 1
-offset_left = 230.0
-offset_top = 206.0
-offset_right = 674.0
-offset_bottom = 348.0
-theme_override_font_sizes/normal_font_size = 93
-text = "Salados"
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 150.0
+offset_top = -410.0
+offset_right = 950.0
+offset_bottom = 339.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_icyp6")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=832175949]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MainContainer" unique_id=2089318788]
 layout_mode = 1
-offset_left = 228.0
-offset_top = 379.0
-offset_right = 589.0
-offset_bottom = 739.0
-theme_override_constants/separation = 112
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="ButtonWidget" parent="VBoxContainer" unique_id=2133867460 instance=ExtResource("2_l8p87")]
+[node name="GameLogoContainer" type="Panel" parent="MainContainer/VBoxContainer2" unique_id=1887619152]
+custom_minimum_size = Vector2(800, 522)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_5uh16")
 
-[node name="ButtonWidget2" parent="VBoxContainer" unique_id=1865407001 instance=ExtResource("2_l8p87")]
+[node name="TextureRect" type="TextureRect" parent="MainContainer/VBoxContainer2/GameLogoContainer" unique_id=322763861]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ihbld")
+expand_mode = 5
+
+[node name="ButtonContainer" type="VBoxContainer" parent="MainContainer/VBoxContainer2" unique_id=832175949]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 20
+alignment = 1
 
-[node name="TextureButton" parent="VBoxContainer/ButtonWidget2/HBoxContainer" parent_id_path=PackedInt32Array(1865407001, 93110592) index="1" unique_id=1244352979]
-texture_normal = SubResource("AtlasTexture_u6542")
-texture_hover = SubResource("AtlasTexture_dbyr8")
-
-[node name="ButtonWidget3" parent="VBoxContainer" unique_id=1421022757 instance=ExtResource("2_l8p87")]
+[node name="PlayButton" type="TextureButton" parent="MainContainer/VBoxContainer2/ButtonContainer" unique_id=1454486302]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+texture_normal = SubResource("AtlasTexture_ihbld")
+texture_hover = SubResource("AtlasTexture_u6542")
 
-[node name="TextureButton" parent="VBoxContainer/ButtonWidget3/HBoxContainer" parent_id_path=PackedInt32Array(1421022757, 93110592) index="1" unique_id=1244352979]
-texture_normal = SubResource("AtlasTexture_4h2rs")
-texture_hover = SubResource("AtlasTexture_fqh1q")
-
-[node name="ButtonWidget4" parent="VBoxContainer" unique_id=1709211841 instance=ExtResource("2_l8p87")]
+[node name="GalleryButton" type="TextureButton" parent="MainContainer/VBoxContainer2/ButtonContainer" unique_id=1391169523]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+texture_normal = SubResource("AtlasTexture_dbyr8")
+texture_hover = SubResource("AtlasTexture_4h2rs")
 
-[node name="TextureButton" parent="VBoxContainer/ButtonWidget4/HBoxContainer" parent_id_path=PackedInt32Array(1709211841, 93110592) index="1" unique_id=1244352979]
-texture_normal = SubResource("AtlasTexture_wewln")
-texture_hover = SubResource("AtlasTexture_86t74")
+[node name="ExitButton" type="TextureButton" parent="MainContainer/VBoxContainer2/ButtonContainer" unique_id=638579480]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_icyp6")
+texture_hover = SubResource("AtlasTexture_287bw")
 
-[editable path="VBoxContainer/ButtonWidget2"]
-[editable path="VBoxContainer/ButtonWidget3"]
-[editable path="VBoxContainer/ButtonWidget4"]
+[node name="OptionButtonContainer" type="Panel" parent="." unique_id=1032711627]
+custom_minimum_size = Vector2(116, 116)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -146.0
+offset_top = 30.0
+offset_right = -30.0
+offset_bottom = 146.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_287bw")
+
+[node name="OptionButton" type="TextureButton" parent="OptionButtonContainer" unique_id=218231326]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture_normal = SubResource("AtlasTexture_l8p87")
+
+[node name="StudioLogoContainer" type="Panel" parent="." unique_id=164652616]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -330.0
+offset_top = -130.0
+offset_right = -30.0
+offset_bottom = -30.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_1j815")
+
+[node name="TextureRect" type="TextureRect" parent="StudioLogoContainer" unique_id=162331586]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_u6542")
+expand_mode = 3
+
+[connection signal="pressed" from="MainContainer/VBoxContainer2/ButtonContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MainContainer/VBoxContainer2/ButtonContainer/GalleryButton" to="." method="_on_gallery_button_pressed"]
+[connection signal="pressed" from="MainContainer/VBoxContainer2/ButtonContainer/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="OptionButtonContainer/OptionButton" to="." method="_on_option_button_pressed"]
