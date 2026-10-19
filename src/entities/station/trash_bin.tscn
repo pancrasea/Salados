@@ -1,18 +1,38 @@
 [gd_scene format=3 uid="uid://ctrashbin01"]
 
-[ext_resource type="Script" path="res://src/entities/station/trash_bin.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/sprites/items/trash.svg" id="2_tex"]
+[ext_resource type="Script" uid="uid://dp8iqho1plqn6" path="res://src/entities/station/trash_bin.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dnoepy43q4asi" path="res://assets/sprites/ui/trashcan.png" id="2_1opma"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2j8ar"]
+load_path = "res://.godot/imported/trashcan.png-8151aabc690dc463a03d283c28403114.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fmjea"]
+atlas = SubResource("CompressedTexture2D_2j8ar")
+region = Rect2(989, 10, 591, 861)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rrmcv"]
+atlas = ExtResource("2_1opma")
+region = Rect2(219, 217, 606, 655)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_trash"]
-size = Vector2(120, 120)
+size = Vector2(544, 741)
 
-[node name="TrashBin" type="Node2D"]
+[node name="TrashBin" type="Node2D" unique_id=1235373634]
+scale = Vector2(0.5, 0.5)
 script = ExtResource("1_script")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_tex")
+[node name="OpenTrash" type="Sprite2D" parent="." unique_id=1443588168]
+visible = false
+position = Vector2(0, -96)
+texture = SubResource("AtlasTexture_fmjea")
+offset = Vector2(0, -350)
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="CloseTrash" type="Sprite2D" parent="." unique_id=1573950697]
+texture = SubResource("AtlasTexture_rrmcv")
+offset = Vector2(0, -350)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="Area2D" type="Area2D" parent="." unique_id=509810584]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1303197869]
+position = Vector2(-5, -310.5)
 shape = SubResource("RectangleShape2D_trash")

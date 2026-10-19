@@ -167,13 +167,14 @@ respawn_delay = 0.6
 slot_spacing = 243.0
 first_slot_offset = Vector2(-243, 0)
 show_name_labels = false
-item_scale = Vector2(1.1, 1.1)
+item_scale = Vector2(2, 2)
 slots_per_item = 3
 horizontal_groups = true
 row_spacing = 250.0
 stock_source = 1
 
 [node name="ZonaBasura" type="ColorRect" parent="." unique_id=1410996426]
+visible = false
 offset_left = 90.0
 offset_top = 900.0
 offset_right = 270.0
@@ -193,7 +194,7 @@ theme_override_font_sizes/font_size = 20
 text = "Basura"
 
 [node name="TrashBin" parent="." unique_id=1992756239 instance=ExtResource("4_trash")]
-position = Vector2(180, 960)
+position = Vector2(130, 1159)
 
 [node name="ZonaDespacho" type="ColorRect" parent="." unique_id=1337376582]
 offset_left = 818.0
@@ -204,7 +205,6 @@ mouse_filter = 2
 color = Color(0.11, 0.15, 0.19, 0.45)
 
 [node name="Titulo" type="Label" parent="ZonaDespacho" unique_id=1644847564]
-visible = false
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
