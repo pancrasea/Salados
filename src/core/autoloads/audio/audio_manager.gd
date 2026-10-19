@@ -16,7 +16,10 @@ enum SFX {
 	Cortar_Yuca,
 	Deshilachar,
 	Exprimir_Limon,
-	Encebollado_Basura
+	Encebollado_Basura,
+	Caldo_Hirviendo,
+	Mujer_Enojada,
+	Hombre_Enojado
 }
 
 enum MUSIC {

@@ -10,6 +10,9 @@
 [ext_resource type="AudioStream" uid="uid://bv703y2j11eso" path="res://assets/audio/Deshilachar.wav" id="8_36jr2"]
 [ext_resource type="AudioStream" uid="uid://cpov25b50t0fo" path="res://assets/audio/Exprimiendo_Limon.wav" id="9_36jr2"]
 [ext_resource type="AudioStream" uid="uid://cqhd0o3vb7foh" path="res://assets/audio/Encebollado_a_la basura.wav" id="10_v23o0"]
+[ext_resource type="AudioStream" uid="uid://dil38xbt6sqv2" path="res://assets/audio/Caldo_Hirviendo.wav" id="11_v23o0"]
+[ext_resource type="AudioStream" uid="uid://b4k2mntbt1dkn" path="res://assets/audio/Mujer enojado.wav" id="12_2un7b"]
+[ext_resource type="AudioStream" uid="uid://duwkrglh5n5xg" path="res://assets/audio/Hombre enojado.wav" id="13_tsyu5"]
 
 [sub_resource type="Resource" id="Resource_rd3ms"]
 script = ExtResource("2_u4njw")
@@ -51,6 +54,21 @@ script = ExtResource("2_u4njw")
 source = ExtResource("10_v23o0")
 metadata/_custom_type_script = "uid://b8bejo3e37bln"
 
+[sub_resource type="Resource" id="Resource_tsyu5"]
+script = ExtResource("2_u4njw")
+source = ExtResource("11_v23o0")
+metadata/_custom_type_script = "uid://b8bejo3e37bln"
+
+[sub_resource type="Resource" id="Resource_nn32c"]
+script = ExtResource("2_u4njw")
+source = ExtResource("12_2un7b")
+metadata/_custom_type_script = "uid://b8bejo3e37bln"
+
+[sub_resource type="Resource" id="Resource_v7qdv"]
+script = ExtResource("2_u4njw")
+source = ExtResource("13_tsyu5")
+metadata/_custom_type_script = "uid://b8bejo3e37bln"
+
 [sub_resource type="Resource" id="Resource_rwqoj"]
 script = ExtResource("2_u4njw")
 metadata/_custom_type_script = "uid://b8bejo3e37bln"
@@ -65,7 +83,10 @@ SFX_DIC = Dictionary[int, ExtResource("2_u4njw")]({
 4: SubResource("Resource_36jr2"),
 5: SubResource("Resource_v23o0"),
 6: SubResource("Resource_luk1g"),
-7: SubResource("Resource_2un7b")
+7: SubResource("Resource_2un7b"),
+8: SubResource("Resource_tsyu5"),
+9: SubResource("Resource_nn32c"),
+10: SubResource("Resource_v7qdv")
 })
 MUSIC_DIC = Dictionary[int, ExtResource("2_u4njw")]({
 0: SubResource("Resource_rwqoj")

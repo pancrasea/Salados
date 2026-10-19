@@ -106,6 +106,8 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 			if BaseItem.current_item_dragging == null or BaseItem.current_item_dragging == self:
 				BaseItem.current_item_dragging = self
 				is_dragging = true
+				if data != null and data.item_id == &"liquido_sopa":
+					AudioManager.play_sound(AudioManager.SFX.Caldo_Hirviendo)
 				initial_position = global_position
 				z_index = 100
 				Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)

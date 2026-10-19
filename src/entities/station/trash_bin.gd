@@ -14,6 +14,7 @@ func discard(item: BaseItem) -> bool:
 		return false
 	if item.data != null and item.data.is_container:
 		item.reset_container()
+		AudioManager.play_sound(AudioManager.SFX.Encebollado_Basura)
 	else:
 		item.queue_free()
 	return true

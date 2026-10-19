@@ -39,6 +39,8 @@ var is_selected: bool = false
 ## Solo válido después de que served se emita; usado para calcular el pago.
 var patience_ratio_at_serve: float = 1.0
 
+var sonido_enojo_reproducido: bool = false
+
 @onready var selection_area: Area2D = $SelectionArea
 @onready var patience_bar: ProgressBar = $PatienceBar
 @onready var order_icon_frame: Panel = $OrderIconFrame
@@ -200,8 +202,18 @@ func _update_patience_display() -> void:
 		if customer_data.texture_alt != null:
 			var visual := get_node_or_null("Visual") as Sprite2D
 			if visual != null:
+				
 				visual.texture = customer_data.texture_alt
-		patience_fill_style.bg_color = Color("#df5b52")
+				
+				if not sonido_enojo_reproducido:
+					sonido_enojo_reproducido = true
+
+					if customer_data.display_name == "Chancleada":
+						AudioManager.play_sound(AudioManager.SFX.Mujer_Enojada)
+					else:
+						AudioManager.play_sound(AudioManager.SFX.Hombre_Enojado)
+
+			patience_fill_style.bg_color = Color("#df5b52")
 
 
 ## Selects only customers who are still waiting.
