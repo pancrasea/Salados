@@ -5,6 +5,11 @@
 [ext_resource type="AudioStream" uid="uid://dh71doe5vbqsx" path="res://assets/audio/SFX_UI_Hover.ogg" id="3_fni6k"]
 [ext_resource type="AudioStream" uid="uid://cbobsn12jgt8o" path="res://assets/audio/SFX_UI_Confirm.ogg" id="4_rd3ms"]
 [ext_resource type="AudioStream" uid="uid://b2p78mu5mt880" path="res://assets/audio/SFX_UI_Back.ogg" id="5_rd3ms"]
+[ext_resource type="AudioStream" uid="uid://xe0hsfehyqum" path="res://assets/audio/Cortando_Cebolla.wav" id="6_2phxb"]
+[ext_resource type="AudioStream" uid="uid://bmfyhnhw4ihry" path="res://assets/audio/Cortar_Yuca.wav" id="7_s77mo"]
+[ext_resource type="AudioStream" uid="uid://bv703y2j11eso" path="res://assets/audio/Deshilachar.wav" id="8_36jr2"]
+[ext_resource type="AudioStream" uid="uid://cpov25b50t0fo" path="res://assets/audio/Exprimiendo_Limon.wav" id="9_36jr2"]
+[ext_resource type="AudioStream" uid="uid://cqhd0o3vb7foh" path="res://assets/audio/Encebollado_a_la basura.wav" id="10_v23o0"]
 
 [sub_resource type="Resource" id="Resource_rd3ms"]
 script = ExtResource("2_u4njw")
@@ -21,6 +26,31 @@ script = ExtResource("2_u4njw")
 source = ExtResource("5_rd3ms")
 metadata/_custom_type_script = "uid://b8bejo3e37bln"
 
+[sub_resource type="Resource" id="Resource_s77mo"]
+script = ExtResource("2_u4njw")
+source = ExtResource("6_2phxb")
+metadata/_custom_type_script = "uid://b8bejo3e37bln"
+
+[sub_resource type="Resource" id="Resource_36jr2"]
+script = ExtResource("2_u4njw")
+source = ExtResource("7_s77mo")
+metadata/_custom_type_script = "uid://b8bejo3e37bln"
+
+[sub_resource type="Resource" id="Resource_v23o0"]
+script = ExtResource("2_u4njw")
+source = ExtResource("8_36jr2")
+metadata/_custom_type_script = "uid://b8bejo3e37bln"
+
+[sub_resource type="Resource" id="Resource_luk1g"]
+script = ExtResource("2_u4njw")
+source = ExtResource("9_36jr2")
+metadata/_custom_type_script = "uid://b8bejo3e37bln"
+
+[sub_resource type="Resource" id="Resource_2un7b"]
+script = ExtResource("2_u4njw")
+source = ExtResource("10_v23o0")
+metadata/_custom_type_script = "uid://b8bejo3e37bln"
+
 [sub_resource type="Resource" id="Resource_rwqoj"]
 script = ExtResource("2_u4njw")
 metadata/_custom_type_script = "uid://b8bejo3e37bln"
@@ -30,7 +60,12 @@ script = ExtResource("1_8n5vj")
 SFX_DIC = Dictionary[int, ExtResource("2_u4njw")]({
 0: SubResource("Resource_rd3ms"),
 1: SubResource("Resource_ma80o"),
-2: SubResource("Resource_2phxb")
+2: SubResource("Resource_2phxb"),
+3: SubResource("Resource_s77mo"),
+4: SubResource("Resource_36jr2"),
+5: SubResource("Resource_v23o0"),
+6: SubResource("Resource_luk1g"),
+7: SubResource("Resource_2un7b")
 })
 MUSIC_DIC = Dictionary[int, ExtResource("2_u4njw")]({
 0: SubResource("Resource_rwqoj")

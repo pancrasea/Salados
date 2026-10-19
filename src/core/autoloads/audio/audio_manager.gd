@@ -11,7 +11,12 @@ var sfx_players: Array[AudioStreamPlayer] = []
 enum SFX {
 	UI_HOVER,
 	UI_CONFIRM,
-	UI_BACK
+	UI_BACK,
+	Cortando_Cebolla,
+	Cortar_Yuca,
+	Deshilachar,
+	Exprimir_Limon,
+	Encebollado_Basura
 }
 
 enum MUSIC {

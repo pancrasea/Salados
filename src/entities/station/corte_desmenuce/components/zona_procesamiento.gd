@@ -113,6 +113,21 @@ func _gui_input(event: InputEvent) -> void:
 		return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		clics = min(clics + 1, actual.clics_necesarios)
+		
+		match actual.id:
+			&"cebolla_colorada":
+				AudioManager.play_sound(
+					AudioManager.SFX.Cortando_Cebolla
+				)
+			&"yuca":
+				AudioManager.play_sound(
+					AudioManager.SFX.Cortar_Yuca
+				)
+			&"albacora":
+				AudioManager.play_sound(
+					AudioManager.SFX.Deshilachar
+				)
+
 		var terminado: bool = clics >= actual.clics_necesarios
 		var terminado_id: StringName = actual.id
 		var texto_final: String = actual.texto_resultado()

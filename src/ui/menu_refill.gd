@@ -1,4 +1,5 @@
 extends Control
+class_name RefillMenu
 
 const CEBOLLA: ItemData = preload("res://resources/items/item_cebolla_colorada.tres")
 const YUCA: ItemData = preload("res://resources/items/item_yuca.tres")
@@ -12,23 +13,27 @@ func _ready() -> void:
 func _on_onion_button_pressed() -> void:
 	if _begin_refill() == null:
 		return
+	GameEvents.call_refill_item.emit()
 	GameManager.refill_ing(CEBOLLA, 8)
 	hide()
 func _on_yuca_button_pressed() -> void:
 	if _begin_refill() == null:
 		return
+	GameEvents.call_refill_item.emit()
 	GameManager.refill_ing(YUCA, 8)
 	hide()
 	
 func _on_fish_button_pressed() -> void:
 	if _begin_refill() == null:
 		return
+	GameEvents.call_refill_item.emit()
 	GameManager.refill_ing(ALBACORA, 8)
 	hide()
 func _on_orange_button_pressed() -> void:
 	var estacion := _begin_refill()
 	if estacion == null:
 		return
+	GameEvents.call_refill_item.emit()
 	estacion.refill_jugos()
 	hide()
 	
