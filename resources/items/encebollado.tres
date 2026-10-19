@@ -3,61 +3,14 @@
 [ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://dwkpg1lema6g4" path="res://assets/sprites/items/assets_entrega.png" id="1_n8o3b"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rya2w"]
-atlas = ExtResource("1_n8o3b")
-region = Rect2(61, 164, 378, 296)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dtaqk"]
-atlas = ExtResource("1_n8o3b")
-region = Rect2(533, 165, 377, 295)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fps31"]
-atlas = ExtResource("1_n8o3b")
-region = Rect2(1002, 153, 377, 307)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pn4ch"]
-atlas = ExtResource("1_n8o3b")
-region = Rect2(1467, 164, 378, 296)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wg33a"]
-atlas = ExtResource("1_n8o3b")
-region = Rect2(66, 519, 378, 307)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yjp0b"]
-atlas = ExtResource("1_n8o3b")
-region = Rect2(530, 518, 377, 308)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7h20j"]
-atlas = ExtResource("1_n8o3b")
-region = Rect2(996, 542, 378, 296)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wg1s8"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4xou"]
 atlas = ExtResource("1_n8o3b")
 region = Rect2(1456, 529, 378, 309)
-
-[sub_resource type="AnimatedTexture" id="AnimatedTexture_n8o3b"]
-frames = 8
-speed_scale = 0.5
-frame_0/texture = SubResource("AtlasTexture_rya2w")
-frame_1/texture = SubResource("AtlasTexture_dtaqk")
-frame_1/duration = 1.0
-frame_2/texture = SubResource("AtlasTexture_fps31")
-frame_2/duration = 1.0
-frame_3/texture = SubResource("AtlasTexture_pn4ch")
-frame_3/duration = 1.0
-frame_4/texture = SubResource("AtlasTexture_wg33a")
-frame_4/duration = 1.0
-frame_5/texture = SubResource("AtlasTexture_yjp0b")
-frame_5/duration = 1.0
-frame_6/texture = SubResource("AtlasTexture_7h20j")
-frame_6/duration = 1.0
-frame_7/texture = SubResource("AtlasTexture_wg1s8")
-frame_7/duration = 1.0
 
 [resource]
 script = ExtResource("1")
 name = "Encebollado"
-icon = SubResource("AnimatedTexture_n8o3b")
+icon = SubResource("AtlasTexture_y4xou")
 price = 12
 item_id = "encebollado"
 is_final_product = true
