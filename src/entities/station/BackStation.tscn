@@ -53,6 +53,13 @@ position = Vector2(1051, 313)
 scale = Vector2(3, 3)
 data = SubResource("Resource_rcgfe")
 
+[node name="RefillProgress" type="ProgressBar" parent="." unique_id=24178129]
+offset_left = 268.0
+offset_top = 54.0
+offset_right = 514.0
+offset_bottom = 81.0
+show_percentage = false
+
 [node name="JugoProgress" type="ProgressBar" parent="." unique_id=1650042148]
 offset_left = 925.0
 offset_top = 115.0

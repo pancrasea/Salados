@@ -2,19 +2,42 @@ class_name BackStation extends Station
 
 @onready var jugo_spawn: Node2D = $JugoSpawn
 @onready var jugo_progress: ProgressBar = $JugoProgress
+@onready var refill_progress: ProgressBar = $RefillProgress
 @onready var exprimidor: ExprimidorItem = $ExprimidorItem
 const PASOS_POR_JUGO: int = 100
 const MAX_JUGOS: int = 3
+const REFILL_COOLDOWN_SECONDS: float = 5.0
 @onready var jugo_data : ItemData = preload("res://resources/items/jugo_naranja.tres")
 
 var fruits_progress: Dictionary[BaseItem, int]
 ## Jugos producidos desde la última recarga de esta jarra.
 var jugos_producidos: int = 0
+var _refill_seconds_left: float = 0.0
 
 func _ready() -> void:
 	GameEvents.exprimiendo_jugo.connect(_on_jugo_exprimiendo)
 	jugo_progress.value = 100.0
+	refill_progress.value = refill_progress.max_value
 	exprimidor.actualizar_nivel(MAX_JUGOS - jugos_producidos)
+
+func _process(delta: float) -> void:
+	if _refill_seconds_left <= 0.0:
+		return
+	_refill_seconds_left = maxf(_refill_seconds_left - delta, 0.0)
+	refill_progress.value = refill_progress.max_value * (1.0 - _refill_seconds_left / REFILL_COOLDOWN_SECONDS)
+
+## Reserva la siguiente recarga para cualquiera de los cuatro botones.
+## Devuelve false durante los cinco segundos de espera compartida.
+func try_start_refill() -> bool:
+	if not can_refill():
+		return false
+	_refill_seconds_left = REFILL_COOLDOWN_SECONDS
+	refill_progress.value = 0.0
+	return true
+
+## Indica si ya terminó el cooldown compartido del menú de recarga.
+func can_refill() -> bool:
+	return _refill_seconds_left <= 0.0
 
 ## Repone las tres cargas y habilita de nuevo el exprimidor. También descarta
 ## cualquier progreso parcial de una fruta anterior a la recarga.
