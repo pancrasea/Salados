@@ -33,7 +33,7 @@ signal food_spawned(food: ItemData, item: BaseItem)
 ## Escala aplicada a cada alimento spawneado. Permite que una fuente compacta
 ## (p. ej. los agregados de la estación principal) muestre ítems pequeños sin
 ## encoger la escena base ni su colisión.
-@export var item_scale: Vector2 = Vector2.ONE
+@export var item_scale: Vector2 = Vector2.ONE * 1
 ## Slots (unidades visibles) por cada ItemData de `foods`. Acota cuántas
 ## unidades del mismo ingrediente se muestran a la vez.
 @export_range(1, 6, 1) var slots_per_item: int = 1

@@ -1,12 +1,16 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://bpb7mdaexy70q"]
 
 [ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://borjhg6perjfn" path="res://assets/sprites/items/chifle.svg" id="2"]
+[ext_resource type="Texture2D" uid="uid://b44dv176h8ilo" path="res://assets/sprites/items/topings.png" id="1_agn74"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k6aad"]
+atlas = ExtResource("1_agn74")
+region = Rect2(600, 84, 356, 236)
 
 [resource]
 script = ExtResource("1")
 name = "Chifle"
-icon = ExtResource("2")
+icon = SubResource("AtlasTexture_k6aad")
 price = 3
 item_id = "chifle"
 is_final_product = true

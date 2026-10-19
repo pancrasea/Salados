@@ -11,14 +11,12 @@
 [ext_resource type="Script" uid="uid://d32mm0dvlxby5" path="res://src/entities/item/food_spawner.gd" id="7_spawner"]
 [ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="8_item"]
 [ext_resource type="PackedScene" uid="uid://cprepj6on75a7" path="res://src/entities/item/base_item.tscn" id="9_base"]
-[ext_resource type="Resource" uid="uid://bgxrltlyd7rxc" path="res://resources/items/pan.tres" id="10_pan"]
 [ext_resource type="Resource" uid="uid://bpb7mdaexy70q" path="res://resources/items/chifle.tres" id="11_chifle"]
 [ext_resource type="Resource" uid="uid://d0k2wagtesou5" path="res://resources/items/limon.tres" id="12_limon"]
-[ext_resource type="Resource" uid="uid://cg450gsrfd3lq" path="res://resources/items/canguil.tres" id="13_canguil"]
 [ext_resource type="Resource" uid="uid://b0oknv14q3n6q" path="res://resources/items/maiz_tostado.tres" id="14_maiz"]
 [ext_resource type="Resource" uid="uid://nl3jb2lsawa2" path="res://resources/customers/customer3/toti_v1.tres" id="15_5gle3"]
 [ext_resource type="Texture2D" uid="uid://batqqqmaqsmyt" path="res://assets/backgrounds/fondo_frontal.jpg" id="17_vh7rw"]
-[ext_resource type="Script" path="res://src/entities/station/draggable_zone.gd" id="18_draggable"]
+[ext_resource type="Script" uid="uid://ndgco5b3lwgn" path="res://src/entities/station/draggable_zone.gd" id="18_draggable"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_as38o"]
 size = Vector2(1383, 264)
@@ -90,12 +88,12 @@ text = "Arrástralos a la bandeja."
 [node name="Agregados" type="Node2D" parent="." unique_id=2007401166]
 position = Vector2(220, 400)
 script = ExtResource("7_spawner")
-foods = Array[ExtResource("8_item")]([ExtResource("10_pan"), ExtResource("11_chifle"), ExtResource("12_limon"), ExtResource("13_canguil"), ExtResource("14_maiz")])
+foods = Array[ExtResource("8_item")]([ExtResource("11_chifle"), ExtResource("12_limon"), ExtResource("14_maiz")])
 item_scene = ExtResource("9_base")
 slot_spacing = 100.0
 first_slot_offset = Vector2(0, 0)
 show_name_labels = false
-item_scale = Vector2(0.55, 0.55)
+item_scale = Vector2(0.2, 0.2)
 
 [node name="TrashBin" parent="." unique_id=290934445 instance=ExtResource("2_jmkyi")]
 position = Vector2(204, 945)

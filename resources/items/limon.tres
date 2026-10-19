@@ -1,12 +1,16 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://d0k2wagtesou5"]
 
 [ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://b0upw2ceki5co" path="res://assets/sprites/items/limon.svg" id="2"]
+[ext_resource type="Texture2D" uid="uid://b44dv176h8ilo" path="res://assets/sprites/items/topings.png" id="1_p2e71"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wxak0"]
+atlas = ExtResource("1_p2e71")
+region = Rect2(95, 103, 334, 218)
 
 [resource]
 script = ExtResource("1")
 name = "Limón"
-icon = ExtResource("2")
+icon = SubResource("AtlasTexture_wxak0")
 price = 1
 item_id = "limon"
 is_final_product = true
