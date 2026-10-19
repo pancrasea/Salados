@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cqhd0o3vb7foh"
+path="res://.godot/imported/Encebollado_a_la basura.wav-978dff5b746d7744e88290763737d104.sample"
+
+[deps]
+
+source_file="res://assets/audio/Encebollado_a_la basura.wav"
+dest_files=["res://.godot/imported/Encebollado_a_la basura.wav-978dff5b746d7744e88290763737d104.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
