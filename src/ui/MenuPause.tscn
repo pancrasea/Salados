@@ -3,17 +3,31 @@
 [ext_resource type="Script" uid="uid://c5lh8o4mqxrr7" path="res://src/ui/menu_pause.gd" id="1_2pfpd"]
 [ext_resource type="Texture2D" uid="uid://cytql4154ax01" path="res://assets/sprites/ui/buttons/botones-21.png" id="2_c6hgk"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_icyp6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ldmm"]
+bg_color = Color(0.11537961, 0.105682306, 0.10568216, 0.9254902)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9372549, 0.23529412, 0.23529412, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_titd2"]
 atlas = ExtResource("2_c6hgk")
 region = Rect2(141.6718, 327.603, 115.091934, 104.408295)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lkmqc"]
-atlas = ExtResource("2_c6hgk")
-region = Rect2(382.2379, 436.9498, 115.09192, 111.12198)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_0ogta"]
 atlas = ExtResource("2_c6hgk")
 region = Rect2(22.796106, 432.88992, 116.10734, 116.10733)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lkmqc"]
+atlas = ExtResource("2_c6hgk")
+region = Rect2(382.2379, 436.9498, 115.09192, 111.12198)
 
 [node name="MenuPause" type="Control" unique_id=279778921]
 layout_mode = 3
@@ -24,51 +38,64 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2pfpd")
 
-[node name="Panel" type="PanelContainer" parent="." unique_id=1135213384]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1229955006]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.14901961)
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=63862280]
+custom_minimum_size = Vector2(251, 232)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -121.5
-offset_top = -92.0
-offset_right = 121.5
-offset_bottom = 92.0
+offset_left = -125.5
+offset_top = -98.6
+offset_right = 125.5
+offset_bottom = 98.6
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_icyp6")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1646811266]
+[node name="Panel" type="PanelContainer" parent="PanelContainer" unique_id=1135213384]
+custom_minimum_size = Vector2(301.2, 174)
 layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_6ldmm")
 
-[node name="Label" type="Label" parent="Panel/VBoxContainer" unique_id=1049578117]
-layout_mode = 2
-text = "Pause"
-horizontal_alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel" unique_id=769109208]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/Panel" unique_id=769109208]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 20
+alignment = 1
 
-[node name="HomeButton" type="TextureButton" parent="Panel/HBoxContainer" unique_id=193818853]
+[node name="HomeButton" type="TextureButton" parent="PanelContainer/Panel/HBoxContainer" unique_id=193818853]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_titd2")
 
-[node name="ContinueButton" type="TextureButton" parent="Panel/HBoxContainer" unique_id=2055650839]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-texture_normal = SubResource("AtlasTexture_lkmqc")
-
-[node name="OptionButton" type="TextureButton" parent="Panel/HBoxContainer" unique_id=1262627398]
+[node name="OptionButton" type="TextureButton" parent="PanelContainer/Panel/HBoxContainer" unique_id=1262627398]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_0ogta")
 
-[connection signal="pressed" from="Panel/HBoxContainer/HomeButton" to="." method="_on_home_button_pressed"]
-[connection signal="pressed" from="Panel/HBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
-[connection signal="pressed" from="Panel/HBoxContainer/OptionButton" to="." method="_on_option_button_pressed"]
+[node name="ContinueButton" type="TextureButton" parent="PanelContainer" unique_id=2055650839]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture_normal = SubResource("AtlasTexture_lkmqc")
+
+[connection signal="pressed" from="PanelContainer/Panel/HBoxContainer/HomeButton" to="." method="_on_home_button_pressed"]
+[connection signal="pressed" from="PanelContainer/Panel/HBoxContainer/OptionButton" to="." method="_on_option_button_pressed"]
+[connection signal="pressed" from="PanelContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
