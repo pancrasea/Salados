@@ -3,20 +3,18 @@ class_name OrderData extends Resource
 ## Un pedido concreto de un cliente: plato base + agregados opcionales.
 ## La identidad del pedido es su clave canónica (ver key()), no la referencia.
 ##
-## Modelo de contenidos: la clave identifica el CONJUNTO de alimentos que
-## deben estar dentro de la bandeja. El jugador agrega a la bandeja el
-## plato de encebollado (base) y los extras del pedido; la bandeja calcula
-## su clave con OrderData.key_of_contents() y se compara con la del pedido.
+## Modelo de contenidos: la clave identifica el CONJUNTO de alimentos del
+## plato armado. La zona de espera calcula su clave con key_of_contents().
 
-## Plato base que debe ir sí o sí en la bandeja (ej. encebollado).
+## Plato base que debe estar en la entrega (ej. encebollado).
 @export var base: ItemData
-## Agregados que el cliente espera (pan, chifle, limón, canguil, maíz tostado).
+## Agregados que el cliente espera (chifle, limón, maíz tostado o jugo).
 ## El orden dentro de este array es irrelevante para la comparación.
 @export var extras: Array[ItemData] = []
 
 
 ## Clave canónica de este pedido; se compara contra ItemData.recipe_key
-## de la bandeja preparada.
+## del plato armado.
 func key() -> String:
 	var contents: Array[ItemData] = []
 	if base != null:
@@ -26,10 +24,8 @@ func key() -> String:
 
 
 ## Devuelve true si el ItemData entregado corresponde a este pedido.
-## Exige que el ítem tenga recipe_key asignado: en la práctica solo la
-## tiene la bandeja (contenedor) tras recibir alimentos en _ready o
-## collect_ingredients. Entregar un alimento suelto al cliente con pedido
-## estructurado siempre se rechaza; hay que usar la bandeja.
+## Exige recipe_key asignado: DraggableZone lo calcula para el encebollado
+## solo y lo actualiza al combinarlo con jugo o toppings.
 func matches(item: ItemData) -> bool:
 	return item != null and item.recipe_key != "" and item.recipe_key == key()
 
@@ -51,7 +47,7 @@ func price() -> int:
 ## unidos por coma. El orden de agregado y las repeticiones no alteran la
 ## clave; [encebollado, pan, limón] y [limón, encebollado, pan] son el
 ## mismo plato. Se usa tanto para el pedido (base + extras) como para el
-## contenido actual de la bandeja.
+## contenido actual del plato armado.
 static func key_of_contents(items: Array[ItemData]) -> String:
 	var ids: Array[String] = []
 	for item in items:
@@ -75,7 +71,7 @@ static func key_for(p_base: ItemData, p_extras: Array[ItemData]) -> String:
 
 
 ## Identificador estable de un ítem. Se prefiere item_id porque resource_path
-## se pierde al duplicar recursos en runtime (la bandeja duplica su ItemData).
+## se pierde al duplicar recursos en runtime (el plato armado duplica su ItemData).
 static func _id_for(item: ItemData) -> String:
 	if item.item_id != "":
 		return item.item_id

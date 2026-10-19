@@ -115,7 +115,7 @@ func _update_hint(side: int) -> void:
 		return
 	match side:
 		SIDE_FRONT:
-			hint_label.text = "Arrastra los ingredientes a la bandeja y entrégala al cliente que la pida."
+			hint_label.text = "Combina el encebollado con jugo o toppings y entrégalo al cliente que lo pida."
 		SIDE_LEFT:
 			hint_label.text = "Arrastra materia prima a la zona y haz 3 clics para prepararla."
 		SIDE_RIGHT:

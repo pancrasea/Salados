@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://ctrashbin01" path="res://src/entities/station/trash_bin.tscn" id="2_jmkyi"]
 [ext_resource type="Texture2D" uid="uid://s5qeduu7tk2t" path="res://assets/sprites/environment/carreta_asset.png" id="3_66wod"]
 [ext_resource type="PackedScene" uid="uid://cf84hgeql0ots" path="res://src/entities/customer/CustomerSpawner.tscn" id="3_nupy7"]
-[ext_resource type="PackedScene" uid="uid://cbandeja1tem" path="res://src/entities/item/bandeja_item.tscn" id="4_5v824"]
 [ext_resource type="Script" uid="uid://yvcolwcuf4a0" path="res://src/core/resources_scripts/customer_data.gd" id="4_rgdf7"]
 [ext_resource type="Resource" uid="uid://h0p1oe53ub4q" path="res://resources/customers/customer1/omelec_v1.tres" id="5_ocrjh"]
 [ext_resource type="Resource" uid="uid://6rbxjldn5s3m" path="res://resources/customers/customer2/chancleada_v1.tres" id="6_w7hfa"]
@@ -97,10 +96,6 @@ click_area_visual_factor = 1.25
 
 [node name="TrashBin" parent="." unique_id=290934445 instance=ExtResource("2_jmkyi")]
 position = Vector2(1832, 1154)
-
-[node name="Bandeja" parent="." unique_id=1324478999 instance=ExtResource("4_5v824")]
-position = Vector2(953, 927)
-scale = Vector2(2, 2)
 
 [node name="Aji" type="Sprite2D" parent="." unique_id=1290409038]
 position = Vector2(239, 600.00006)

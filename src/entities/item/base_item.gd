@@ -10,7 +10,7 @@ class_name BaseItem extends Node2D
 
 var is_dragging: bool = false
 var collected_ingredients: Array[ItemData] = []
-## Productos que viajan juntos como un solo ítem y entran separados a la bandeja.
+## Productos de un combo que viajan juntos y definen su clave de entrega.
 var bundled_ingredients: Array[ItemData] = []
 var initial_position: Vector2 = Vector2.ZERO
 static var current_item_dragging: BaseItem = null
@@ -204,7 +204,7 @@ func _verify_target_and_drop():
 				successful_drop = true
 				break
 
-		# Deliver the item's definition, not its scene node, to a customer.
+		# El cliente compara la clave del plato o combo, no su nodo de escena.
 		if target is CustomerBase and data != null:
 			if target.receive_item(data):
 				successful_drop = true

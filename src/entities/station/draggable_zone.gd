@@ -1,7 +1,7 @@
 class_name DraggableZone extends Area2D
 
 ## Espacio de espera de platos terminados en la estación principal.
-## Cada plato se instancia como BaseItem para poder arrastrarlo a la bandeja.
+## Cada plato se instancia como BaseItem para combinarlo y entregarlo al cliente.
 ## La escena asignada debe tener BaseItem como raíz.
 @export var item_scene: PackedScene
 
@@ -62,6 +62,11 @@ func receive(item_data: ItemData) -> bool:
 	if item == null:
 		return false
 	item.data = item_data
+	if item_data.item_id == "encebollado":
+		# La clave vive en una copia: nunca se modifica el recurso compartido.
+		item.data = item_data.duplicate() as ItemData
+		var contents: Array[ItemData] = [item_data]
+		item.data.recipe_key = OrderData.key_of_contents(contents)
 	# El jugo de naranja usa un icono más grande que los demás productos.
 	if item_data.item_id == "jugo_naranja":
 		item.scale = Vector2.ONE * 0.5
@@ -117,6 +122,7 @@ func combine(source: BaseItem, target: BaseItem) -> bool:
 			dish_data = ingredient
 			break
 	target.data = dish_data.duplicate() as ItemData
+	target.data.recipe_key = OrderData.key_of_contents(contents)
 	target.bundled_ingredients = contents
 	target.scale = Vector2.ONE
 	target._update_visual()
@@ -166,7 +172,7 @@ func _update_combo_visual(item: BaseItem) -> void:
 		topping_sprite.scale = Vector2.ONE * COMBO_TOPPING_SCALE
 		topping_sprite.position = Vector2(
 			item.sprite_2d.position.x + (index - (toppings.size() - 1) * 0.5) * 24.0,
-			item.sprite_2d.position.y - 17.0
+			item.sprite_2d.position.y - 23.0
 		)
 		topping_row.add_child(topping_sprite)
 
