@@ -259,10 +259,12 @@ func turn_right() -> void:
 func turn_back() -> void:
 	_turn(Turn.BACK)
 
-func _turn(direction: int) -> void:
-	if _is_animating:
-		return
+## Navega directamente a un lado, usando la transición direccional.
+## Si ese lado ya está visible o hay una transición en curso, no hace nada.
+func turn_to_side(side: int) -> void:
+	_transition_to(side)
 
+func _turn(direction: int) -> void:
 	var index: int = SideOrder.find(_current_side)
 	if index == -1:
 		return
@@ -274,6 +276,14 @@ func _turn(direction: int) -> void:
 		Turn.BACK:  next_index = (index + 2) % SideOrder.size()
 
 	var next_side: int = SideOrder[next_index]
+	_transition_to(next_side)
+
+
+## La estación destino entra desde su dirección cardinal y desplaza la actual
+## hacia el lado opuesto. Los botones y las teclas comparten esta animación.
+func _transition_to(next_side: int) -> void:
+	if _is_animating or next_side == _current_side:
+		return
 	var current_st: Station = _stations.get(_current_side, null)
 	var next_st: Station = _stations.get(next_side, null)
 
@@ -286,14 +296,20 @@ func _turn(direction: int) -> void:
 		_set_interaction_enabled(current_st, false)
 	_set_interaction_enabled(next_st, false)
 
-	var viewport_width: float = get_viewport().get_visible_rect().size.x
+	var viewport_size := get_viewport().get_visible_rect().size
+	var travel := Vector2.ZERO
+	match next_side:
+		Side.FRONT:
+			travel = Vector2(0.0, -viewport_size.y)
+		Side.LEFT:
+			travel = Vector2(-viewport_size.x, 0.0)
+		Side.RIGHT:
+			travel = Vector2(viewport_size.x, 0.0)
+		Side.BACK:
+			travel = Vector2(0.0, viewport_size.y)
 
-	var dir_multiplier: float = 1.0 if direction == Turn.LEFT else -1.0
-	if direction == Turn.BACK:
-		dir_multiplier = 1.0
-
-	var start_pos_next := Vector2(viewport_width * -dir_multiplier, 0.0)
-	var end_pos_current := Vector2(viewport_width * dir_multiplier, 0.0)
+	var start_pos_next := travel
+	var end_pos_current := -travel
 
 	next_st.position = start_pos_next
 	next_st.show()

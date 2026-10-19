@@ -63,6 +63,27 @@ mouse_filter = 2
 script = ExtResource("2_navarr")
 direccion = 2
 
+[node name="top" type="TextureButton" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -36.0
+offset_top = 64.0
+offset_right = 36.0
+offset_bottom = 136.0
+grow_horizontal = 2
+
+[node name="Flecha" type="Control" parent="top"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_navarr")
+direccion = 3
+
 [node name="SeccionActual" type="Label" parent="." unique_id=1904182210]
 anchors_preset = 5
 anchor_left = 0.5
@@ -84,3 +105,4 @@ vertical_alignment = 1
 [connection signal="gui_input" from="left" to="." method="_on_left_gui_input"]
 [connection signal="gui_input" from="right" to="." method="_on_right_gui_input"]
 [connection signal="gui_input" from="buttom" to="." method="_on_buttom_gui_input"]
+[connection signal="gui_input" from="top" to="." method="_on_top_gui_input"]
