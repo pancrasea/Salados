@@ -187,6 +187,7 @@ func go_to_game() -> void:
 func go_to_menu() -> void:
 	if is_instance_valid(main):
 		main.return_to_menu()
+		AudioManager.play_music(AudioManager.MUSIC.MAIN_THEME)
 
 
 # =========================================================

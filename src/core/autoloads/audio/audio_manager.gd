@@ -20,7 +20,8 @@ enum SFX {
 }
 
 enum MUSIC {
-	MAIN_THEME
+	MAIN_THEME,
+	GAME_TRACK
 }
 
 @export var SFX_DIC: Dictionary[SFX, AudioSetting]

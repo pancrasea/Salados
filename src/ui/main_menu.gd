@@ -1,7 +1,11 @@
 extends Control
 
+func _ready() -> void:
+	AudioManager.play_music(AudioManager.MUSIC.MAIN_THEME)
+
 func _on_play_button_pressed() -> void:
 	GameManager.go_to_game()
+	AudioManager.play_music(AudioManager.MUSIC.GAME_TRACK)
 	AudioManager.play_sound(AudioManager.SFX.UI_CONFIRM)
 
 
