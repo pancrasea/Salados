@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://brnct65djgr6r" path="res://src/entities/station/corte_desmenuce/corte_desmenuce.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://dcbc07l6dir7v" path="res://assets/backgrounds/fondo_izq.jpg" id="2_ya1tv"]
-[ext_resource type="PackedScene" path="res://src/entities/station/corte_desmenuce/components/zona_procesamiento.tscn" id="2_zona"]
+[ext_resource type="PackedScene" uid="uid://colioqqg4bngg" path="res://src/entities/station/corte_desmenuce/components/zona_procesamiento.tscn" id="2_zona"]
 [ext_resource type="Texture2D" uid="uid://bow0m4xtqik30" path="res://assets/sprites/environment/tabla_de_corte.png" id="3_iphls"]
-[ext_resource type="Theme" path="res://src/ui/themes/corte_theme.tres" id="3_theme"]
+[ext_resource type="Theme" uid="uid://b3asdm38a2piv" path="res://src/ui/themes/corte_theme.tres" id="3_theme"]
 [ext_resource type="Script" uid="uid://d32mm0dvlxby5" path="res://src/entities/item/food_spawner.gd" id="4_spawner"]
 [ext_resource type="PackedScene" uid="uid://cprepj6on75a7" path="res://src/entities/item/base_item.tscn" id="5_base"]
 [ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="6_item"]
@@ -36,10 +36,10 @@ stretch_mode = 6
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 286.0
-offset_top = 297.0
-offset_right = 1741.6111
-offset_bottom = 1085.0
+offset_left = 63.0
+offset_top = 91.0
+offset_right = 1518.6111
+offset_bottom = 879.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_iphls")
@@ -107,11 +107,12 @@ offset_right = 380.0
 offset_bottom = 381.0
 theme_override_colors/font_color = Color(0.33, 0.4, 0.4, 1)
 theme_override_font_sizes/font_size = 15
-text = "Arrástrala a la zona de la derecha."
+text = "Arrástrala a la zona central."
 horizontal_alignment = 1
 
 [node name="ZonaCorte" parent="UILayer/Pantalla" unique_id=1097341260 instance=ExtResource("2_zona")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 0
 offset_left = 540.0
 offset_top = 250.0
@@ -121,6 +122,7 @@ ayuda_visible = "Corta la cebolla y la yuca"
 
 [node name="ZonaDesmenuce" parent="UILayer/Pantalla" unique_id=1697407735 instance=ExtResource("2_zona")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 0
 offset_left = 980.0
 offset_top = 250.0
@@ -130,8 +132,32 @@ tipo_aceptado = 1
 titulo_visible = "ZONA DE DESMENUCE"
 ayuda_visible = "Desmenuza la albacora cocida"
 
+[node name="ZonaCentral" parent="UILayer/Pantalla" unique_id=1272387911 instance=ExtResource("2_zona")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 760.0
+offset_top = 250.0
+offset_right = 1160.0
+offset_bottom = 640.0
+tipo_aceptado = 2
+titulo_visible = "ZONA DE PREPARACIÓN"
+ayuda_visible = "Hasta 3 ingredientes; haz clic en la zona para picarlos en orden"
+
+[node name="ProgresoPuntos" type="Label" parent="UILayer/Pantalla"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 510.0
+offset_top = 238.0
+offset_right = 1410.0
+offset_bottom = 282.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.2, 0.36, 0.3, 1)
+theme_override_font_sizes/font_size = 25
+horizontal_alignment = 1
+
 [node name="Mensaje" type="Label" parent="UILayer/Pantalla" unique_id=451970077]
 unique_name_in_owner = true
+visible = false
 layout_mode = 0
 offset_left = 540.0
 offset_top = 670.0
@@ -139,12 +165,13 @@ offset_right = 1380.0
 offset_bottom = 730.0
 theme_override_colors/font_color = Color(0.24, 0.32, 0.34, 1)
 theme_override_font_sizes/font_size = 20
-text = "Arrastra un ingrediente a la zona de preparación para comenzar."
+text = "Arrastra hasta 3 ingredientes a la zona central y haz clic allí para picarlos."
 horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="ProgresoTotal" type="Label" parent="UILayer/Pantalla" unique_id=222212758]
 unique_name_in_owner = true
+visible = false
 layout_mode = 0
 offset_left = 690.0
 offset_top = 760.0

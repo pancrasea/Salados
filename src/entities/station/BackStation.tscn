@@ -43,7 +43,7 @@ stretch_mode = 6
 position = Vector2(927, 549)
 texture = ExtResource("3_wxak0")
 
-[node name="SpawnerIngredients" parent="." unique_id=173325988 instance=ExtResource("2_4cm5f")]
+[node name="VasoSpawner" parent="." unique_id=173325988 instance=ExtResource("2_4cm5f")]
 position = Vector2(468, 909)
 item_data = ExtResource("3_xm5kj")
 item_scene = ExtResource("4_4cm5f")

@@ -1,65 +1,123 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://colioqqg4bngg"]
 
-[ext_resource type="Script" path="res://src/entities/station/corte_desmenuce/components/zona_procesamiento.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://bhoxt60n811w0" path="res://src/entities/station/corte_desmenuce/components/zona_procesamiento.gd" id="1_script"]
 
-[node name="ZonaProcesamiento" type="PanelContainer"]
+[node name="ZonaProcesamiento" type="PanelContainer" unique_id=220073503]
 custom_minimum_size = Vector2(360, 265)
-mouse_filter = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_script")
 
-[node name="Contenido" type="VBoxContainer" parent="."]
+[node name="Contenido" type="VBoxContainer" parent="." unique_id=101785929]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 14
 
-[node name="Titulo" type="Label" parent="Contenido"]
+[node name="Titulo" type="Label" parent="Contenido" unique_id=594442078]
+visible = false
 layout_mode = 2
-mouse_filter = 2
-theme_override_font_sizes/font_size = 20
 theme_override_colors/font_color = Color(0.1, 0.18, 0.22, 1)
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 20
 text = "ZONA"
+horizontal_alignment = 1
 
-[node name="Instruccion" type="Label" parent="Contenido"]
+[node name="Instruccion" type="Label" parent="Contenido" unique_id=632706780]
+visible = false
 layout_mode = 2
-mouse_filter = 2
-theme_override_font_sizes/font_size = 14
 theme_override_colors/font_color = Color(0.27, 0.33, 0.38, 1)
-horizontal_alignment = 1
-autowrap_mode = 3
+theme_override_font_sizes/font_size = 14
 text = "Haz tres clics"
-
-[node name="Ingrediente" type="Label" parent="Contenido"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(0.12, 0.24, 0.30, 1)
 horizontal_alignment = 1
 autowrap_mode = 3
+
+[node name="Ingrediente" type="Label" parent="Contenido" unique_id=1701831917]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.24, 0.3, 1)
+theme_override_font_sizes/font_size = 22
 text = "Zona disponible"
-
-[node name="IndicadorClics" type="Label" parent="Contenido"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_font_sizes/font_size = 25
-theme_override_colors/font_color = Color(0.20, 0.36, 0.30, 1)
 horizontal_alignment = 1
-text = "○ ○ ○"
+autowrap_mode = 3
 
-[node name="BarraProgreso" type="ProgressBar" parent="Contenido"]
+[node name="IconoIngrediente" type="TextureRect" parent="Contenido" unique_id=696795528]
+visible = false
+custom_minimum_size = Vector2(0, 110)
 layout_mode = 2
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FilaIngredientes" type="HBoxContainer" parent="Contenido"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Espacio1" type="Control" parent="Contenido/FilaIngredientes"]
+custom_minimum_size = Vector2(108, 110)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Icono" type="TextureRect" parent="Contenido/FilaIngredientes/Espacio1"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 100.0
+offset_bottom = 100.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Espacio2" type="Control" parent="Contenido/FilaIngredientes"]
+custom_minimum_size = Vector2(108, 110)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Icono" type="TextureRect" parent="Contenido/FilaIngredientes/Espacio2"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 100.0
+offset_bottom = 100.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Espacio3" type="Control" parent="Contenido/FilaIngredientes"]
+custom_minimum_size = Vector2(108, 110)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Icono" type="TextureRect" parent="Contenido/FilaIngredientes/Espacio3"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 100.0
+offset_bottom = 100.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IndicadorClics" type="Label" parent="Contenido" unique_id=315871742]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.36, 0.3, 1)
+theme_override_font_sizes/font_size = 25
+text = "○ ○ ○"
+horizontal_alignment = 1
+
+[node name="BarraProgreso" type="ProgressBar" parent="Contenido" unique_id=1669821100]
 custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+mouse_filter = 2
 max_value = 3.0
 show_percentage = false
 
-[node name="Estado" type="Label" parent="Contenido"]
+[node name="Estado" type="Label" parent="Contenido" unique_id=1441294176]
+visible = false
 layout_mode = 2
-mouse_filter = 2
-theme_override_font_sizes/font_size = 16
 theme_override_colors/font_color = Color(0.18, 0.32, 0.35, 1)
+theme_override_font_sizes/font_size = 16
+text = "Zona disponible"
 horizontal_alignment = 1
 autowrap_mode = 3
-text = "Zona disponible"
