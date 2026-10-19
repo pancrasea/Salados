@@ -10,6 +10,14 @@
 [ext_resource type="Script" uid="uid://cs5wjexahbcwf" path="res://src/entities/item/refiller_pana.gd" id="6_8c21h"]
 [ext_resource type="Texture2D" uid="uid://svxt66mhkaxa" path="res://icon.svg" id="6_mkb0r"]
 [ext_resource type="PackedScene" uid="uid://cdispatch001" path="res://src/entities/station/dispatch_zone.tscn" id="7_qj16u"]
+[ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="9_h38gg"]
+
+[sub_resource type="Resource" id="Resource_rcgfe"]
+script = ExtResource("9_h38gg")
+name = "Exprimidor"
+item_id = "exprimidor"
+is_container = true
+metadata/_custom_type_script = "uid://3lbagxejrkv8"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(502, 486)
@@ -42,6 +50,7 @@ item_scene = ExtResource("4_4cm5f")
 
 [node name="ExprimidorItem" parent="." unique_id=1939094178 instance=ExtResource("4_xm5kj")]
 position = Vector2(1466, 588)
+data = SubResource("Resource_rcgfe")
 
 [node name="JugoProgress" type="ProgressBar" parent="." unique_id=1650042148]
 offset_left = 1352.0

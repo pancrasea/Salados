@@ -1,12 +1,16 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://d38cwj0qh00k"]
 
-[ext_resource type="Texture2D" uid="uid://bl18xgw8cm1yt" path="res://assets/sprites/items/olla.svg" id="1_tcaeh"]
+[ext_resource type="Texture2D" uid="uid://dmp704iey3eay" path="res://assets/sprites/items/assets_jugo.png" id="1_tcaeh"]
 [ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="1_w0jbx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wxak0"]
+atlas = ExtResource("1_tcaeh")
+region = Rect2(1466.6533, 760.9835, 138.18188, 195.70264)
 
 [resource]
 script = ExtResource("1_w0jbx")
 name = "Jugo de Naranja"
-icon = ExtResource("1_tcaeh")
+icon = SubResource("AtlasTexture_wxak0")
 item_id = "jugo_naranja"
 is_final_product = true
 metadata/_custom_type_script = "uid://3lbagxejrkv8"

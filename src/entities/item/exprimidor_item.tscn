@@ -12,6 +12,27 @@ item_id = "exprimidor"
 is_container = true
 metadata/_custom_type_script = "uid://3lbagxejrkv8"
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_weguy"]
+load_path = "res://.godot/imported/assets_jugo.png-93ee5cd1d7dc339ffcd5f1c237cca5e7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_urwan"]
+atlas = SubResource("CompressedTexture2D_weguy")
+region = Rect2(1297, 88, 450, 527)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vvclq"]
+load_path = "res://.godot/imported/assets_jugo.png-93ee5cd1d7dc339ffcd5f1c237cca5e7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3fpw7"]
+atlas = SubResource("CompressedTexture2D_vvclq")
+region = Rect2(731, 87, 450, 526)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_c0alw"]
+load_path = "res://.godot/imported/assets_jugo.png-93ee5cd1d7dc339ffcd5f1c237cca5e7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rdbpy"]
+atlas = SubResource("CompressedTexture2D_c0alw")
+region = Rect2(162, 87, 451, 526)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_urwan"]
 size = Vector2(128, 128)
 
@@ -19,8 +40,22 @@ size = Vector2(128, 128)
 script = ExtResource("1_iox87")
 data = SubResource("Resource_4cm5f")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1046413380]
-texture = ExtResource("2_weguy")
+[node name="JarFull" type="Sprite2D" parent="." unique_id=1535356295]
+position = Vector2(-2.48, -1.2400568)
+scale = Vector2(0.2, 0.2)
+texture = SubResource("AtlasTexture_urwan")
+
+[node name="JarStep1" type="Sprite2D" parent="." unique_id=1395652819]
+visible = false
+position = Vector2(-2.4, -1.2000549)
+scale = Vector2(0.2, 0.2)
+texture = SubResource("AtlasTexture_3fpw7")
+
+[node name="JarEmpty" type="Sprite2D" parent="." unique_id=1046413380]
+visible = false
+position = Vector2(-2, -1.0000458)
+scale = Vector2(0.2, 0.2)
+texture = SubResource("AtlasTexture_rdbpy")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1700189823]
 

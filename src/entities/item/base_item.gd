@@ -13,7 +13,7 @@ var collected_ingredients: Array[ItemData] = []
 var initial_position: Vector2 = Vector2.ZERO
 static var current_item_dragging: BaseItem = null
 
-@onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var sprite_2d: Sprite2D = get_node_or_null("Sprite2D") as Sprite2D
 
 # Contenedor visual de los badges de ingredientes (opción "icono base +
 # badges"): se crea en runtime porque la escena no lo define.

@@ -12,6 +12,6 @@ func _verify_fruits() -> void:
 		var target = area.get_parent()
 
 		if target == self: continue
-		if target is BaseItem and target.data and target.data.item_id == "exprimidor":
+		if target is ExprimidorItem and not target.disabled:
 			GameEvents.exprimiendo_jugo.emit(self)
 			return
