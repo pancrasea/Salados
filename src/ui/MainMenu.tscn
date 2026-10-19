@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://ra1jmfnqj8ss" path="res://assets/backgrounds/Portada.png" id="2_u6542"]
 [ext_resource type="Texture2D" uid="uid://dwu3kpbwaf335" path="res://assets/sprites/ui/logos/logo studio.png" id="4_u6542"]
 
+[sub_resource type="VideoStreamTheora" id="VideoStreamTheora_u6542"]
+file = "res://assets/cinematic.ogv"
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_icyp6"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5uh16"]
@@ -60,6 +63,29 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_u6542")
 expand_mode = 2
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=827737473]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stream = SubResource("VideoStreamTheora_u6542")
+expand = true
+
+[node name="SkipBtn" type="Button" parent="." unique_id=1852611903]
+visible = false
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 159.0
+offset_top = -195.0
+offset_right = 362.0
+offset_bottom = -136.0
+grow_vertical = 0
+text = "SKIP"
 
 [node name="MainContainer" type="Panel" parent="." unique_id=698530498]
 custom_minimum_size = Vector2(800, 749)
@@ -169,6 +195,7 @@ grow_vertical = 2
 texture = ExtResource("4_u6542")
 expand_mode = 3
 
+[connection signal="pressed" from="SkipBtn" to="." method="_on_skip_btn_pressed"]
 [connection signal="pressed" from="MainContainer/VBoxContainer2/ButtonContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MainContainer/VBoxContainer2/ButtonContainer/GalleryButton" to="." method="_on_gallery_button_pressed"]
 [connection signal="pressed" from="MainContainer/VBoxContainer2/ButtonContainer/ExitButton" to="." method="_on_exit_button_pressed"]
