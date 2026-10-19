@@ -252,9 +252,8 @@ func reset_container() -> void:
 	global_position = initial_position
 
 
-## Dibuja un badge pequeño por cada ingrediente recolectado, en fila
-## horizontal bajo el sprite de la bandeja. Los ingredientes sin icono se
-## omiten (la identidad vive en recipe_key, no en el badge).
+## Dibuja un badge por ingrediente bajo el plato o la bandeja. En el plato
+## se reduce a la mitad; la identidad vive en recipe_key, no en el badge.
 func _update_badges() -> void:
 	if _badges_root == null:
 		_badges_root = Node2D.new()
@@ -272,5 +271,7 @@ func _update_badges() -> void:
 		var badge := Sprite2D.new()
 		badge.texture = icon
 		badge.scale = Vector2(0.2, 0.2)
+		if recipe != null:
+			badge.scale *= 0.5
 		badge.position = Vector2((index - (count - 1) * 0.5) * 20.0, 56.0)
 		_badges_root.add_child(badge)
