@@ -72,7 +72,6 @@ theme_override_font_sizes/font_size = 28
 text = "5:00"
 
 [node name="InfoPanel" type="PanelContainer" parent="." unique_id=551896509]
-visible = false
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -84,7 +83,6 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_info")
 
 [node name="InfoList" type="VBoxContainer" parent="InfoPanel" unique_id=658785309]
-visible = false
 layout_mode = 2
 mouse_filter = 2
 
