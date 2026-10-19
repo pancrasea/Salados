@@ -1,9 +1,8 @@
 extends CanvasLayer
 
-## Controles de navegación entre secciones. Tres botones (zonas de borde
-## izquierda/derecha/abajo) giran la estación con `GameManager.turn_left`,
-## `turn_right` y `turn_back`. Cada botón muestra una flecha visible
-## (`nav_arrow.gd`) y una etiqueta central indica la sección actual.
+## Controles de navegación entre secciones. Los botones de borde y las teclas
+## A/D o flechas izquierda/derecha giran con GameManager; la flecha inferior
+## conserva el giro hacia atrás. La etiqueta indica la sección actual.
 
 @onready var left: Control = $left
 @onready var right: Control = $right
@@ -29,6 +28,24 @@ func _ready() -> void:
 	var station_signal: Signal = _game_manager.get("station_changed")
 	station_signal.connect(_on_station_changed)
 	_on_station_changed(int(_game_manager.call("current_side")))
+
+
+## Atajos activos solo mientras se juega; ignora repeticiones al mantener
+## la tecla pulsada para que cada pulsación intente un único giro.
+func _input(event: InputEvent) -> void:
+	if not visible or get_tree().paused:
+		return
+	var key_event := event as InputEventKey
+	if key_event == null or not key_event.pressed or key_event.echo:
+		return
+	match key_event.keycode:
+		KEY_A, KEY_LEFT:
+			_turn("turn_left")
+		KEY_D, KEY_RIGHT:
+			_turn("turn_right")
+		_:
+			return
+	get_viewport().set_input_as_handled()
 
 
 func _on_left_gui_input(event: InputEvent) -> void:

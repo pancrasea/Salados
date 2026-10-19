@@ -11,11 +11,13 @@ name = "zanahoria"
 icon = ExtResource("2_yb1yy")
 metadata/_custom_type_script = "uid://3lbagxejrkv8"
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_3wr0j"]
+
 [node name="SpawnerIngredients" type="Node2D" unique_id=173325988]
 script = ExtResource("1_8g00h")
 item_data = SubResource("Resource_njov2")
 item_scene = ExtResource("4_6jqkf")
 
 [node name="container" type="Sprite2D" parent="." unique_id=1464136784]
-texture = ExtResource("2_yb1yy")
+texture = SubResource("PlaceholderTexture2D_3wr0j")
 flip_v = true
