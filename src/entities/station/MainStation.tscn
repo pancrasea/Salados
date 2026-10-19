@@ -16,10 +16,29 @@
 [ext_resource type="Resource" uid="uid://b0oknv14q3n6q" path="res://resources/items/maiz_tostado.tres" id="14_maiz"]
 [ext_resource type="Resource" uid="uid://nl3jb2lsawa2" path="res://resources/customers/customer3/toti_v1.tres" id="15_5gle3"]
 [ext_resource type="Texture2D" uid="uid://batqqqmaqsmyt" path="res://assets/backgrounds/fondo_frontal.jpg" id="17_vh7rw"]
+[ext_resource type="Texture2D" uid="uid://b44dv176h8ilo" path="res://assets/sprites/items/topings.png" id="18_66wod"]
 [ext_resource type="Script" uid="uid://ndgco5b3lwgn" path="res://src/entities/station/draggable_zone.gd" id="18_draggable"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_as38o"]
 size = Vector2(1383, 264)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jr48m"]
+load_path = "res://.godot/imported/topings.png-fcb0365039caa0d37d6c828edcf17778.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1a7nu"]
+atlas = SubResource("CompressedTexture2D_jr48m")
+region = Rect2(1235, 105, 370, 211)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_66wod"]
+load_path = "res://.godot/imported/topings.png-fcb0365039caa0d37d6c828edcf17778.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jr48m"]
+atlas = SubResource("CompressedTexture2D_66wod")
+region = Rect2(54, 663, 430, 223)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_as38o"]
+atlas = ExtResource("18_66wod")
+region = Rect2(509, 581, 751, 296)
 
 [node name="MainStation" type="Node2D" unique_id=1321946310]
 script = ExtResource("1_cx8jq")
@@ -58,37 +77,17 @@ position = Vector2(966.5, 149)
 shape = SubResource("RectangleShape2D_as38o")
 
 [node name="ZonaAgregados" type="ColorRect" parent="." unique_id=618801456]
-offset_left = 60.0
-offset_top = 300.0
-offset_right = 380.0
-offset_bottom = 820.0
+offset_left = 190.0
+offset_top = 553.0
+offset_right = 374.0
+offset_bottom = 850.0
 mouse_filter = 2
-color = Color(0.16, 0.13, 0.1, 0.35)
-
-[node name="Titulo" type="Label" parent="ZonaAgregados" unique_id=1209194633]
-layout_mode = 0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 312.0
-offset_bottom = 40.0
-theme_override_colors/font_color = Color(0.85, 0.82, 0.7, 1)
-theme_override_font_sizes/font_size = 20
-text = "Agregados"
-
-[node name="Ayuda" type="Label" parent="ZonaAgregados" unique_id=1376144981]
-layout_mode = 0
-offset_left = 8.0
-offset_top = 42.0
-offset_right = 312.0
-offset_bottom = 72.0
-theme_override_colors/font_color = Color(0.55, 0.52, 0.45, 1)
-theme_override_font_sizes/font_size = 14
-text = "Arrástralos a la bandeja."
+color = Color(0.16078432, 0.12941177, 0.101960786, 0)
 
 [node name="Agregados" type="Node2D" parent="." unique_id=2007401166]
-position = Vector2(220, 400)
+position = Vector2(313, 617)
 script = ExtResource("7_spawner")
-foods = Array[ExtResource("8_item")]([ExtResource("11_chifle"), ExtResource("12_limon"), ExtResource("14_maiz")])
+foods = Array[ExtResource("8_item")]([ExtResource("14_maiz"), ExtResource("12_limon"), ExtResource("11_chifle")])
 item_scene = ExtResource("9_base")
 slot_spacing = 100.0
 first_slot_offset = Vector2(0, 0)
@@ -100,3 +99,27 @@ position = Vector2(204, 945)
 
 [node name="Bandeja" parent="." unique_id=1324478999 instance=ExtResource("4_5v824")]
 position = Vector2(953, 927)
+
+[node name="Aji" type="Sprite2D" parent="." unique_id=1290409038]
+position = Vector2(239, 600.00006)
+scale = Vector2(0.23212892, 0.24255489)
+texture = SubResource("AtlasTexture_1a7nu")
+
+[node name="Aji2" type="Sprite2D" parent="." unique_id=563421010]
+position = Vector2(234, 626)
+scale = Vector2(0.23212892, 0.24255489)
+texture = SubResource("AtlasTexture_1a7nu")
+
+[node name="Aji3" type="Sprite2D" parent="Aji2" unique_id=1843229628]
+position = Vector2(-112.006714, 74.20996)
+texture = SubResource("AtlasTexture_1a7nu")
+
+[node name="Limon" type="Sprite2D" parent="." unique_id=744251054]
+position = Vector2(206.47383, 716)
+scale = Vector2(0.2536101, 0.269497)
+texture = SubResource("AtlasTexture_jr48m")
+
+[node name="Chifle" type="Sprite2D" parent="." unique_id=1870628740]
+position = Vector2(182, 795.00006)
+scale = Vector2(0.2466711, 0.26689187)
+texture = SubResource("AtlasTexture_as38o")
