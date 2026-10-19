@@ -9,7 +9,7 @@ class_name OrderGenerator extends Node
 ## Productos que pueden pedirse solos, sin plato base ni extras.
 @export var standalone_pool: Array[ItemData] = []
 ## Probabilidad de generar un pedido individual cuando hay productos configurados.
-@export_range(0.0, 1.0, 0.05) var standalone_chance: float = 0.25
+@export_range(0.0, 1.0, 0.05) var standalone_chance: float = 0.20
 ## Pool de agregados posibles para el encebollado.
 @export var extras_pool: Array[ItemData] = []
 ## Cantidad máxima de agregados por pedido.

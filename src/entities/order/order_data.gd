@@ -24,15 +24,15 @@ func key() -> String:
 
 
 ## Devuelve true si el ItemData entregado corresponde a este pedido.
-## Los platos armados usan recipe_key; chifle y jugo también pueden servirse
-## solos cuando son la base completa del pedido.
+## Los platos armados usan recipe_key; los cuatro productos individuales
+## configurados también pueden servirse solos cuando no hay extras.
 func matches(item: ItemData) -> bool:
 	if item == null:
 		return false
 	if item.recipe_key != "":
 		return item.recipe_key == key()
 	return base != null and extras.is_empty() \
-		and base.item_id in ["chifle", "jugo_naranja"] \
+		and base.item_id in ["chifle", "jugo_naranja", "maiz_tostado", "limon"] \
 		and item.item_id == base.item_id
 
 
