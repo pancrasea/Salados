@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cpdr06go35ch6" path="res://src/entities/station/preparation_station.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://cuhgr0bfovcib" path="res://assets/backgrounds/fondo_dere.jpg" id="2_peek1"]
 [ext_resource type="PackedScene" uid="uid://csouppot001" path="res://src/entities/station/soup_pot.tscn" id="2_pot"]
+[ext_resource type="Texture2D" uid="uid://bbxo3subh85w8" path="res://assets/sprites/environment/mesa_servir.png" id="3_6t4h4"]
 [ext_resource type="PackedScene" uid="uid://cdispatch001" path="res://src/entities/station/dispatch_zone.tscn" id="3_dispatch"]
 [ext_resource type="PackedScene" uid="uid://ctrashbin01" path="res://src/entities/station/trash_bin.tscn" id="4_trash"]
 [ext_resource type="Script" uid="uid://d32mm0dvlxby5" path="res://src/entities/item/food_spawner.gd" id="5_spawner"]
@@ -29,6 +30,22 @@ offset_bottom = 1078.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_peek1")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Fondo2" type="TextureRect" parent="." unique_id=2043830741]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 217.0
+offset_top = 226.0
+offset_right = 1794.5277
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_6t4h4")
 expand_mode = 1
 stretch_mode = 6
 
