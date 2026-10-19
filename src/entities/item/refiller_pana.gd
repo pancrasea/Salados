@@ -5,10 +5,13 @@ var menu_node: Node = null
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			print("MENU ACTIVO")
 			mostrar_componente()
 
 func mostrar_componente():
+	var station := get_parent() as BackStation
+	if station == null or not station.can_refill():
+		return
+	print("MENU ACTIVO")
 	if not is_instance_valid(menu_node):
 		menu_node = REFILL_MENU.instantiate()
 		get_tree().current_scene.add_child(menu_node)
