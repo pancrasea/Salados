@@ -33,6 +33,9 @@ enum State { WAITING, SERVED, LEFT }
 var state: State = State.WAITING
 ## Remaining patience in seconds.
 var patience_remaining: float = 0.0
+## Paciencia máxima en segundos; se asigna en _ready y es de solo lectura.
+## El HUD la usa para calcular el ratio de la barra de paciencia.
+var patience_max: float = 0.0
 ## Whether the player currently has this customer selected.
 var is_selected: bool = false
 ## Ratio de paciencia (0.0–1.0) en el momento en que fue atendido.
@@ -65,6 +68,7 @@ func _ready() -> void:
 	if customer_data != null:
 		var patience := _patience_for(customer_data)
 		patience_remaining = maxf(patience, 0.0)
+		patience_max = patience_remaining
 		patience_bar.max_value = maxf(patience, 0.1)
 		# Aplicar textura del arquetipo si está definida en el CustomerData.
 		if customer_data.texture != null:
@@ -76,6 +80,10 @@ func _ready() -> void:
 			
 	else:
 		patience_bar.hide()
+
+	# Los elementos de pedido se muestran en el HUD; ocultarlos sobre el personaje.
+	order_icon_frame.hide()
+	patience_bar.hide()
 
 	_update_order_display()
 	if customer_data != null:
@@ -115,13 +123,18 @@ func _process(delta: float) -> void:
 
 ## Shows the request texture plus the extras badges, or a question-mark
 ## placeholder until a request is configured.
+## Nota: el display visual se hace ahora en el HUD (OrdersPanel); este método
+## mantiene la lógica interna de datos pero mantiene los nodos ocultos.
 func _update_order_display() -> void:
 	var has_order := order != null
 	var has_request := customer_data != null and customer_data.requested_item != null
-	order_icon_frame.visible = has_order or has_request
-	if not order_icon_frame.visible:
+
+	# Los nodos sobre el personaje siempre permanecen ocultos; la UI vive en el HUD.
+	order_icon_frame.hide()
+	order_price_label.hide()
+
+	if not (has_order or has_request):
 		_rebuild_extras_row([])
-		order_price_label.visible = false
 		return
 
 	var base: ItemData = order.base if has_order else customer_data.requested_item
@@ -129,18 +142,17 @@ func _update_order_display() -> void:
 	order_icon.visible = order_icon.texture != null
 	order_placeholder.visible = order_icon.texture == null
 	_rebuild_extras_row(order.extras if has_order else [])
-	# Precio solo para pedidos estructurados (plato base + extras).
-	order_price_label.visible = has_order
-	if has_order:
-		order_price_label.text = "$%d" % order.price()
 
 
 ## Creates the horizontal container that holds the extras badges, placed
 ## right above the order frame.
+## Nota: se mantiene para que _rebuild_extras_row funcione internamente,
+## pero se oculta porque la UI de extras vive en el HUD.
 func _create_order_extras_row() -> HBoxContainer:
 	var row := HBoxContainer.new()
 	row.name = "OrderExtrasRow"
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.hide()
 	add_child(row)
 	row.position = Vector2(-40.0, -146.0)
 	return row

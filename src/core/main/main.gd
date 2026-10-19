@@ -59,6 +59,13 @@ func start_game() -> void:
 	var corte := stations.get(GameManager.Side.LEFT) as CorteDesmenuce
 	if corte != null and GameManager.warehouse != null:
 		corte.item_preparado.connect(GameManager.warehouse.agregar)
+	# Registrar el CustomerSpawner de la estación principal en el HUD para que
+	# muestre las órdenes activas en el panel inferior.
+	var main_station: Node = stations.get(GameManager.Side.FRONT)
+	if main_station != null:
+		var spawner := main_station.get_node_or_null("CustomerSpawner") as CustomerSpawner
+		if spawner != null:
+			hud.call("register_spawner", spawner)
 	GameManager.start_day()
 	GameManager.day_ended.connect(_on_day_ended, CONNECT_ONE_SHOT)
 	get_tree().paused = false

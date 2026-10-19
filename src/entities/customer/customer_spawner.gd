@@ -5,6 +5,10 @@ class_name CustomerSpawner
 ## Emitted after a customer has been added to the row and connected to its lifecycle signals.
 signal customer_spawned(customer: CustomerBase)
 
+## Emitted when the active customer list changes (spawn or departure). The HUD
+## uses this to rebuild the order cards panel.
+signal customers_changed(customers: Array)
+
 ## Scene to instantiate; its root must inherit from CustomerBase.
 @export var customer_scene: PackedScene
 ## Pool de arquetipos de cliente. Se selecciona uno al azar en cada spawn.
@@ -91,6 +95,7 @@ func spawn_customer() -> CustomerBase:
 	customer.served.connect(_on_customer_served)
 	customer.patience_expired.connect(_on_customer_patience_expired)
 	customer_spawned.emit(customer)
+	customers_changed.emit(active_customers.duplicate())
 	return customer
 
 
@@ -154,3 +159,4 @@ func _arrange_customers() -> void:
 		var customer := active_customers[index]
 		if is_instance_valid(customer):
 			customer.position = Vector2(index * spacing, 0.0)
+	customers_changed.emit(active_customers.duplicate())

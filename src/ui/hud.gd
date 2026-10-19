@@ -6,6 +6,9 @@ extends CanvasLayer
 ## Sección 2 (corte/desmenuce) y stock de preparados en la Sección 3
 ## (preparación). Se instancia en main.tscn como hijo permanente y se
 ## muestra/oculta junto con la sesión de juego.
+##
+## También muestra el panel de pedidos activos: hasta 3 tarjetas (OrderCard)
+## que el spawner de clientes alimenta vía `register_spawner(spawner)`.
 
 ## Valores de GameManager.Side (FRONT, LEFT, RIGHT, BACK) repetidos como
 ## constantes locales para no depender del identificador global GameManager en
@@ -14,12 +17,18 @@ const SIDE_FRONT: int = 0
 const SIDE_LEFT: int = 1
 const SIDE_RIGHT: int = 2
 
+## Escena de tarjeta de pedido; se instancia en runtime según los clientes activos.
+const ORDER_CARD_SCENE := preload("res://src/ui/order_card.tscn")
+
 @onready var money_label: Label = %MoneyLabel
 @onready var timer_label: Label = %TimerLabel
 @onready var info_panel: PanelContainer = $InfoPanel
 @onready var info_list: VBoxContainer = $InfoPanel/InfoList
 @onready var hint_label: Label = $HintLabel
 @onready var objective_banner: PanelContainer = $ObjectiveBanner
+
+## Contenedor de tarjetas de pedido (añadido en hud.tscn).
+@onready var orders_panel: HBoxContainer = $OrdersPanel
 
 ## Timer del auto-cierre del banner de objetivo; se reintenta si se vuelve a
 ## mostrar antes de que expire.
@@ -131,24 +140,25 @@ func _on_objective_banner_gui_input(event: InputEvent) -> void:
 ## Reconstruye el panel con la información de la sección visible. Se llama al
 ## entrar, al girar de estación y cada vez que cambia un inventario.
 func _refresh_info() -> void:
-	for child in info_list.get_children():
-		info_list.remove_child(child)
-		child.queue_free()
-	if _game_manager == null:
-		info_panel.visible = false
-		return
-	var balance: RunBalance = _game_manager.get("balance")
-	if balance == null:
-		info_panel.visible = false
-		return
-	match int(_game_manager.call("current_side")):
-		SIDE_FRONT:
-			_build_precios(balance)
-		SIDE_LEFT:
-			_build_materia_prima(balance)
-		SIDE_RIGHT:
-			_build_preparados(balance)
-	info_panel.visible = info_list.get_child_count() > 0
+	info_list.visible = false
+	#for child in info_list.get_children():
+		#info_list.remove_child(child)
+		#child.queue_free()
+	#if _game_manager == null:
+		#info_panel.visible = false
+		#return
+	#var balance: RunBalance = _game_manager.get("balance")
+	#if balance == null:
+		#info_panel.visible = false
+		#return
+	#match int(_game_manager.call("current_side")):
+		#SIDE_FRONT:
+			#_build_precios(balance)
+		#SIDE_LEFT:
+			#_build_materia_prima(balance)
+		#SIDE_RIGHT:
+			#_build_preparados(balance)
+	#info_panel.visible = info_list.get_child_count() > 0
 
 
 ## Estación principal: precio de cada plato/producto final.
@@ -205,6 +215,38 @@ func _add_row(text: String) -> void:
 ## Nombre visible del ítem (cae al item_id si no tiene nombre).
 func _nombre(item: ItemData) -> String:
 	return item.name if item.name != "" else item.item_id
+
+
+## Registra el CustomerSpawner cuyas órdenes se mostrarán en el panel.
+## Conecta `customers_changed` para reconstruir las tarjetas cuando la fila cambia.
+## Llamar desde main.gd tras instanciar la estación principal.
+func register_spawner(spawner: CustomerSpawner) -> void:
+	if spawner == null:
+		return
+	spawner.customers_changed.connect(_on_customers_changed)
+	# Construir las tarjetas con los clientes que ya estén en la fila (si hay).
+	_on_customers_changed(spawner.active_customers.duplicate())
+
+
+## Reconstruye el panel de tarjetas cada vez que la fila de clientes cambia.
+## `customers` es una copia del array de activos del spawner (puede estar vacío).
+func _on_customers_changed(customers: Array) -> void:
+	if orders_panel == null:
+		return
+	# Limpiar tarjetas anteriores desconectando sus señales primero.
+	for child in orders_panel.get_children():
+		orders_panel.remove_child(child)
+		child.queue_free()
+	# Crear una tarjeta por cliente activo, en orden de llegada (izquierda → derecha).
+	for i in customers.size():
+		var customer := customers[i] as CustomerBase
+		if customer == null or not is_instance_valid(customer):
+			continue
+		var card := ORDER_CARD_SCENE.instantiate()
+		orders_panel.add_child(card)
+		# setup() necesita que el nodo esté en el árbol (para _ready del card).
+		card.setup(customer, i)
+	orders_panel.visible = orders_panel.get_child_count() > 0
 
 
 func _on_pause_button_pressed() -> void:

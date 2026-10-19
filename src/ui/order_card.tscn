@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://dsivp3vdbf7lp"]
+
+[ext_resource type="Script" uid="uid://2q5npeno8ofd" path="res://src/ui/order_card.gd" id="1_ocard"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+bg_color = Color(0.09, 0.12, 0.13, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.89, 0.78, 0.53, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_patience_bg"]
+bg_color = Color(0.09, 0.12, 0.13, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.025, 0.035, 0.035, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_patience_fill"]
+bg_color = Color(0.34, 0.71, 0.44, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="OrderCard" type="PanelContainer" unique_id=507222895]
+custom_minimum_size = Vector2(110, 0)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+script = ExtResource("1_ocard")
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=247879757]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="OrderNumber" type="Label" parent="VBox" unique_id=1742095087]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.89, 0.78, 0.53, 1)
+theme_override_font_sizes/font_size = 14
+text = "#1"
+horizontal_alignment = 1
+
+[node name="OrderRow" type="HBoxContainer" parent="VBox" unique_id=1730601532]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="OrderIcon" type="TextureRect" parent="VBox/OrderRow" unique_id=240751130]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="OrderPlaceholder" type="Label" parent="VBox/OrderRow" unique_id=1202132835]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.89, 0.78, 0.53, 1)
+theme_override_font_sizes/font_size = 28
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExtrasRow" type="HBoxContainer" parent="VBox" unique_id=1409908453]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="PatienceBar" type="ProgressBar" parent="VBox" unique_id=133676744]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_patience_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_patience_fill")
+show_percentage = false
+
+[node name="PriceLabel" type="Label" parent="VBox" unique_id=503925737]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.86, 0.62, 1)
+theme_override_font_sizes/font_size = 14
+text = "$0"
+horizontal_alignment = 1
