@@ -42,6 +42,10 @@ var is_selected: bool = false
 ## Solo válido después de que served se emita; usado para calcular el pago.
 var patience_ratio_at_serve: float = 1.0
 
+## Tarjeta de pedido instanciada encima del sprite del cliente (mundo).
+## El HUD la usa como referencia para no duplicar datos.
+var world_card: Control = null
+
 @onready var selection_area: Area2D = $SelectionArea
 @onready var patience_bar: ProgressBar = $PatienceBar
 @onready var order_icon_frame: Panel = $OrderIconFrame
@@ -57,6 +61,9 @@ var patience_ratio_at_serve: float = 1.0
 @onready var order_price_label: Label = _create_order_price_label()
 
 var patience_fill_style: StyleBoxFlat
+
+## Escena de la tarjeta de pedido; se carga una sola vez para toda la clase.
+const ORDER_CARD_SCENE := preload("res://src/ui/order_card.tscn")
 
 
 ## Initializes patience and connects the scene's selection area.
@@ -77,11 +84,10 @@ func _ready() -> void:
 				visual.texture = customer_data.texture
 				if customer_data.scale != null:
 					visual.scale = customer_data.scale
-			
 	else:
 		patience_bar.hide()
 
-	# Los elementos de pedido se muestran en el HUD; ocultarlos sobre el personaje.
+	# Ocultar los nodos legacy de pedido sobre el personaje; la tarjeta los reemplaza.
 	order_icon_frame.hide()
 	patience_bar.hide()
 
@@ -89,6 +95,14 @@ func _ready() -> void:
 	if customer_data != null:
 		_update_patience_display()
 	selection_area.input_event.connect(_on_selection_area_input_event)
+
+	# Instanciar la tarjeta de pedido en el mundo, encima del sprite del cliente.
+	world_card = ORDER_CARD_SCENE.instantiate()
+	add_child(world_card)
+	# Centrar la tarjeta horizontalmente y colocarla sobre la cabeza del cliente.
+	# El ancho mínimo de la tarjeta es 110 px; la centramos restando la mitad.
+	world_card.position = Vector2(-55.0, -260.0)
+	world_card.call("setup", self, 0)  # El índice se actualiza desde CustomerSpawner.
 
 
 ## Paciencia efectiva: la del arquetipo si la define (> 0); si no, la central

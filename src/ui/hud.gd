@@ -53,6 +53,7 @@ func _ready() -> void:
 	_connect_inventarios()
 	_refresh_info()
 	_update_hint(int(_game_manager.call("current_side")))
+	_update_orders_panel_visibility(int(_game_manager.call("current_side")))
 
 
 ## Conecta los inventarios globales para refrescar el stock cuando cambia.
@@ -91,6 +92,19 @@ func _on_inventory_changed(_item: ItemData, _cantidad: int) -> void:
 func _on_station_changed(side: int) -> void:
 	_refresh_info()
 	_update_hint(side)
+	# En la estación principal los pedidos se ven encima de cada cliente.
+	# En las demás estaciones se muestran en el panel del HUD.
+	_update_orders_panel_visibility(side)
+
+
+## Muestra el OrdersPanel solo cuando no estamos en la estación principal.
+func _update_orders_panel_visibility(side: int) -> void:
+	if orders_panel == null:
+		return
+	var on_front := (side == SIDE_FRONT)
+	# En FRONT: tarjetas del mundo visibles, panel del HUD oculto.
+	# En otras: tarjetas del mundo ocultas (la estación no se ve), panel del HUD visible.
+	orders_panel.visible = (not on_front) and orders_panel.get_child_count() > 0
 
 
 ## Instrucción breve y contextual según la sección visible. Da al jugador de
@@ -246,7 +260,11 @@ func _on_customers_changed(customers: Array) -> void:
 		orders_panel.add_child(card)
 		# setup() necesita que el nodo esté en el árbol (para _ready del card).
 		card.setup(customer, i)
-	orders_panel.visible = orders_panel.get_child_count() > 0
+	# Respetar visibilidad: solo mostrar si no estamos en la estación principal.
+	var side := SIDE_FRONT
+	if _game_manager != null:
+		side = int(_game_manager.call("current_side"))
+	_update_orders_panel_visibility(side)
 
 
 func _on_pause_button_pressed() -> void:

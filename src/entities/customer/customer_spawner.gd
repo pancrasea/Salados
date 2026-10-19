@@ -95,6 +95,11 @@ func spawn_customer() -> CustomerBase:
 	customer.served.connect(_on_customer_served)
 	customer.patience_expired.connect(_on_customer_patience_expired)
 	customer_spawned.emit(customer)
+	# Actualizar el índice real en la tarjeta del mundo (puede diferir del 0
+	# que se asignó en _ready si ya había clientes en la fila).
+	var real_index := active_customers.size() - 1
+	if customer.world_card != null:
+		customer.world_card.call("setup", customer, real_index)
 	customers_changed.emit(active_customers.duplicate())
 	return customer
 
@@ -159,4 +164,7 @@ func _arrange_customers() -> void:
 		var customer := active_customers[index]
 		if is_instance_valid(customer):
 			customer.position = Vector2(index * spacing, 0.0)
+			# Actualizar el número de orden en la tarjeta del mundo.
+			if customer.world_card != null:
+				customer.world_card.call("setup", customer, index)
 	customers_changed.emit(active_customers.duplicate())
