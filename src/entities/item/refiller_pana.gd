@@ -18,7 +18,7 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 			waiting.visible = false
 			called.visible = true
 			running.visible = false
-			_animate_milo()
+			if waiting.visible: _animate_milo()
 			mostrar_componente()
 
 func _animate_milo():
