@@ -10,6 +10,8 @@ class_name BaseItem extends Node2D
 
 var is_dragging: bool = false
 var collected_ingredients: Array[ItemData] = []
+## Productos que viajan juntos como un solo ítem y entran separados a la bandeja.
+var bundled_ingredients: Array[ItemData] = []
 var initial_position: Vector2 = Vector2.ZERO
 static var current_item_dragging: BaseItem = null
 
@@ -91,6 +93,9 @@ func _is_valid_drop_target(target: Node) -> bool:
 		return (target as PreparationStation).can_receive_ingredient(data)
 	if target is BaseItem:
 		var contenedor := target as BaseItem
+		var waiting_area := contenedor.get_parent() as DraggableZone
+		if waiting_area != null and waiting_area.can_combine(self, contenedor):
+			return true
 		return contenedor.data != null and contenedor.data.is_container \
 			and contenedor.data.item_id != "exprimidor"
 	if target is TrashBin:
@@ -174,10 +179,20 @@ func _verify_target_and_drop():
 				break
 		
 		# Caso contenedor (plato o vaso): el ingrediente se consume.
+		if target is BaseItem and target.get_parent() is DraggableZone:
+			if (target.get_parent() as DraggableZone).combine(self, target):
+				successful_drop = true
+				queue_free()
+				break
+
 		if target is BaseItem and target.data and target.data.is_container:
 			if target.data.item_id == "exprimidor":
 				break
-			target.collect_ingredients(self.data)
+			if bundled_ingredients.is_empty():
+				target.collect_ingredients(self.data)
+			else:
+				for ingredient in bundled_ingredients:
+					target.collect_ingredients(ingredient)
 			successful_drop = true
 			queue_free()
 			break

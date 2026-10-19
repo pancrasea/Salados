@@ -8,6 +8,7 @@
 [ext_resource type="Resource" uid="uid://bpb7mdaexy70q" path="res://resources/items/chifle.tres" id="7_chifle"]
 [ext_resource type="Resource" uid="uid://d0k2wagtesou5" path="res://resources/items/limon.tres" id="8_limon"]
 [ext_resource type="Resource" uid="uid://b0oknv14q3n6q" path="res://resources/items/maiz_tostado.tres" id="10_maiz"]
+[ext_resource type="Resource" uid="uid://d38cwj0qh00k" path="res://resources/items/jugo_naranja.tres" id="11_jugo"]
 
 [node name="CustomerSpawner" type="Node2D" unique_id=1128089222 node_paths=PackedStringArray("order_generator")]
 script = ExtResource("1_pyb3i")
@@ -17,4 +18,4 @@ order_generator = NodePath("OrderGenerator")
 [node name="OrderGenerator" type="Node" parent="." unique_id=687798845]
 script = ExtResource("4_gen")
 base_item = ExtResource("5_base")
-extras_pool = Array[ExtResource("3_item")]([ExtResource("7_chifle"), ExtResource("8_limon"), ExtResource("10_maiz")])
+extras_pool = Array[ExtResource("3_item")]([ExtResource("7_chifle"), ExtResource("8_limon"), ExtResource("10_maiz"), ExtResource("11_jugo")])

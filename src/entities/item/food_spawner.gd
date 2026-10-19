@@ -34,6 +34,9 @@ signal food_spawned(food: ItemData, item: BaseItem)
 @export var item_scale: Vector2 = Vector2.ONE * 1
 ## Multiplica solo el sprite del alimento; el Area2D conserva su tamaño.
 @export_range(0.1, 4.0, 0.1) var item_visual_scale: float = 1.0
+## Si es mayor que 0, ajusta el collider a esta proporción del sprite visible.
+## 1.25 deja un margen de clic del 25 % sin cambiar el tamaño del dibujo.
+@export_range(0.0, 2.0, 0.05) var click_area_visual_factor: float = 0.0
 ## Slots (unidades visibles) por cada ItemData de `foods`. Acota cuántas
 ## unidades del mismo ingrediente se muestran a la vez.
 @export_range(1, 6, 1) var slots_per_item: int = 1
@@ -174,6 +177,7 @@ func _spawn(food: ItemData, flat_index: int) -> void:
 	add_child(item)
 	if item.sprite_2d != null:
 		item.sprite_2d.scale *= item_visual_scale
+	_fit_click_area_to_sprite(item)
 	if show_name_labels:
 		_add_name_label(item, food)
 	if stock_source == StockSource.MATERIA_PRIMA:
@@ -181,6 +185,22 @@ func _spawn(food: ItemData, flat_index: int) -> void:
 	item.tree_exited.connect(_on_food_exited.bind(flat_index))
 	_slot_instances[flat_index] = item
 	food_spawned.emit(food, item)
+
+
+func _fit_click_area_to_sprite(item: BaseItem) -> void:
+	if click_area_visual_factor <= 0.0 or item.sprite_2d == null or item.sprite_2d.texture == null:
+		return
+	var collider := item.get_node_or_null("Area2D/CollisionShape2D") as CollisionShape2D
+	var rectangle: RectangleShape2D = null
+	if collider != null:
+		rectangle = collider.shape as RectangleShape2D
+	if rectangle == null or rectangle.size.x <= 0.0 or rectangle.size.y <= 0.0:
+		return
+	var visual_size := item.sprite_2d.texture.get_size() * item.sprite_2d.scale.abs() * click_area_visual_factor
+	# La forma se duplica para no cambiar el collider compartido de otros ítems.
+	var adjusted_rectangle := rectangle.duplicate() as RectangleShape2D
+	adjusted_rectangle.size = visual_size
+	collider.shape = adjusted_rectangle
 
 
 ## Etiqueta de apoyo para identificar alimentos durante la jam.
