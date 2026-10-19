@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://dp16ststomd85"]
 
 [ext_resource type="Script" uid="uid://3lbagxejrkv8" path="res://src/entities/item/item_data.gd" id="1_item"]
-[ext_resource type="Resource" path="res://resources/items/cebolla_cortada.tres" id="3_next"]
+[ext_resource type="Resource" uid="uid://borulpe255co3" path="res://resources/items/cebolla_cortada.tres" id="3_next"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_n0rel"]
 load_path = "res://.godot/imported/assets_corte_2.png-8c42a3667818a71c1b481250ae9b81fd.ctex"
